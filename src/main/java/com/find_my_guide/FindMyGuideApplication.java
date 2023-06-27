@@ -1,4 +1,4 @@
-package com.findMyGuide;
+package com.find_my_guide;
 
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;

@@ -1,6 +1,6 @@
-package com.findMyGuide.theme.repository;
+package com.find_my_guide.theme.repository;
 
-import com.findMyGuide.theme.domain.Theme;
+import com.find_my_guide.theme.domain.Theme;
 import org.springframework.data.jpa.repository.JpaRepository;
 
 public interface ThemeRepository extends JpaRepository<Theme,Long> {

@@ -1,7 +1,7 @@
-package com.findMyGuide.tour_product_theme.domain;
+package com.find_my_guide.tour_product_theme.domain;
 
-import com.findMyGuide.theme.domain.Theme;
-import com.findMyGuide.tour_product.domain.TourProduct;
+import com.find_my_guide.theme.domain.Theme;
+import com.find_my_guide.tour_product.domain.TourProduct;
 import lombok.*;
 
 import javax.persistence.*;

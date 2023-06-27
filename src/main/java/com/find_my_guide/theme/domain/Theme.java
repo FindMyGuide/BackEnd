@@ -1,6 +1,6 @@
-package com.findMyGuide.theme.domain;
+package com.find_my_guide.theme.domain;
 
-import com.findMyGuide.tour_product_theme.domain.TourProductTheme;
+import com.find_my_guide.tour_product_theme.domain.TourProductTheme;
 import lombok.*;
 
 import javax.persistence.*;
@@ -18,9 +18,14 @@ public class Theme {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    private String themeTitle;
+    @Embedded
+    private ThemeTitle themeTitle;
 
     @OneToMany(mappedBy = "theme")
     private List<TourProductTheme> tourProductThemes = new ArrayList<>();
+
+    public void update(ThemeTitle themeTitle){
+        this.themeTitle = themeTitle;
+    }
 
 }
