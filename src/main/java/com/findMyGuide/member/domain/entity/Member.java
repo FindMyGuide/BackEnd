@@ -1,4 +1,4 @@
-package com.findMyGuide.entity;
+package com.findMyGuide.member.domain.entity;
 
 import javax.persistence.*;
 
