@@ -25,8 +25,8 @@ public class RestaurantResponse {
         this.id = restaurant.getId();
         this.title = restaurant.getTitle();
         this.address = restaurant.getAddress();
-        this.mapx = restaurant.getMapx();
-        this.mapy = restaurant.getMapy();
+        this.mapx = restaurant.getMapX();
+        this.mapy = restaurant.getMapY();
         this.telNo = restaurant.getTelNo();
         this.restaurantCode = restaurant.getRestaurantCode();
         this.restaurantLcnc = restaurant.getRestaurantLcnc();

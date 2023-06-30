@@ -13,23 +13,23 @@ public class FestivalRequest {
     private Long id;
     private String title;
     private String image;
-    private String mapx;
-    private String mapy;
+    private String mapX;
+    private String mapY;
 
     public Festival toFestival(Long id, String title, String image,
                                String mapx, String mapy) {
         this.id = id;
         this.title = title;
         this.image = image;
-        this.mapx = mapx;
-        this.mapy = mapy;
+        this.mapX = mapx;
+        this.mapY = mapy;
 
         return Festival.builder()
                 .id(this.id)
                 .title(this.title)
                 .image(this.image)
-                .mapx(this.mapx)
-                .mapy(this.mapy)
+                .mapX(this.mapX)
+                .mapY(this.mapY)
                 .build();
     }
 }

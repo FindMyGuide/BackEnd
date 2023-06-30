@@ -77,11 +77,11 @@ public class FestivalService {
 
     @Transactional
     public void save(Long id, String title, String image,
-                     String mapx, String mapy) {
+                     String mapX, String mapY) {
         System.out.println("저장");
 
         FestivalRequest festivalRequest = new FestivalRequest();
         festivalRepository.save(festivalRequest.toFestival(id, title,
-                image, mapx, mapy));
+                image, mapX, mapY));
     }
 }

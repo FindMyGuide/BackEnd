@@ -17,8 +17,8 @@ public class Restaurant {
 
     private String title;
     private String address;
-    private String mapx;
-    private String mapy;
+    private String mapX;
+    private String mapY;
     private String telNo;
     private String restaurantCode;
     private String restaurantLcnc;
