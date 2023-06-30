@@ -42,5 +42,5 @@ public class Member {
     private String phoneNumber;
 
     @Column
-    private Boolean certificationYn;    //좀 더 명확했으면 좋겠는데, nationalCertificationOfGuideYn 은 너무 길까?
+    private Boolean nationalCertificationOfGuideYn;    //좀 더 명확했으면 좋겠는데, nationalCertificationOfGuideYn 은 너무 길까?   //좋죠
 }

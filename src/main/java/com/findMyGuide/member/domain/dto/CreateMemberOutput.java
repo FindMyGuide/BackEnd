@@ -20,7 +20,7 @@ public class CreateMemberOutput {
 
     private String phoneNumber;
 
-    private String certificationYn;
+    private String nationalCertificationOfGuideYn;
 
     public CreateMemberOutput(Member member) {
         this.idx = member.getIdx();
@@ -30,6 +30,6 @@ public class CreateMemberOutput {
         this.gender = member.getGender().getKrName();
         this.age = member.getAge();
         this.phoneNumber = member.getPhoneNumber();
-        this.certificationYn = member.getCertificationYn().toString();
+        this.nationalCertificationOfGuideYn = member.getNationalCertificationOfGuideYn().toString();
     }
 }

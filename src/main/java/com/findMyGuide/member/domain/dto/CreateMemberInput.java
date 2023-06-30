@@ -18,7 +18,7 @@ public class CreateMemberInput {
     private Integer age;
     @Pattern(regexp = "^01(?:0|1|[6-9])-?(\\d{4})-?(\\d{4})$", message = "올바르지 않은 휴대폰 번호 형식입니다.")
     private String phoneNumber;
-    private Boolean certificationYn;
+    private Boolean nationalCertificationOfGuideYn;
 
     public Member toMember() {
         return Member.builder()
@@ -29,7 +29,7 @@ public class CreateMemberInput {
             .gender(Gender.valueOf(gender))
             .age(age)
             .phoneNumber(phoneNumber)
-            .certificationYn(certificationYn)
+            .nationalCertificationOfGuideYn(nationalCertificationOfGuideYn)
             .build();
     }
 }
