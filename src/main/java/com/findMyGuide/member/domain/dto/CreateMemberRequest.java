@@ -4,8 +4,12 @@ import com.findMyGuide.member.domain.entity.Gender;
 import com.findMyGuide.member.domain.entity.Member;
 import javax.validation.constraints.Email;
 import javax.validation.constraints.Pattern;
+import lombok.AllArgsConstructor;
+import lombok.Getter;
 
-public class CreateMemberInput {
+@Getter
+@AllArgsConstructor
+public class CreateMemberRequest {
 
     @Email(message = "이메일 형식이 올바르지 않습니다.")
     private String email;

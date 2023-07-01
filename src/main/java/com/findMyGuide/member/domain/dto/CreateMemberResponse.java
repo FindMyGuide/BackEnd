@@ -2,9 +2,11 @@ package com.findMyGuide.member.domain.dto;
 
 import com.findMyGuide.member.domain.entity.Member;
 import lombok.Getter;
+import lombok.ToString;
 
 @Getter
-public class CreateMemberOutput {
+@ToString
+public class CreateMemberResponse {
 
     private Long idx;
 
@@ -22,7 +24,7 @@ public class CreateMemberOutput {
 
     private String nationalCertificationOfGuideYn;
 
-    public CreateMemberOutput(Member member) {
+    public CreateMemberResponse(Member member) {
         this.idx = member.getIdx();
         this.email = member.getEmail();
         this.nickName = member.getNickName();
