@@ -1,4 +1,4 @@
-package com.find_my_guide.tour_product_review.domain;
+package com.find_my_guide.common.validation_field;
 
 import com.find_my_guide.theme.exception.TitleNotEmptyException;
 import lombok.Getter;
@@ -11,15 +11,15 @@ import java.util.Objects;
 @Embeddable
 @Getter
 @NoArgsConstructor
-public class ReviewContent {
+public class Content {
 
     @Column(nullable = false)
-    private String review;
+    private String content;
 
 
-    public ReviewContent(String review) {
-        validate(review);
-        this.review = review;
+    public Content(String content) {
+        validate(content);
+        this.content = content;
     }
 
     private void validate(String review) {
@@ -38,12 +38,12 @@ public class ReviewContent {
     public boolean equals(Object o) {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
-        ReviewContent that = (ReviewContent) o;
-        return Objects.equals(review, that.review);
+        Content that = (Content) o;
+        return Objects.equals(content, that.content);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(review);
+        return Objects.hash(content);
     }
 }

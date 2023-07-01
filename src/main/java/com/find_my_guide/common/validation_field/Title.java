@@ -1,4 +1,4 @@
-package com.find_my_guide.theme.domain;
+package com.find_my_guide.common.validation_field;
 
 
 import com.find_my_guide.theme.exception.TitleNotEmptyException;
@@ -12,12 +12,12 @@ import java.util.Objects;
 @Embeddable
 @Getter
 @NoArgsConstructor
-public class ThemeTitle {
+public class Title {
 
     @Column(nullable = false)
     private String title;
 
-    public ThemeTitle(String title) {
+    public Title(String title) {
         validate(title);
         this.title = title;
     }
@@ -37,7 +37,7 @@ public class ThemeTitle {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass())
             return false;
-        ThemeTitle that = (ThemeTitle) o;
+        Title that = (Title) o;
         return Objects.equals(title, that.title);
     }
 

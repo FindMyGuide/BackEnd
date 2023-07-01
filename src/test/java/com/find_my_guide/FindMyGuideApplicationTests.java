@@ -1,7 +1,8 @@
 package com.find_my_guide;
 
+import com.find_my_guide.common.validation_field.Content;
 import com.find_my_guide.theme.domain.Theme;
-import com.find_my_guide.theme.domain.ThemeTitle;
+import com.find_my_guide.common.validation_field.Title;
 import com.find_my_guide.theme.repository.ThemeRepository;
 import com.find_my_guide.tour_product.domain.TourProduct;
 import com.find_my_guide.tour_product.repository.TourProductRepository;
@@ -13,8 +14,6 @@ import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.transaction.annotation.Transactional;
-
-import java.time.LocalDateTime;
 
 @SpringBootTest
 class FindMyGuideApplicationTests {
@@ -34,14 +33,14 @@ class FindMyGuideApplicationTests {
     @DisplayName("테마 저장")
     void saveTheme() {
         Theme theme = Theme.builder().
-                themeTitle(new ThemeTitle("식도락")).
+                title(new Title("식도락")).
                 build();
 
         Theme save = themeRepository.save(theme);
 
         TourProduct tourProduct = TourProduct.builder()
-                .title("범규의 관광")
-                .tourDescription("범광")
+                .title(new Title("범광"))
+                .content(new Content("범광컨텐츠"))
                 .build();
 
         TourProduct save1 = tourProductRepository.save(tourProduct);
@@ -54,7 +53,7 @@ class FindMyGuideApplicationTests {
         TourProductTheme save2 = tourProductThemeRepository.save(build);
 
 
-        Assertions.assertThat(save2.getTheme().getThemeTitle().getTitle())
+        Assertions.assertThat(save2.getTheme().getTitle().getTitle())
                 .isEqualTo("식도락");
 
     }

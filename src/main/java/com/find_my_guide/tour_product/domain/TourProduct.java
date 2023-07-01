@@ -1,11 +1,13 @@
 package com.find_my_guide.tour_product.domain;
 
 import com.find_my_guide.common.domain.BaseEntity;
+import com.find_my_guide.common.validation_field.Content;
+import com.find_my_guide.common.validation_field.Title;
+import com.find_my_guide.tour_product_review.domain.TourProductReview;
 import com.find_my_guide.tour_product_theme.domain.TourProductTheme;
 import lombok.*;
 
 import javax.persistence.*;
-import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -17,14 +19,34 @@ import java.util.List;
 public class TourProduct extends BaseEntity {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
+    @Column(name = "tourProduct_id")
     private Long tourProductId;
 
-    private String title;
+    @Embedded
+    private Title title;
 
-    private String tourDescription;
+    @Embedded
+    private Content content;
 
     @OneToMany(mappedBy = "tourProduct")
     private List<TourProductTheme> tourProductThemes = new ArrayList<>();
+
+    @OneToMany(mappedBy = "tourProduct")
+    private List<TourProductReview> tourProductReviews = new ArrayList<>();
+
+    public void update(Title title, Content content) {
+        this.title = title;
+        this.content = content;
+
+    }
+
+    public void addReview(TourProductReview review) {
+        if (!this.tourProductReviews.contains(review)) {
+            this.tourProductReviews.add(review);
+        } else {
+            throw new IllegalArgumentException("이미 존재하는 리뷰입니다.");
+        }
+    }
 
 
 }

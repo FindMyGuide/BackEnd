@@ -1,22 +1,23 @@
 package com.find_my_guide.theme.dto;
 
+import com.find_my_guide.common.validation_field.Title;
 import com.find_my_guide.theme.domain.Theme;
-import com.find_my_guide.theme.domain.ThemeTitle;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
-import lombok.Setter;
 
 @Getter
 @NoArgsConstructor
 @AllArgsConstructor
 public class ThemeRequest {
 
+    private Long themeId;
     private String themeTitle;
 
-    public Theme toTheme(){
+    public Theme toTheme() {
         return Theme.builder()
-                .themeTitle(new ThemeTitle(themeTitle))
+                .id(themeId)
+                .title(new Title(themeTitle))
                 .build();
     }
 

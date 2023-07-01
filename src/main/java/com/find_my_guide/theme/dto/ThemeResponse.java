@@ -13,6 +13,6 @@ public class ThemeResponse {
     private String title;
 
     public ThemeResponse(Theme theme) {
-        this.title = theme.getThemeTitle().getTitle();
+        this.title = theme.getTitle().getTitle();
     }
 }
