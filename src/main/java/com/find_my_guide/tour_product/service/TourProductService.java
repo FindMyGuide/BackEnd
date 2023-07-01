@@ -32,12 +32,13 @@ public class TourProductService {
     }
 
     @Transactional
-    public TourProductResponse delete(Long id){
+    public TourProductResponse delete(Long id) {
         TourProduct tourProduct = findById(id);
         tourProductRepository.delete(tourProduct);
         return new TourProductResponse(tourProduct);
 
     }
+
 
     public TourProductResponse detail(Long id) {
         return new TourProductResponse(findById(id));

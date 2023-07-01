@@ -40,13 +40,6 @@ public class TourProduct extends BaseEntity {
 
     }
 
-    public void addReview(TourProductReview review) {
-        if (!this.tourProductReviews.contains(review)) {
-            this.tourProductReviews.add(review);
-        } else {
-            throw new IllegalArgumentException("이미 존재하는 리뷰입니다.");
-        }
-    }
 
 
 }

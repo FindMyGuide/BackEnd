@@ -3,10 +3,8 @@ package com.find_my_guide.tour_product_review.domain;
 import com.find_my_guide.common.domain.BaseEntity;
 import com.find_my_guide.common.validation_field.Content;
 import com.find_my_guide.tour_product.domain.TourProduct;
-import lombok.AccessLevel;
-import lombok.AllArgsConstructor;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
+import lombok.*;
+import org.springframework.transaction.annotation.Transactional;
 
 import javax.persistence.*;
 import java.util.Objects;
@@ -14,6 +12,7 @@ import java.util.Objects;
 @Entity
 @Getter
 @AllArgsConstructor
+@Builder
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 public class TourProductReview extends BaseEntity {
 
@@ -28,17 +27,13 @@ public class TourProductReview extends BaseEntity {
     @JoinColumn(name = "tourProduct_id")
     private TourProduct tourProduct;
 
-
-    @Override
-    public boolean equals(Object o) {
-        if (this == o) return true;
-        if (o == null || getClass() != o.getClass()) return false;
-        TourProductReview that = (TourProductReview) o;
-        return Objects.equals(id, that.id) && Objects.equals(content, that.content) && Objects.equals(tourProduct, that.tourProduct);
+    public void addReview(TourProduct tourProduct){
+        this.tourProduct = tourProduct;
+        if (!this.tourProduct.getTourProductReviews().contains(this)) {
+            this.tourProduct.getTourProductReviews().add(this);
+        } else {
+            throw new IllegalArgumentException("이미 존재하는 리뷰입니다.");
+        }
     }
 
-    @Override
-    public int hashCode() {
-        return Objects.hash(id, content, tourProduct);
-    }
 }
