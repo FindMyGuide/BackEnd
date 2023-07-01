@@ -41,9 +41,7 @@ class FindMyGuideApplicationTests {
 
         TourProduct tourProduct = TourProduct.builder()
                 .title("범규의 관광")
-                .content("범광")
-                .createdAt(LocalDateTime.now())
-                .updatedAt(null)
+                .tourDescription("범광")
                 .build();
 
         TourProduct save1 = tourProductRepository.save(tourProduct);
@@ -58,6 +56,11 @@ class FindMyGuideApplicationTests {
 
         Assertions.assertThat(save2.getTheme().getThemeTitle().getTitle())
                 .isEqualTo("식도락");
+
+    }
+
+    @Test
+    void saveTourProduct(){
 
 
 

@@ -32,6 +32,14 @@ public class ThemeTitle {
         }
     }
 
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass())
+            return false;
+        ThemeTitle that = (ThemeTitle) o;
+        return Objects.equals(title, that.title);
+    }
 
     @Override
     public int hashCode() {

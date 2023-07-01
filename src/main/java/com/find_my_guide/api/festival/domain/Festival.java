@@ -20,6 +20,6 @@ public class Festival {
 
     private String title;
     private String image;
-    private String mapX;
-    private String mapY;
+    private String mapx;
+    private String mapy;
 }
