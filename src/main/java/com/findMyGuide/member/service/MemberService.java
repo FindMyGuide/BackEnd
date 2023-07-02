@@ -25,12 +25,12 @@ public class MemberService {
             throw new DuplicateException(memberRequest.getEmail(), ErrorCode.DUPLICATION);
         }
 
-        if(memberRepository.findByNickName(memberRequest.getNickName()).isPresent()) {
-            throw new DuplicateException(memberRequest.getNickName(), ErrorCode.DUPLICATION);
+        if(memberRepository.findByNickname(memberRequest.getNickname()).isPresent()) {
+            throw new DuplicateException(memberRequest.getNickname(), ErrorCode.DUPLICATION);
         }
 
         if(memberRepository.findByPhoneNumber(memberRequest.getPhoneNumber()).isPresent()) {
-            throw new DuplicateException(memberRequest.getNickName(), ErrorCode.DUPLICATION);
+            throw new DuplicateException(memberRequest.getNickname(), ErrorCode.DUPLICATION);
         }
 
         Member member = memberRepository.save(memberRequest.toMember());

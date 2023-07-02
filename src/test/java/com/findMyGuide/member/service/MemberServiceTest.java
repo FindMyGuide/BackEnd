@@ -59,7 +59,7 @@ class MemberServiceTest {
         //then
         assertAll(
             () -> assertThat(result.getEmail()).isEqualTo(member.getEmail()),
-            () -> assertThat(result.getNickName()).isEqualTo(member.getNickName()),
+            () -> assertThat(result.getNickname()).isEqualTo(member.getNickname()),
             () -> assertThat(result.getNationality()).isEqualTo(member.getNationality()),
             () -> assertThat(result.getGender()).isEqualTo(member.getGender().getKrName()),
             () -> assertThat(result.getAge()).isEqualTo(member.getAge()),
