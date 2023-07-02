@@ -1,6 +1,7 @@
 package com.find_my_guide.tour_product_review.dto;
 
 import com.find_my_guide.common.validation_field.Content;
+import com.find_my_guide.tour_product_review.domain.Rating;
 import com.find_my_guide.tour_product_review.domain.TourProductReview;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
@@ -15,12 +16,15 @@ public class TourProductReviewRequest {
 
     private String content;
 
+    private double rating;
+
 
 
     public TourProductReview toTourProductReview(){
         return TourProductReview.builder()
                 .id(id)
                 .content(new Content(content))
+                .rating(new Rating(rating))
                 .build();
     }
 }

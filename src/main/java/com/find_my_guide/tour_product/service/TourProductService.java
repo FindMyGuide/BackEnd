@@ -6,9 +6,14 @@ import com.find_my_guide.tour_product.domain.TourProduct;
 import com.find_my_guide.tour_product.dto.TourProductRequest;
 import com.find_my_guide.tour_product.dto.TourProductResponse;
 import com.find_my_guide.tour_product.repository.TourProductRepository;
+import com.find_my_guide.tour_product_review.domain.TourProductReview;
+import com.find_my_guide.tour_product_review.dto.TourProductReviewResponse;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+
+import java.util.List;
+import java.util.stream.Collectors;
 
 @Service
 @Transactional(readOnly = true)
@@ -36,6 +41,15 @@ public class TourProductService {
         TourProduct tourProduct = findById(id);
         tourProductRepository.delete(tourProduct);
         return new TourProductResponse(tourProduct);
+
+    }
+
+    public List<TourProductReviewResponse> reviewList(Long id) {
+        List<TourProductReview> tourProductReviews = findById(id).getTourProductReviews();
+
+        return tourProductReviews.stream()
+                .map(TourProductReviewResponse::new)
+                .collect(Collectors.toList());
 
     }
 

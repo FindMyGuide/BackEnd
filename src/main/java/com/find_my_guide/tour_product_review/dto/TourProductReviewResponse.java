@@ -15,8 +15,11 @@ public class TourProductReviewResponse {
 
     private String content;
 
+    private double rating;
+
     public TourProductReviewResponse(TourProductReview tourProductReview) {
         this.id = tourProductReview.getId();
         this.content = tourProductReview.getContent().getContent();
+        this.rating = tourProductReview.getRating().getRating();
     }
 }

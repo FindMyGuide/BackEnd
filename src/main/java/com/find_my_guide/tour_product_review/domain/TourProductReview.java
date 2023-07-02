@@ -23,6 +23,9 @@ public class TourProductReview extends BaseEntity {
     @Embedded
     private Content content;
 
+    @Embedded
+    private Rating rating;
+
     @ManyToOne
     @JoinColumn(name = "tourProduct_id")
     private TourProduct tourProduct;
