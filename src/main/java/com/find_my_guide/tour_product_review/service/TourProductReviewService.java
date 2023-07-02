@@ -10,6 +10,9 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.List;
+import java.util.stream.Collectors;
+
 @Service
 @RequiredArgsConstructor
 @Transactional(readOnly = true)
@@ -33,6 +36,23 @@ public class TourProductReviewService {
 
 
         return new TourProductReviewResponse(tourProductReviewRepository.save(tourProductReview));
+    }
+
+    public Double reviewRatingAverage(Long postId) {
+        return reviewList(postId).stream()
+                .mapToDouble(TourProductReviewResponse::getRating)
+                .average()
+                .orElse(0.0);
+    }
+
+
+    public List<TourProductReviewResponse> reviewList(Long postId) {
+        List<TourProductReview> tourProductReviews = findById(postId).getTourProductReviews();
+
+        return tourProductReviews.stream()
+                .map(TourProductReviewResponse::new)
+                .collect(Collectors.toList());
+
     }
 
 

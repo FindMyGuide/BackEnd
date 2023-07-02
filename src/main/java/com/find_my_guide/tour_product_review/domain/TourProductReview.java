@@ -26,6 +26,9 @@ public class TourProductReview extends BaseEntity {
     @Embedded
     private Rating rating;
 
+    @Column(length = 2000)  // url 로 저장 할 것인지 ? @BLOB 으로 이미지 저장할 것인지
+    private String imageUrl;
+
     @ManyToOne
     @JoinColumn(name = "tourProduct_id")
     private TourProduct tourProduct;

@@ -44,14 +44,7 @@ public class TourProductService {
 
     }
 
-    public List<TourProductReviewResponse> reviewList(Long id) {
-        List<TourProductReview> tourProductReviews = findById(id).getTourProductReviews();
 
-        return tourProductReviews.stream()
-                .map(TourProductReviewResponse::new)
-                .collect(Collectors.toList());
-
-    }
 
 
     public TourProductResponse detail(Long id) {

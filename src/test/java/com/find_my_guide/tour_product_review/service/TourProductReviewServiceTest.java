@@ -31,7 +31,7 @@ class TourProductReviewServiceTest {
         tourProductReviewService.register(1L, reviewRequest);
         tourProductReviewService.register(1L, reviewRequest2);
 
-        List<TourProductReviewResponse> tourProductReviewResponses = tourProductService.reviewList(1L);
+        List<TourProductReviewResponse> tourProductReviewResponses = tourProductReviewService.reviewList(1L);
 
         Assertions.assertThat(tourProductReviewResponses.size()).isEqualTo(2);
 
@@ -42,10 +42,18 @@ class TourProductReviewServiceTest {
     @DisplayName("투어 상품 리뷰 조회")
     void showReviews() {
 
-        List<TourProductReviewResponse> tourProductReviewResponses = tourProductService.reviewList(1L);
+        List<TourProductReviewResponse> tourProductReviewResponses = tourProductReviewService.reviewList(1L);
 
         Assertions.assertThat(tourProductReviewResponses.size()).isEqualTo(2);
 
+    }
+
+    @Test
+    @DisplayName("투어 상품 평점 평균")
+    void reviewRatingAverage(){
+        Double average = tourProductReviewService.reviewRatingAverage(1L);
+
+        Assertions.assertThat(average).isEqualTo(4.5);
     }
 
 }

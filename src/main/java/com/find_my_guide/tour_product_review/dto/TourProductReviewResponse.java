@@ -17,6 +17,9 @@ public class TourProductReviewResponse {
 
     private double rating;
 
+    private String imageUrl;
+
+
     public TourProductReviewResponse(TourProductReview tourProductReview) {
         this.id = tourProductReview.getId();
         this.content = tourProductReview.getContent().getContent();

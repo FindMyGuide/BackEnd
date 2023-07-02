@@ -1,5 +1,6 @@
 package com.find_my_guide.tour_product.domain;
 
+import com.find_my_guide.available_reservation_date.domain.AvailableDate;
 import com.find_my_guide.common.domain.BaseEntity;
 import com.find_my_guide.common.validation_field.Content;
 import com.find_my_guide.common.validation_field.Title;
@@ -34,11 +35,22 @@ public class TourProduct extends BaseEntity {
     @OneToMany(mappedBy = "tourProduct")
     private List<TourProductReview> tourProductReviews = new ArrayList<>();
 
+    @OneToMany(mappedBy = "tourProduct")
+    private List<AvailableDate> availableDates = new ArrayList<>();
+
     public void update(Title title, Content content) {
         this.title = title;
         this.content = content;
 
     }
+
+    public void addAvailableDate(AvailableDate availableDate){
+        this.availableDates.add(availableDate);
+        if (availableDate.getTourProduct() != this) {
+            availableDate.setTourProduct(this);
+        }
+    }
+
 
 
 
