@@ -5,6 +5,7 @@ import lombok.*;
 
 import javax.persistence.*;
 import java.time.LocalDate;
+import java.util.ArrayList;
 
 @Entity
 @AllArgsConstructor
@@ -23,18 +24,15 @@ public class AvailableDate {
     @JoinColumn(name = "tourProduct_id")
     private TourProduct tourProduct;
 
-
     public void addAvailableDate(TourProduct tourProduct) {
         this.tourProduct = tourProduct;
-        this.tourProduct.getAvailableDates().add(this);
-
-    }
-
-    public void setTourProduct(TourProduct tourProduct){
-        this.tourProduct = tourProduct;
-        if (!tourProduct.getAvailableDates().contains(this)) {
-            tourProduct.addAvailableDate(this);
+        if (this.tourProduct.getAvailableDates() == null) {
+            this.tourProduct.setAvailableDates(new ArrayList<>());
         }
+        this.tourProduct.getAvailableDates().add(this);
     }
+
+
+
 
 }

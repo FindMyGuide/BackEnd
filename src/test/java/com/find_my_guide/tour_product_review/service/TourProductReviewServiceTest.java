@@ -25,8 +25,8 @@ class TourProductReviewServiceTest {
     void registerReviews() {
 
 
-        TourProductReviewRequest reviewRequest = new TourProductReviewRequest(1L, "hi", 5.0);
-        TourProductReviewRequest reviewRequest2 = new TourProductReviewRequest(2L, "good", 4.0);
+        TourProductReviewRequest reviewRequest = new TourProductReviewRequest(1L, "hi", 5.0, "image");
+        TourProductReviewRequest reviewRequest2 = new TourProductReviewRequest(2L, "good", 4.0,"image2");
 
         tourProductReviewService.register(1L, reviewRequest);
         tourProductReviewService.register(1L, reviewRequest2);

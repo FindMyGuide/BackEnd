@@ -63,11 +63,12 @@ class TourProductServiceTest {
     }
 
 
+
     @Test
     @DisplayName("리뷰 저장")
     void registerReview() {
         Long postId = 1L;
-        TourProductReviewRequest reviewRequest = new TourProductReviewRequest(1L, "hi", 5.0);
+        TourProductReviewRequest reviewRequest = new TourProductReviewRequest(1L, "hi", 5.0,"image");
 
 
         TourProductReview review = reviewRequest.toTourProductReview();
@@ -88,11 +89,11 @@ class TourProductServiceTest {
     void showReviews() {
 
 
-        TourProductReviewRequest reviewRequest = new TourProductReviewRequest(1L, "hi", 5.0);
-        TourProductReviewRequest reviewRequest2 = new TourProductReviewRequest(1L, "good", 4.0);
+        TourProductReviewRequest reviewRequest = new TourProductReviewRequest(1L, "hi", 5.0,"image");
+        TourProductReviewRequest reviewRequest2 = new TourProductReviewRequest(1L, "good", 4.0,"image");
 
-        tourProductReviewService.register(1L, reviewRequest);
-        tourProductReviewService.register(1L, reviewRequest2);
+        tourProductReviewService.register(2L, reviewRequest);
+        tourProductReviewService.register(2L, reviewRequest2);
 
 
     }

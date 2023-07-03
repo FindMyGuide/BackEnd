@@ -44,11 +44,15 @@ public class TourProduct extends BaseEntity {
 
     }
 
-    public void addAvailableDate(AvailableDate availableDate){
-        this.availableDates.add(availableDate);
-        if (availableDate.getTourProduct() != this) {
-            availableDate.setTourProduct(this);
+    public void setAvailableDates(List<AvailableDate> availableDates) {
+        this.availableDates = availableDates;
+    }
+
+    public List<AvailableDate> getAvailableDates() {
+        if(this.availableDates == null) {
+            this.availableDates = new ArrayList<>();
         }
+        return this.availableDates;
     }
 
 

@@ -31,6 +31,7 @@ public class TourProductReviewRequest {
                 .id(id)
                 .content(new Content(content))
                 .rating(new Rating(rating))
+                .imageUrl(imageUrl)
                 .build();
     }
 }
