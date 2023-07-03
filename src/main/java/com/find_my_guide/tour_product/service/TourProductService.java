@@ -1,5 +1,7 @@
 package com.find_my_guide.tour_product.service;
 
+import com.find_my_guide.available_reservation_date.domain.AvailableDate;
+import com.find_my_guide.available_reservation_date.dto.AvailableDateResponse;
 import com.find_my_guide.common.validation_field.Content;
 import com.find_my_guide.common.validation_field.Title;
 import com.find_my_guide.tour_product.domain.TourProduct;
@@ -37,13 +39,21 @@ public class TourProductService {
     }
 
     @Transactional
-    public TourProductResponse delete(Long id) {
-        TourProduct tourProduct = findById(id);
+    public TourProductResponse delete(Long postId) {
+        TourProduct tourProduct = findById(postId);
         tourProductRepository.delete(tourProduct);
         return new TourProductResponse(tourProduct);
 
     }
 
+
+    public List<AvailableDateResponse> availableDates(Long postId){
+        TourProduct tourProduct = findById(postId);
+
+        return tourProduct.getAvailableDates().stream()
+                .map(AvailableDateResponse::new)
+                .collect(Collectors.toList());
+    }
 
 
 
