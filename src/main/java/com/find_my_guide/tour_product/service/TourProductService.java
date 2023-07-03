@@ -1,6 +1,5 @@
 package com.find_my_guide.tour_product.service;
 
-import com.find_my_guide.available_reservation_date.domain.AvailableDate;
 import com.find_my_guide.available_reservation_date.dto.AvailableDateResponse;
 import com.find_my_guide.common.validation_field.Content;
 import com.find_my_guide.common.validation_field.Title;
@@ -8,8 +7,6 @@ import com.find_my_guide.tour_product.domain.TourProduct;
 import com.find_my_guide.tour_product.dto.TourProductRequest;
 import com.find_my_guide.tour_product.dto.TourProductResponse;
 import com.find_my_guide.tour_product.repository.TourProductRepository;
-import com.find_my_guide.tour_product_review.domain.TourProductReview;
-import com.find_my_guide.tour_product_review.dto.TourProductReviewResponse;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -34,7 +31,7 @@ public class TourProductService {
     public TourProductResponse update(Long id, TourProductRequest tourProductRequest) {
         TourProduct tourProduct = findById(id);
         tourProduct.update(new Title(tourProductRequest.getTitle()), new Content(tourProductRequest.getContent()));
-        return new TourProductResponse(tourProduct);
+        return new TourProductResponse(tourProductRepository.save(tourProduct));
 
     }
 
@@ -47,14 +44,13 @@ public class TourProductService {
     }
 
 
-    public List<AvailableDateResponse> availableDates(Long postId){
+    public List<AvailableDateResponse> availableDates(Long postId) {
         TourProduct tourProduct = findById(postId);
 
         return tourProduct.getAvailableDates().stream()
                 .map(AvailableDateResponse::new)
                 .collect(Collectors.toList());
     }
-
 
 
     public TourProductResponse detail(Long id) {

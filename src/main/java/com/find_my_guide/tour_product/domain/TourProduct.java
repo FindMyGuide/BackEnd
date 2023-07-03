@@ -29,6 +29,10 @@ public class TourProduct extends BaseEntity {
     @Embedded
     private Content content;
 
+    @Embedded
+    private Price price;
+
+
     @OneToMany(mappedBy = "tourProduct")
     private List<TourProductTheme> tourProductThemes = new ArrayList<>();
 
@@ -49,13 +53,11 @@ public class TourProduct extends BaseEntity {
     }
 
     public List<AvailableDate> getAvailableDates() {
-        if(this.availableDates == null) {
+        if (this.availableDates == null) {
             this.availableDates = new ArrayList<>();
         }
         return this.availableDates;
     }
-
-
 
 
 }

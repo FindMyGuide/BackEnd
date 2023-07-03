@@ -1,7 +1,9 @@
 package com.find_my_guide.tour_product_review.service;
 
+import com.find_my_guide.common.validation_field.Content;
 import com.find_my_guide.tour_product.domain.TourProduct;
 import com.find_my_guide.tour_product.repository.TourProductRepository;
+import com.find_my_guide.tour_product_review.domain.Rating;
 import com.find_my_guide.tour_product_review.domain.TourProductReview;
 import com.find_my_guide.tour_product_review.dto.TourProductReviewRequest;
 import com.find_my_guide.tour_product_review.dto.TourProductReviewResponse;
@@ -24,7 +26,7 @@ public class TourProductReviewService {
 
     @Transactional
     public TourProductReviewResponse register(Long postId, TourProductReviewRequest tourProductReviewRequest) {
-        TourProduct tourProduct = findById(postId);
+        TourProduct tourProduct = findTourProductById(postId);
 
         TourProductReview tourProductReview = tourProductReviewRequest.toTourProductReview();
 
@@ -38,6 +40,25 @@ public class TourProductReviewService {
         return new TourProductReviewResponse(tourProductReviewRepository.save(tourProductReview));
     }
 
+    @Transactional
+    public TourProductReviewResponse update(Long postId, Long reviewId, TourProductReviewRequest tourProductReviewRequest) {
+        findTourProductById(postId);
+
+        TourProductReview review = findReviewById(reviewId);
+
+        matchTourProductId_ReviewId(postId, review);
+
+        review.update(new Content(tourProductReviewRequest.getContent())
+                , new Rating(tourProductReviewRequest.getRating())
+                , tourProductReviewRequest.getImageUrl());
+
+
+        return new TourProductReviewResponse(tourProductReviewRepository.save(review));
+
+
+    }
+
+
     public Double reviewRatingAverage(Long postId) {
         return reviewList(postId).stream()
                 .mapToDouble(TourProductReviewResponse::getRating)
@@ -47,7 +68,7 @@ public class TourProductReviewService {
 
 
     public List<TourProductReviewResponse> reviewList(Long postId) {
-        List<TourProductReview> tourProductReviews = findById(postId).getTourProductReviews();
+        List<TourProductReview> tourProductReviews = findTourProductById(postId).getTourProductReviews();
 
         return tourProductReviews.stream()
                 .map(TourProductReviewResponse::new)
@@ -56,7 +77,20 @@ public class TourProductReviewService {
     }
 
 
-    private TourProduct findById(Long id) {
+    private void matchTourProductId_ReviewId(Long postId, TourProductReview review) {
+        if (!review.getTourProduct().getTourProductId().equals(postId)) {
+            throw new IllegalArgumentException("Review does not belong to the post");
+        }
+    }
+
+    private TourProductReview findReviewById(Long reviewId) {
+        TourProductReview review = tourProductReviewRepository.findById(reviewId)
+                .orElseThrow(() -> new IllegalArgumentException("Review does not exist"));
+        return review;
+    }
+
+
+    private TourProduct findTourProductById(Long id) {
         return tourProductRepository.findById(id).orElseThrow(() -> new IllegalArgumentException("존재 하지 않는 관광 상품 입니다."));
     }
 }

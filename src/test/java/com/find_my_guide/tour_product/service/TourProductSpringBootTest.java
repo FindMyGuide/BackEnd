@@ -6,6 +6,7 @@ import com.find_my_guide.available_reservation_date.dto.AvailableDateResponse;
 import com.find_my_guide.available_reservation_date.service.AvailableService;
 import com.find_my_guide.common.validation_field.Content;
 import com.find_my_guide.common.validation_field.Title;
+import com.find_my_guide.tour_product.domain.Price;
 import com.find_my_guide.tour_product.domain.TourProduct;
 import com.find_my_guide.tour_product.repository.TourProductRepository;
 import com.find_my_guide.tour_product_review.dto.TourProductReviewRequest;
@@ -45,6 +46,7 @@ class TourProductSpringBootTest {
                 tourProductId(1L)
                 .title(new Title("hi"))
                 .content(new Content("cotnest"))
+                .price(new Price(10000L))
                 .build();
 
         AvailableDate availableDate = AvailableDate.builder().date(LocalDate.now()).build();
@@ -66,6 +68,19 @@ class TourProductSpringBootTest {
 
         tourProductReviewService.register(1L, reviewRequest);
         tourProductReviewService.register(1L, reviewRequest2);
+
+    }
+
+    @Test
+    @DisplayName("리뷰 수정")
+    void updateReviewTest() {
+
+
+        TourProductReviewRequest reviewRequest = new TourProductReviewRequest(1L, "update", 2.0, "image");
+        TourProductReviewRequest reviewRequest2 = new TourProductReviewRequest(2L, "update", 3.0, "image2");
+
+        tourProductReviewService.update(1L,reviewRequest.getId(),reviewRequest);
+        tourProductReviewService.update(1L, reviewRequest2.getId(),reviewRequest2);
 
     }
 

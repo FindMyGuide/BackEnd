@@ -1,7 +1,7 @@
 package com.find_my_guide.theme.service;
 
-import com.find_my_guide.theme.domain.Theme;
 import com.find_my_guide.common.validation_field.Title;
+import com.find_my_guide.theme.domain.Theme;
 import com.find_my_guide.theme.dto.ThemeRequest;
 import com.find_my_guide.theme.dto.ThemeResponse;
 import com.find_my_guide.theme.repository.ThemeRepository;
@@ -28,7 +28,8 @@ public class ThemeService {
 
         theme.update(new Title(themeRequest.getThemeTitle()));
 
-        return new ThemeResponse(theme);
+
+        return new ThemeResponse(themeRepository.save(theme));
 
     }
 
