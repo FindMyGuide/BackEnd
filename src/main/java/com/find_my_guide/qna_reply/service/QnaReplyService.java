@@ -24,18 +24,20 @@ public class QnaReplyService {
 
     @Transactional
     public QnaReplyResponse register(Long postId, QnaReplyRequest qnaReplyRequest) {
-        QnA qnA =findQnaById(postId);
+        QnA qnA = findQnaById(postId);
 
         QnaReply qnaReply = qnaReplyRequest.toQnaReply();
+        qnaReply.setQna(qnA);
 
-        if (Objects.isNull(qnaReply)) {
-            throw new IllegalArgumentException("QnaReply does not exist");
+        QnaReply savedQnaReply = qnaReplyRepository.save(qnaReply);
+
+        if (Objects.isNull(savedQnaReply.getId())) {
+            throw new IllegalStateException("QnaReply could not be saved");
         }
 
-        qnA.addQnaReply(qnaReply);
-
-        return new QnaReplyResponse(qnaReplyRepository.save(qnaReply));
+        return new QnaReplyResponse(savedQnaReply);
     }
+
 
     @Transactional
     public QnaReplyResponse update(Long postId, Long replyId, QnaReplyRequest qnaReplyRequest) {
@@ -63,6 +65,6 @@ public class QnaReplyService {
     }
 
     private QnA findQnaById(Long id) {
-        return qnaRepository.findById(id).orElseThrow(()-> new IllegalArgumentException("존재 하지 않는 Qna입니다."));
+        return qnaRepository.findById(id).orElseThrow(() -> new IllegalArgumentException("존재 하지 않는 Qna입니다."));
     }
 }

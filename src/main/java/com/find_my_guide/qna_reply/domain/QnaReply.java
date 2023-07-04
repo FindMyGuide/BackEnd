@@ -26,7 +26,7 @@ public class QnaReply extends BaseEntity {
     private Content content;
 
     @OneToOne
-    @JoinColumn(name = "qna_reply_id")
+    @JoinColumn(name = "qna_id")
     private QnA qna;
 
     public void setQna(QnA qna) {

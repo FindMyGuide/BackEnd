@@ -38,8 +38,8 @@ public class QnA extends BaseEntity {
         if (Objects.isNull(qnaReply)) {
             throw new IllegalArgumentException("QnaReply does not exist");
         }
-        this.qnaReply = qnaReply;
 
         qnaReply.setQna(this);
+        this.qnaReply = qnaReply;
     }
 }
