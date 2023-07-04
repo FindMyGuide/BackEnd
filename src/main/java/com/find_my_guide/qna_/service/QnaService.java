@@ -1,18 +1,14 @@
-package com.find_my_guide.q_n_a.service;
+package com.find_my_guide.qna_.service;
 
 import com.find_my_guide.common.validation_field.Content;
 import com.find_my_guide.common.validation_field.Title;
-import com.find_my_guide.q_n_a.domain.QnA;
-import com.find_my_guide.q_n_a.dto.QnaRequest;
-import com.find_my_guide.q_n_a.dto.QnaResponse;
-import com.find_my_guide.q_n_a.repository.QnaRepository;
+import com.find_my_guide.qna_.domain.QnA;
+import com.find_my_guide.qna_.dto.QnaRequest;
+import com.find_my_guide.qna_.dto.QnaResponse;
+import com.find_my_guide.qna_.repository.QnaRepository;
 import lombok.RequiredArgsConstructor;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
-
-import javax.persistence.EntityManager;
-import javax.persistence.EntityManagerFactory;
 
 @Service
 @Transactional(readOnly = true)

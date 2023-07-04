@@ -1,14 +1,11 @@
 package com.find_my_guide.q_n_a.service;
 
-import com.find_my_guide.q_n_a.dto.QnaRequest;
-import com.find_my_guide.q_n_a.dto.QnaResponse;
-import org.assertj.core.api.Assertions;
+import com.find_my_guide.qna_.dto.QnaRequest;
+import com.find_my_guide.qna_.dto.QnaResponse;
+import com.find_my_guide.qna_.service.QnaService;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
-import org.springframework.transaction.annotation.Transactional;
-
-import static org.junit.jupiter.api.Assertions.*;
 
 @SpringBootTest
 class QnaServiceTest {
