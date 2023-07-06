@@ -1,8 +1,8 @@
-package com.find_my_guide.q_n_a.dto;
+package com.find_my_guide.qna_.dto;
 
 import com.find_my_guide.common.validation_field.Content;
 import com.find_my_guide.common.validation_field.Title;
-import com.find_my_guide.q_n_a.domain.QnA;
+import com.find_my_guide.qna_.domain.QnA;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
