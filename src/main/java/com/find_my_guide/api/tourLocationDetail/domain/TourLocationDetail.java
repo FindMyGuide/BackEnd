@@ -7,10 +7,7 @@ import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 
-import javax.persistence.Entity;
-import javax.persistence.Id;
-import javax.persistence.JoinColumn;
-import javax.persistence.OneToOne;
+import javax.persistence.*;
 
 @Entity
 @Getter
@@ -20,14 +17,18 @@ import javax.persistence.OneToOne;
 public class TourLocationDetail {
 
     @Id
-    @OneToOne(mappedBy = "festival")
-    @JoinColumn(name = "qna_id")
-    private TourLocation id;
+    @GeneratedValue(strategy = GenerationType.AUTO)
+    private Long id;
+
+    @OneToOne
+    @JoinColumn(name = "tourLocation_id")
+    private TourLocation tourLocation;
 
     private String place;
     private String playtime;
     private String startDate;
     private String expense;
     private String content;
+
 
 }

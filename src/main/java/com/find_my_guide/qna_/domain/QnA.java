@@ -26,13 +26,14 @@ public class QnA extends BaseEntity {
     @Embedded
     private Content content;
 
+    @OneToOne(mappedBy = "qna")
+    private QnaReply qnaReply;
+
     public void update(Title title, Content content) {
         this.title = title;
         this.content = content;
     }
 
-    @OneToOne(mappedBy = "qna")
-    private QnaReply qnaReply;
 
     public void addQnaReply(QnaReply qnaReply) {
         if (Objects.isNull(qnaReply)) {

@@ -27,7 +27,6 @@ public class FestivalDetailRequest {
         this.content = content;
 
         return FestivalDetail.builder()
-                .id(this.id)
                 .place(this.place)
                 .playtime(this.playtime)
                 .startDate(this.startDate)

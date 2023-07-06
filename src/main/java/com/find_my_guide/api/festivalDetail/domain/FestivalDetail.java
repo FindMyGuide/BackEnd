@@ -6,11 +6,7 @@ import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 
-import javax.persistence.Entity;
-import javax.persistence.Id;
-import javax.persistence.JoinColumn;
-import javax.persistence.OneToOne;
-import java.util.Date;
+import javax.persistence.*;
 
 @Entity
 @Getter
@@ -18,11 +14,13 @@ import java.util.Date;
 @AllArgsConstructor
 @Builder
 public class FestivalDetail {
-
     @Id
-    @OneToOne(mappedBy = "festival")
-    @JoinColumn(name = "qna_id")
-    private Festival id;
+    @GeneratedValue(strategy = GenerationType.AUTO)
+    private Long festivalDetailId;
+
+    @OneToOne
+    @JoinColumn(name = "festival_id")
+    private Festival festival;
 
     private String place;
     private String playtime;

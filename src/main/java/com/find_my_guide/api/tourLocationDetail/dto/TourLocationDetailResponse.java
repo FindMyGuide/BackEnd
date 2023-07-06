@@ -18,7 +18,6 @@ public class TourLocationDetailResponse {
     private String content;
 
     public TourLocationDetailResponse(TourLocationDetail tourLocationDetail) {
-        this.id = tourLocationDetail.getId();
         this.place = tourLocationDetail.getPlace();
         this.playtime = tourLocationDetail.getPlaytime();
         this.startDate = tourLocationDetail.getStartDate();

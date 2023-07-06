@@ -27,7 +27,6 @@ public class TourLocationDetailRequest {
         this.content = content;
 
         return TourLocationDetail.builder()
-                .id(this.id)
                 .place(this.place)
                 .playtime(this.playtime)
                 .startDate(this.startDate)

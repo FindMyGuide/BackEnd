@@ -18,7 +18,6 @@ public class FestivalDetailResponse {
     private String content;
 
     public FestivalDetailResponse(FestivalDetail festivalDetail) {
-        this.id = festivalDetail.getId();
         this.place = festivalDetail.getPlace();
         this.playtime = festivalDetail.getPlaytime();
         this.startDate = festivalDetail.getStartDate();
