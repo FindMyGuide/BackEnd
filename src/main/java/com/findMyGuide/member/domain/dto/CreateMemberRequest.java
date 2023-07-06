@@ -1,6 +1,5 @@
 package com.findMyGuide.member.domain.dto;
 
-import static com.findMyGuide.config.SecurityConfig.passwordEncoder;
 
 import com.findMyGuide.member.domain.entity.Gender;
 import com.findMyGuide.member.domain.entity.Member;
@@ -8,11 +7,11 @@ import javax.validation.constraints.Email;
 import javax.validation.constraints.Pattern;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
+import org.springframework.security.crypto.password.PasswordEncoder;
 
 @Getter
 @AllArgsConstructor
 public class CreateMemberRequest {
-
     @Email(message = "이메일 형식이 올바르지 않습니다.")
     private String email;
     @Pattern(regexp = "/^(?=.*[a-zA-Z])(?=.*[!@#$%^*+=-])(?=.*[0-9]).{8,15}$/", message = "영문,숫자,특수기호를 포함한 8자리 이상이어야 합니다.")
@@ -26,10 +25,10 @@ public class CreateMemberRequest {
     private String phoneNumber;
     private Boolean nationalCertificationOfGuideYn;
 
-    public Member toMember() {
+    public Member toMember(PasswordEncoder passwordEncoder) {
         return Member.builder()
             .email(email)
-            .password(passwordEncoder().encode(password))
+            .password(passwordEncoder.encode(password))
             .nickname(nickname)
             .nationality(nationality)
             .gender(Gender.valueOf(gender))

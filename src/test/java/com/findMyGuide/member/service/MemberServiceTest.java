@@ -17,6 +17,8 @@ import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
+import org.springframework.security.crypto.password.PasswordEncoder;
 
 @ExtendWith(MockitoExtension.class)
 class MemberServiceTest {
@@ -32,8 +34,9 @@ class MemberServiceTest {
 
     @BeforeEach
     void setUp() {
+        PasswordEncoder passwordEncoder = new BCryptPasswordEncoder();
         memberRepository = mock(MemberRepository.class);
-        memberService = new MemberService(memberRepository);
+        memberService = new MemberService(memberRepository, passwordEncoder);
 
         memberRequest = new CreateMemberRequest(
             "abc@naver.com",
@@ -46,7 +49,7 @@ class MemberServiceTest {
             false
         );
 
-        member = memberRequest.toMember();
+        member = memberRequest.toMember(passwordEncoder);
     }
 
     @Test

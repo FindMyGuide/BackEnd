@@ -8,6 +8,7 @@ import com.findMyGuide.member.domain.entity.Member;
 import com.findMyGuide.member.repository.MemberRepository;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -18,6 +19,8 @@ import org.springframework.transaction.annotation.Transactional;
 public class MemberService {
 
     private final MemberRepository memberRepository;
+
+    private final PasswordEncoder passwordEncoder;
 
     @Transactional
     public CreateMemberResponse createMember(CreateMemberRequest memberRequest) {
@@ -36,7 +39,7 @@ public class MemberService {
             throw new DuplicateException(memberRequest.getPhoneNumber(), ErrorCode.DUPLICATION);
         }
 
-        Member member = memberRepository.save(memberRequest.toMember());
+        Member member = memberRepository.save(memberRequest.toMember(passwordEncoder));
 
         return new CreateMemberResponse(member);
     }
