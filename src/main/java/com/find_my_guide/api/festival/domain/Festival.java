@@ -24,6 +24,6 @@ public class Festival {
     private String mapx;
     private String mapy;
 
-//    @OneToOne(mappedBy = "festival", cascade = CascadeType.ALL)
-//    private FestivalDetail festivalDetail;
+    @OneToOne(mappedBy = "festival", cascade = CascadeType.ALL)
+    private FestivalDetail festivalDetail;
 }

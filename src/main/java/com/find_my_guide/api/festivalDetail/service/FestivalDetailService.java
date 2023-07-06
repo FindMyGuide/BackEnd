@@ -15,7 +15,6 @@ import org.springframework.transaction.annotation.Transactional;
 import java.io.BufferedReader;
 import java.io.InputStreamReader;
 import java.net.URL;
-import java.util.Optional;
 
 @Service
 @RequiredArgsConstructor
@@ -36,7 +35,8 @@ public class FestivalDetailService {
             result = bf.readLine();
             JSONParser parser = new JSONParser();
             JSONObject jsonObject = (JSONObject) parser.parse(result);
-            JSONObject body = (JSONObject) jsonObject.get("body");
+            JSONObject response = (JSONObject) jsonObject.get("response");
+            JSONObject body = (JSONObject) response.get("body");
             JSONObject items = (JSONObject) body.get("items");
             JSONArray item = (JSONArray) items.get("item");
 
@@ -55,8 +55,9 @@ public class FestivalDetailService {
             bf = new BufferedReader(new InputStreamReader(url.openStream(), "UTF-8"));
             result = bf.readLine();
             parser = new JSONParser();
-            JSONObject response = (JSONObject) parser.parse(result);
-            JSONObject body2 = (JSONObject) response.get("body");
+            JSONObject response1 = (JSONObject) parser.parse(result);
+            JSONObject response2 = (JSONObject) response1.get("response");
+            JSONObject body2 = (JSONObject) response2.get("body");
             JSONObject items2 = (JSONObject) body2.get("items");
             JSONArray item2 = (JSONArray) items2.get("item");
 

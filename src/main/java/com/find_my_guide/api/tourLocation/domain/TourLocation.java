@@ -16,8 +16,6 @@ import javax.persistence.*;
 public class TourLocation {
 
     @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
-
     private Long id;
 
     private String title;
@@ -25,7 +23,7 @@ public class TourLocation {
     private String mapx;
     private String mapy;
 
-    @OneToOne(mappedBy = "tourLocation")
+    @OneToOne(mappedBy = "tourLocation", cascade = CascadeType.ALL)
     private TourLocationDetail tourLocationDetail;
 
 }
