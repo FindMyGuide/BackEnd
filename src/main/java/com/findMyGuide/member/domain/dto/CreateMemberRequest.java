@@ -1,5 +1,7 @@
 package com.findMyGuide.member.domain.dto;
 
+import static com.findMyGuide.config.SecurityConfig.passwordEncoder;
+
 import com.findMyGuide.member.domain.entity.Gender;
 import com.findMyGuide.member.domain.entity.Member;
 import javax.validation.constraints.Email;
@@ -27,7 +29,7 @@ public class CreateMemberRequest {
     public Member toMember() {
         return Member.builder()
             .email(email)
-            .password(password) //Security 적용하면 PasswordEncoder로 감싸서 저장하기
+            .password(passwordEncoder().encode(password))
             .nickname(nickname)
             .nationality(nationality)
             .gender(Gender.valueOf(gender))
