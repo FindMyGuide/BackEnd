@@ -1,16 +1,21 @@
 package com.find_my_guide.tour_product.service;
 
+import com.find_my_guide.available_reservation_date.dto.AvailableDateRequest;
 import com.find_my_guide.available_reservation_date.dto.AvailableDateResponse;
+import com.find_my_guide.available_reservation_date.service.AvailableService;
 import com.find_my_guide.common.validation_field.Content;
 import com.find_my_guide.common.validation_field.Title;
 import com.find_my_guide.tour_product.domain.TourProduct;
 import com.find_my_guide.tour_product.dto.TourProductRequest;
 import com.find_my_guide.tour_product.dto.TourProductResponse;
 import com.find_my_guide.tour_product.repository.TourProductRepository;
+import com.find_my_guide.tour_product_theme.dto.TourProductThemeRequest;
+import com.find_my_guide.tour_product_theme.service.TourProductThemeService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.time.LocalDate;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -20,13 +25,28 @@ import java.util.stream.Collectors;
 public class TourProductService {
 
     private final TourProductRepository tourProductRepository;
+    private final TourProductThemeService tourProductThemeService;
+    private final AvailableService availableService;
 
     @Transactional
-    public TourProductResponse register(TourProductRequest tourProductRequest) {
-        return new TourProductResponse(tourProductRepository.save(tourProductRequest.toTourProduct()));
+    public TourProductResponse addTourProduct(TourProductRequest tourProductRequest) {
+        TourProduct tourProduct = tourProductRequest.toTourProduct();
+        tourProduct = tourProductRepository.save(tourProduct);
 
+        // 테마 등록
+        for(Long themeId : tourProductRequest.getThemeIds()) {
+            TourProductThemeRequest tourProductThemeRequest = new TourProductThemeRequest(themeId, tourProduct.getTourProductId());
+            tourProductThemeService.addThemeToTourProduct(tourProductThemeRequest);
+        }
+
+        // 날짜 등록
+        for(LocalDate availableDate : tourProductRequest.getAvailableDates()) {
+            AvailableDateRequest availableDateRequest = new AvailableDateRequest(availableDate);
+            availableService.registerDate(tourProduct.getTourProductId(), availableDateRequest);
+        }
+
+        return new TourProductResponse(tourProduct);
     }
-
     @Transactional
     public TourProductResponse update(Long id, TourProductRequest tourProductRequest) {
         TourProduct tourProduct = findById(id);
