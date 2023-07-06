@@ -1,11 +1,16 @@
 package com.findMyGuide.config;
 
+import com.findMyGuide.auth.LoginSuccessHandler;
+import com.findMyGuide.member.service.MemberDetailsService;
 import org.springframework.context.annotation.Bean;
+import org.springframework.security.authentication.AuthenticationProvider;
+import org.springframework.security.authentication.dao.DaoAuthenticationProvider;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.SecurityFilterChain;
+import org.springframework.security.web.authentication.AuthenticationSuccessHandler;
 
 @EnableWebSecurity
 public class SecurityConfig {
@@ -21,14 +26,35 @@ public class SecurityConfig {
                 //.antMatchers("인증된 유저만 접속될 URL").authenticated()
                 .anyRequest().permitAll()
                 .and()
+            .formLogin()
+                .usernameParameter("id")
+                .passwordParameter("pwd")
+                //.loginPage("/loginPage")    // 사용자 정의 로그인 페이지, default: /login
+                //.loginProcessingUrl("/login")   // 로그인 Form Action Url, default: /login
+                .successHandler(loginSuccessHandler())
+                .and()
             //.oauth2Login()
             .build();
     }
 
 
     @Bean
-    public static PasswordEncoder passwordEncoder() {
+    public PasswordEncoder passwordEncoder() {
         return new BCryptPasswordEncoder();
+    }
+
+    @Bean
+    public AuthenticationSuccessHandler loginSuccessHandler() {
+        return new LoginSuccessHandler();
+    }
+
+    @Bean
+    public AuthenticationProvider authenticationProvider(MemberDetailsService memberDetailsService) {
+        DaoAuthenticationProvider authenticationProvider = new DaoAuthenticationProvider();
+        authenticationProvider.setUserDetailsService(memberDetailsService);
+        authenticationProvider.setPasswordEncoder(passwordEncoder());
+
+        return authenticationProvider;
     }
 
 }
