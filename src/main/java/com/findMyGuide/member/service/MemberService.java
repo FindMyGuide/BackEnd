@@ -22,15 +22,18 @@ public class MemberService {
     @Transactional
     public CreateMemberResponse createMember(CreateMemberRequest memberRequest) {
         if(memberRepository.findByEmail(memberRequest.getEmail()).isPresent()) {
+            log.error(memberRequest.getEmail() + "is duplicated");
             throw new DuplicateException(memberRequest.getEmail(), ErrorCode.DUPLICATION);
         }
 
         if(memberRepository.findByNickname(memberRequest.getNickname()).isPresent()) {
+            log.error(memberRequest.getNickname() + "is duplicated");
             throw new DuplicateException(memberRequest.getNickname(), ErrorCode.DUPLICATION);
         }
 
         if(memberRepository.findByPhoneNumber(memberRequest.getPhoneNumber()).isPresent()) {
-            throw new DuplicateException(memberRequest.getNickname(), ErrorCode.DUPLICATION);
+            log.error(memberRequest.getPhoneNumber() + "is duplicated");
+            throw new DuplicateException(memberRequest.getPhoneNumber(), ErrorCode.DUPLICATION);
         }
 
         Member member = memberRepository.save(memberRequest.toMember());
