@@ -1,0 +1,52 @@
+POST http://localhost:8080/post
+Content-Type: application/json
+
+{
+  "title": "second",
+  "content" : "content2",
+  "price" : 10000
+}
+
+###
+//전체 상품 목록 조회
+GET http://localhost:8080/tourProducts
+Content-Type: application/json
+
+###
+//하나의 상품 조회
+GET http://localhost:8080/tourProduct/1
+Content-Type: application/json
+###
+
+
+// 날짜 등록
+POST http://localhost:8080/postTourProduct/registerDate/1
+Content-Type: application/json
+
+{
+  "date": "2023-07-06"
+}
+###
+
+
+// 테마 등록
+POST http://localhost:8080/postTheme
+Content-Type: application/json
+
+{
+  "themeTitle": "도보여행"
+}
+
+###
+
+// 관광 상품에 테마 등록
+POST http://localhost:8080/tourProduct/registerTheme/1
+Content-Type: application/json
+
+{
+  "themeId": 1,
+  "tourProductId": 1
+}
+
+
+

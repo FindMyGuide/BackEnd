@@ -43,6 +43,11 @@ public class TourProductService {
 
     }
 
+    public List<TourProductResponse> showTourProductList() {
+        return tourProductRepository.findAll().stream()
+                .map(TourProductResponse::new)
+                .collect(Collectors.toList());
+    }
 
     public List<AvailableDateResponse> availableDates(Long postId) {
         TourProduct tourProduct = findById(postId);
