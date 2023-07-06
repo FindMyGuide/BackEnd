@@ -1,5 +1,6 @@
 package com.find_my_guide.api.festival.service;
 
+import com.find_my_guide.api.festival.domain.Festival;
 import com.find_my_guide.api.festival.dto.FestivalRequest;
 import com.find_my_guide.api.festival.repository.FestivalRepository;
 import lombok.RequiredArgsConstructor;
@@ -84,4 +85,6 @@ public class FestivalService {
         festivalRepository.save(festivalRequest.toFestival(id, title,
                 image, mapX, mapY));
     }
+
+
 }

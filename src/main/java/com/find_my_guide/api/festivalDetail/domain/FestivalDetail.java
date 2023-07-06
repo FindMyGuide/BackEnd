@@ -28,4 +28,8 @@ public class FestivalDetail {
     private String expense;
     private String content;
 
+
+    public void setFestival(Festival festival) {
+        this.festival = festival;
+    }
 }

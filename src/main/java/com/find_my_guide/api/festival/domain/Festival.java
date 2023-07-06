@@ -16,7 +16,6 @@ import javax.persistence.*;
 public class Festival {
 
     @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
     @Column(name = "festival_id")
     private Long id;
 
@@ -25,6 +24,6 @@ public class Festival {
     private String mapx;
     private String mapy;
 
-    @OneToOne(mappedBy = "festival", cascade = CascadeType.ALL)
-    private FestivalDetail festivalDetail;
+//    @OneToOne(mappedBy = "festival", cascade = CascadeType.ALL)
+//    private FestivalDetail festivalDetail;
 }

@@ -1,5 +1,8 @@
 package com.find_my_guide.api.festivalDetail.service;
 
+import com.find_my_guide.api.festival.domain.Festival;
+import com.find_my_guide.api.festival.repository.FestivalRepository;
+import com.find_my_guide.api.festivalDetail.domain.FestivalDetail;
 import com.find_my_guide.api.festivalDetail.dto.FestivalDetailRequest;
 import com.find_my_guide.api.festivalDetail.repository.FestivalDetailRepository;
 import lombok.RequiredArgsConstructor;
@@ -12,6 +15,7 @@ import org.springframework.transaction.annotation.Transactional;
 import java.io.BufferedReader;
 import java.io.InputStreamReader;
 import java.net.URL;
+import java.util.Optional;
 
 @Service
 @RequiredArgsConstructor
@@ -19,6 +23,7 @@ import java.net.URL;
 public class FestivalDetailService {
 
     private final FestivalDetailRepository festivalDetailRepository;
+    private final FestivalRepository festivalRepository;
 
     public String getApi(String festivalId) {
         String result;
@@ -59,9 +64,8 @@ public class FestivalDetailService {
 
             String content = content2.get("infotext").toString();
 
-            FestivalDetailRequest festivalDetailRequest = new FestivalDetailRequest();
 
-            save(festivalDetailRequest, id, place, playtime, startDate, expense, content);
+            save(id, place, playtime, startDate, expense, content);
 
 
             result = "성공적";
@@ -72,11 +76,22 @@ public class FestivalDetailService {
         return result;
     }
 
-    public void save(FestivalDetailRequest festivalDetailRequest, Long id, String place, String playtime, String startDate,
+    public void save(Long id, String place, String playtime, String startDate,
                      String expense, String content) {
 
-        festivalDetailRepository.save(festivalDetailRequest.toFestivalDetail(id, place,
-                playtime, startDate, expense, content));
+        Festival festival = findFestivalById(id);
+
+        FestivalDetailRequest festivalDetailRequest = new FestivalDetailRequest(place, playtime,
+                startDate, expense, content);
+
+        FestivalDetail festivalDetail = festivalDetailRequest.toFestivalDetail();
+        festivalDetail.setFestival(festival);
+
+        festivalDetailRepository.save(festivalDetail);
         System.out.println("저장완료");
+    }
+
+    private Festival findFestivalById(Long id) {
+        return festivalRepository.findById(id).orElseThrow(() -> new IllegalArgumentException("존재 하지 않는 Festival입니다."));
     }
 }
