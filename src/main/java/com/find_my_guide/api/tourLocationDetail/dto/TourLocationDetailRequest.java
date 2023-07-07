@@ -1,5 +1,6 @@
 package com.find_my_guide.api.tourLocationDetail.dto;
 
+import com.find_my_guide.api.tourLocation.domain.TourLocation;
 import com.find_my_guide.api.tourLocationDetail.domain.TourLocationDetail;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
@@ -11,26 +12,33 @@ import lombok.NoArgsConstructor;
 public class TourLocationDetailRequest {
 
     private Long id;
-    private String place;
-    private String playtime;
-    private String startDate;
-    private String expense;
-    private String content;
+    private TourLocation tourLocation;
+    private String infoCenter;
+    private String restDate;
+    private String useTime;
+    private String parking;
+    private String infoText;
 
-    public TourLocationDetail toFestivalDetail(Long id, String place, String playtime,
-                                               String startDate, String expense, String content) {
-        this.id = id;
-        this.place = place;
-        this.playtime = playtime;
-        this.startDate = startDate;
-        this.expense = expense;
-        this.content = content;
+    public TourLocationDetail toTourLocationDetail() {
+
 
         return TourLocationDetail.builder()
-                .place(this.place)
-                .playtime(this.playtime)
-                .startDate(this.startDate)
-                .expense(this.expense)
-                .content(this.content).build();
+                .id(this.id)
+                .tourLocation(this.tourLocation)
+                .infoCenter(this.infoCenter)
+                .restDate(this.restDate)
+                .useTime(this.useTime)
+                .parking(this.parking)
+                .infoText(this.infoText)
+                .build();
+    }
+
+    public TourLocationDetailRequest(String infoCenter, String restDate,
+                                     String useTime, String parking, String infoText) {
+        this.infoCenter = infoCenter;
+        this.restDate = restDate;
+        this.useTime = useTime;
+        this.parking = parking;
+        this.infoText = infoText;
     }
 }

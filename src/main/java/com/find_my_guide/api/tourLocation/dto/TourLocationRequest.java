@@ -1,6 +1,7 @@
 package com.find_my_guide.api.tourLocation.dto;
 
 import com.find_my_guide.api.tourLocation.domain.TourLocation;
+import com.find_my_guide.api.tourLocationDetail.domain.TourLocationDetail;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -16,20 +17,16 @@ public class TourLocationRequest {
     private String mapx;
     private String mapy;
 
-    public TourLocation toTourLocation(Long id, String title, String image,
-                                               String mapx, String mapy) {
-
-        this.id = id;
-        this.title = title;
-        this.image = image;
-        this.mapx = mapx;
-        this.mapy = mapy;
+    public TourLocation toTourLocation() {
 
         return TourLocation.builder()
-                .id(this.id).title(this.title)
+                .id(this.id)
+                .title(this.title)
                 .image(this.image)
                 .mapx(this.mapx)
                 .mapy(this.mapy)
                 .build();
     }
+
+
 }

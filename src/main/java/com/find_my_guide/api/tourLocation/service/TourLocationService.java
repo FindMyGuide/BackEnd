@@ -82,9 +82,8 @@ public class TourLocationService {
     public void save(Long id, String title,
                      String image, String mapx, String mapy) {
         System.out.println("저장");
-        TourLocationRequest tourLocationRequest = new TourLocationRequest();
-        tourLocationRepository.save(tourLocationRequest.toTourLocation(id, title, image,
-                mapx, mapy));
+        TourLocationRequest tourLocationRequest = new TourLocationRequest(id, title, image, mapx, mapy);
+        tourLocationRepository.save(tourLocationRequest.toTourLocation());
     }
 
 }

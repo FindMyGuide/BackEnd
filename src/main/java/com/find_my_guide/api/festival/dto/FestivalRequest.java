@@ -1,13 +1,15 @@
 package com.find_my_guide.api.festival.dto;
 
 import com.find_my_guide.api.festival.domain.Festival;
+import com.find_my_guide.api.festivalDetail.domain.FestivalDetail;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
+import lombok.RequiredArgsConstructor;
 
+@Getter
 @NoArgsConstructor
 @AllArgsConstructor
-@Getter
 public class FestivalRequest {
 
     private Long id;
@@ -16,13 +18,7 @@ public class FestivalRequest {
     private String mapx;
     private String mapy;
 
-    public Festival toFestival(Long id, String title, String image,
-                               String mapx, String mapy) {
-        this.id = id;
-        this.title = title;
-        this.image = image;
-        this.mapx = mapx;
-        this.mapy = mapy;
+    public Festival toFestival() {
 
         return Festival.builder()
                 .id(this.id)

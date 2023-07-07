@@ -1,35 +1,52 @@
-package com.find_my_guide.api.tourLocationDetail.service;
+package com.find_my_guide.api;
 
 import com.find_my_guide.api.tourLocation.domain.TourLocation;
+import com.find_my_guide.api.tourLocation.dto.TourLocationRequest;
 import com.find_my_guide.api.tourLocation.repository.TourLocationRepository;
 import com.find_my_guide.api.tourLocationDetail.domain.TourLocationDetail;
 import com.find_my_guide.api.tourLocationDetail.dto.TourLocationDetailRequest;
 import com.find_my_guide.api.tourLocationDetail.repository.TourLocationDetailRepository;
-import lombok.RequiredArgsConstructor;
+import com.find_my_guide.api.tourLocationDetail.service.TourLocationDetailService;
 import org.json.simple.JSONArray;
 import org.json.simple.JSONObject;
 import org.json.simple.parser.JSONParser;
-import org.springframework.stereotype.Service;
-import org.springframework.transaction.annotation.Transactional;
+import org.junit.Test;
+import org.junit.jupiter.api.Assertions;
+import org.junit.runner.RunWith;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.test.annotation.Rollback;
+import org.springframework.test.context.junit4.SpringRunner;
 
+import javax.transaction.Transactional;
 import java.io.BufferedReader;
 import java.io.InputStreamReader;
 import java.net.URL;
 
-@Service
-@RequiredArgsConstructor
-@Transactional(readOnly = true)
-public class TourLocationDetailService {
+@SpringBootTest
+@RunWith(SpringRunner.class)
+@Rollback(true)
+public class TourLocationDetailTest {
 
-    private final TourLocationDetailRepository tourLocationDetailRepository;
-    private final TourLocationRepository tourLocationRepository;
+    @Autowired
+    TourLocationRepository tourLocationRepository;
 
-    public String getApi(String tourLocationId) {
-        String result;
+    @Autowired
+    TourLocationDetailRepository tourLocationDetailRepository;
+
+    @Test
+    public void getApi() {
+
+        TourLocationRequest tourLocationRequest = new TourLocationRequest(2715601L, "제목", "이미지", "x좌표", "y좌표");
+        TourLocation tourLocation = tourLocationRequest.toTourLocation();
+        System.out.println(tourLocation.getTourLocationDetail());
+        TourLocation saveTourLocation = tourLocationRepository.save(tourLocation);
+
+        String result = null;
 
         try {
             URL url = new URL("https://apis.data.go.kr/B551011/KorService1/detailIntro1?serviceKey=wSM4T5mSUOxzHeEO2Xi1llabPQIFXqpy5CjEWgBGdXJy%2BebCPvBQmHOPYOxcGlZMMew5yeuyfCYa9pyW7Hr0jQ%3D%3D&MobileOS=ETC&MobileApp=AppTest&_type=json&" +
-                    "contentId=" + tourLocationId + "&contentTypeId=12&numOfRows=10&pageNo=1");
+                    "contentId=" + saveTourLocation.getId() + "&contentTypeId=12&numOfRows=10&pageNo=1");
 
             BufferedReader bf = new BufferedReader(new InputStreamReader(url.openStream(), "UTF-8"));
             result = bf.readLine();
@@ -48,7 +65,7 @@ public class TourLocationDetailService {
             String useTime = contents.get("usetime").toString();
             String parking = contents.get("parking").toString();
 
-            url = new URL("https://apis.data.go.kr/B551011/KorService1/detailInfo1?serviceKey=wSM4T5mSUOxzHeEO2Xi1llabPQIFXqpy5CjEWgBGdXJy%2BebCPvBQmHOPYOxcGlZMMew5yeuyfCYa9pyW7Hr0jQ%3D%3D&MobileOS=ETC&MobileApp=AppTest&_type=json&contentId=" + tourLocationId + "&contentTypeId=12&numOfRows=10&pageNo=1");
+            url = new URL("https://apis.data.go.kr/B551011/KorService1/detailInfo1?serviceKey=wSM4T5mSUOxzHeEO2Xi1llabPQIFXqpy5CjEWgBGdXJy%2BebCPvBQmHOPYOxcGlZMMew5yeuyfCYa9pyW7Hr0jQ%3D%3D&MobileOS=ETC&MobileApp=AppTest&_type=json&contentId=" + saveTourLocation.getId() + "&contentTypeId=12&numOfRows=10&pageNo=1");
 
             bf = new BufferedReader(new InputStreamReader(url.openStream(), "UTF-8"));
             result = bf.readLine();
@@ -65,33 +82,18 @@ public class TourLocationDetailService {
 
 
 
-            save(id, infoCenter, restDate, useTime, parking, infoText);
+            TourLocationDetailRequest tourLocationDetailRequest = new TourLocationDetailRequest(infoCenter, restDate, useTime, parking, infoText);
+            TourLocationDetail tourLocationDetail = tourLocationDetailRequest.toTourLocationDetail();
+            tourLocationDetail.setTourLocation(saveTourLocation);
+
+            TourLocationDetail saveTourLocationDetail = tourLocationDetailRepository.save(tourLocationDetail);
 
 
-            result = "성공적";
+            System.out.println(saveTourLocationDetail);
         } catch (Exception e) {
-            result = "실패";
+            System.out.println(result);
         }
 
-        return result;
-    }
 
-    public void save(Long id, String infoCenter, String restDate, String useDate,
-                     String parking, String infoText) {
-
-        TourLocation tourLocation = findTourLocationById(id);
-
-        TourLocationDetailRequest tourLocationDetailRequest = new TourLocationDetailRequest(infoCenter, restDate, useDate,
-                parking, infoText);
-
-        TourLocationDetail tourLocationDetail = tourLocationDetailRequest.toTourLocationDetail();
-        tourLocationDetail.setTourLocation(tourLocation);
-
-        tourLocationDetailRepository.save(tourLocationDetail);
-        System.out.println("저장완료");
-    }
-
-    public TourLocation findTourLocationById(Long id) {
-        return tourLocationRepository.findById(id).orElseThrow(() -> new IllegalArgumentException("존재 하지 않는 TourLocation입니다."));
     }
 }

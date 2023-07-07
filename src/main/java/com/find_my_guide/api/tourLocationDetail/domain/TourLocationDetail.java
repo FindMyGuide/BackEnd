@@ -24,11 +24,13 @@ public class TourLocationDetail {
     @JoinColumn(name = "tourLocation_id")
     private TourLocation tourLocation;
 
-    private String place;
-    private String playtime;
-    private String startDate;
-    private String expense;
-    private String content;
+    private String infoCenter;
+    private String restDate;
+    private String useTime;
+    private String parking;
+    private String infoText;
 
-
+    public void setTourLocation(TourLocation tourLocation) {
+        this.tourLocation = tourLocation;
+    }
 }

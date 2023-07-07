@@ -81,9 +81,9 @@ public class FestivalService {
                      String mapX, String mapY) {
         System.out.println("저장");
 
-        FestivalRequest festivalRequest = new FestivalRequest();
-        festivalRepository.save(festivalRequest.toFestival(id, title,
-                image, mapX, mapY));
+        FestivalRequest festivalRequest = new FestivalRequest(id, title,
+                image, mapX, mapY);
+        festivalRepository.save(festivalRequest.toFestival());
     }
 
 

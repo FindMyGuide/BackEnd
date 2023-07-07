@@ -16,6 +16,7 @@ import javax.persistence.*;
 public class TourLocation {
 
     @Id
+    @Column(name = "tourLocation_id")
     private Long id;
 
     private String title;

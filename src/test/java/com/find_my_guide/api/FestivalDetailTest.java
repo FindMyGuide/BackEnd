@@ -11,6 +11,7 @@ import com.find_my_guide.api.festivalDetail.service.FestivalDetailService;
 import org.json.simple.JSONArray;
 import org.json.simple.JSONObject;
 import org.json.simple.parser.JSONParser;
+import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 import org.junit.runner.RunWith;
 import org.mockito.InjectMocks;
@@ -26,7 +27,7 @@ import java.net.URL;
 @SpringBootTest
 @RunWith(SpringRunner.class)
 @Rollback(true)
-public class festivalDetailTest {
+public class FestivalDetailTest {
 
     @Autowired
     @InjectMocks
@@ -43,10 +44,9 @@ public class festivalDetailTest {
     FestivalRepository festivalRepository;
 
     @Test
-    public void getApi(){
-        // Given
-        FestivalRequest festivalRequest = new FestivalRequest();
-        Festival festival = festivalRequest.toFestival(2674675L, "제목", "이미지", "x좌표", "y좌표");
+    public void festivalDetailGetApi(){
+        FestivalRequest festivalRequest = new FestivalRequest(2674675L, "제목", "이미지", "x좌표", "y좌표");
+        Festival festival = festivalRequest.toFestival();
         Festival saveFestival = festivalRepository.save(festival);
 
         String result = null;
@@ -106,15 +106,19 @@ public class festivalDetailTest {
             System.out.println(saveFestivalDetail.getExpense());
             System.out.println(saveFestivalDetail.getContent());
 
-
+            Assertions.assertNotNull(saveFestivalDetail);
 
         } catch (Exception e) {
             System.out.println("실패");
             System.out.println(result);
+            Assertions.assertTrue(false);
         }
 
-        // When
-
-        // Then
     }
+
+    @Test
+    public void TourLocationDetailGetApi() {
+
+    }
+
 }
