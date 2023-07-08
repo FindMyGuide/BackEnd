@@ -23,7 +23,7 @@ public class CreateMemberRequest {
     private String birthDate;
     @Pattern(regexp = "^01(?:0|1|[6-9])-?(\\d{4})-?(\\d{4})$", message = "올바르지 않은 휴대폰 번호 형식입니다.")
     private String phoneNumber;
-    private Boolean nationalCertificationOfGuideYn;
+    private String nationalCertificationOfGuideYn;
 
     public Member toMember(PasswordEncoder passwordEncoder) {
         return Member.builder()
@@ -34,7 +34,7 @@ public class CreateMemberRequest {
             .gender(Gender.valueOf(gender))
             .birthDate(birthDate)
             .phoneNumber(phoneNumber)
-            .nationalCertificationOfGuideYn(nationalCertificationOfGuideYn)
+            .nationalCertificationOfGuideYn(nationalCertificationOfGuideYn.equalsIgnoreCase("Y"))
             .build();
     }
 }
