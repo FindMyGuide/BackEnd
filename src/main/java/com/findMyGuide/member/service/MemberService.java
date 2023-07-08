@@ -30,7 +30,7 @@ public class MemberService {
 
     @Transactional
     public CreateMemberResponse createMember(CreateMemberRequest memberRequest) {
-        if(memberRepository.findByEmail(memberRequest.getEmail()).isPresent()) {
+        if(findByEmail(memberRequest.getEmail()).isPresent()) {
             log.error(memberRequest.getEmail() + " is duplicated");
             throw new DuplicateException(memberRequest.getEmail(), ErrorCode.DUPLICATION);
         }
@@ -51,7 +51,7 @@ public class MemberService {
     }
 
     public ReadMemberResponse readMember(String email) {
-        Optional<Member> member = memberRepository.findByEmail(email);
+        Optional<Member> member = findByEmail(email);
 
         if(member.isEmpty()) {
             log.error(email + " is not found");
@@ -63,7 +63,7 @@ public class MemberService {
 
     @Transactional
     public UpdateMemberResponse updateMember(String email, UpdateMemberRequest memberRequest) {
-        Optional<Member> member = memberRepository.findByEmail(email);
+        Optional<Member> member = findByEmail(email)
 
         if(member.isEmpty()) {
             log.error(email + " is not found");
@@ -82,7 +82,7 @@ public class MemberService {
 
     @Transactional
     public DeleteMemberResponse deleteMember(String email) {
-        Optional<Member> member = memberRepository.findByEmail(email);
+        Optional<Member> member = findByEmail(email);
 
         if(member.isEmpty()) {
             log.error(email + " is not found");
@@ -91,5 +91,9 @@ public class MemberService {
 
         memberRepository.delete(member.get());
         return new DeleteMemberResponse(member.get());
+    }
+
+    private Optional<Member> findByEmail(String email) {
+        return memberRepository.findByEmail(email);
     }
 }
