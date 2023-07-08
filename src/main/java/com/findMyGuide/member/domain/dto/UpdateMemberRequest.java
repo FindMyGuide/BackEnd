@@ -10,9 +10,6 @@ import org.springframework.lang.Nullable;
 @AllArgsConstructor
 public class UpdateMemberRequest {
 
-    @Email(message = "이메일 형식이 올바르지 않습니다.")
-    private String email;
-
     @Pattern(regexp = "/^(?=.*[a-zA-Z])(?=.*[!@#$%^*+=-])(?=.*[0-9]).{8,15}$/", message = "영문,숫자,특수기호를 포함한 8자리 이상이어야 합니다.")
     @Nullable
     private String password;
