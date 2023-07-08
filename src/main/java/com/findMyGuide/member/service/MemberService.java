@@ -7,6 +7,8 @@ import com.findMyGuide.member.domain.dto.CreateMemberRequest;
 import com.findMyGuide.member.domain.dto.CreateMemberResponse;
 import com.findMyGuide.member.domain.dto.ReadMemberRequest;
 import com.findMyGuide.member.domain.dto.ReadMemberResponse;
+import com.findMyGuide.member.domain.dto.UpdateMemberRequest;
+import com.findMyGuide.member.domain.dto.UpdateMemberResponse;
 import com.findMyGuide.member.domain.entity.Member;
 import com.findMyGuide.member.repository.MemberRepository;
 import java.util.Optional;
@@ -57,5 +59,24 @@ public class MemberService {
         }
 
         return new ReadMemberResponse(member.get());
+    }
+
+    @Transactional
+    public UpdateMemberResponse updateMember(UpdateMemberRequest memberRequest) {
+        Optional<Member> member = memberRepository.findByEmail(memberRequest.getEmail());
+
+        if(member.isEmpty()) {
+            log.error(memberRequest.getEmail() + " is not found");
+            throw new NotFoundException(memberRequest.getEmail(), ErrorCode.NOT_FOUND);
+        }
+
+        member.get()
+            .update(passwordEncoder,
+                memberRequest.getPassword(),
+                memberRequest.getNickname(),
+                memberRequest.getPhoneNumber(),
+                memberRequest.getNationalCertificationOfGuideYn());
+
+        return new UpdateMemberResponse(member.get());
     }
 }

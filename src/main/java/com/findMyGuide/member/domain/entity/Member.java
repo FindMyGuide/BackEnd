@@ -1,10 +1,12 @@
 package com.findMyGuide.member.domain.entity;
 
+import java.util.Objects;
 import javax.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
+import org.springframework.security.crypto.password.PasswordEncoder;
 
 
 @Entity
@@ -44,4 +46,23 @@ public class Member {
 
     @Column(name = "national_certification_of_guide_yn", nullable = false)
     private Boolean nationalCertificationOfGuideYn;
+
+    public void update(PasswordEncoder passwordEncoder, String password, String nickname, String phoneNumber, String nationalCertificationOfGuideYn) {
+
+        if(!Objects.isNull(password)) {
+            this.password = passwordEncoder.encode(password);
+        }
+
+        if(!Objects.isNull(nickname)) {
+            this.nickname = nickname;
+        }
+
+        if(!Objects.isNull(phoneNumber)) {
+            this.phoneNumber = phoneNumber;
+        }
+
+        if(!Objects.isNull(nationalCertificationOfGuideYn)) {
+            this.nationalCertificationOfGuideYn = nationalCertificationOfGuideYn.equalsIgnoreCase("Y");
+        }
+    }
 }
