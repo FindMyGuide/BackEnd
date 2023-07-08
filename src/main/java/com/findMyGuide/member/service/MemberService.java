@@ -63,7 +63,7 @@ public class MemberService {
 
     @Transactional
     public UpdateMemberResponse updateMember(String email, UpdateMemberRequest memberRequest) {
-        Optional<Member> member = findByEmail(email)
+        Optional<Member> member = findByEmail(email);
 
         if(member.isEmpty()) {
             log.error(email + " is not found");
