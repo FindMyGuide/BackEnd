@@ -44,7 +44,7 @@ class MemberServiceTest {
             "test",
             "KR",
             "MALE",
-            25,
+            "19980000",
             "010-1234-5678",
             false
         );
@@ -65,7 +65,7 @@ class MemberServiceTest {
             () -> assertThat(result.getNickname()).isEqualTo(member.getNickname()),
             () -> assertThat(result.getNationality()).isEqualTo(member.getNationality()),
             () -> assertThat(result.getGender()).isEqualTo(member.getGender().getKrName()),
-            () -> assertThat(result.getAge()).isEqualTo(member.getAge()),
+            () -> assertThat(result.getBirthDate()).isEqualTo(member.getBirthDate()),
             () -> assertThat(result.getPhoneNumber()).isEqualTo(member.getPhoneNumber()),
             () -> assertThat(result.getNationalCertificationOfGuideYn()).isEqualTo(member.getNationalCertificationOfGuideYn().toString())
         );

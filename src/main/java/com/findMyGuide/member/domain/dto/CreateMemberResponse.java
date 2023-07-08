@@ -18,7 +18,7 @@ public class CreateMemberResponse {
 
     private String gender;
 
-    private Integer age;
+    private String birthDate;
 
     private String phoneNumber;
 
@@ -30,7 +30,7 @@ public class CreateMemberResponse {
         this.nickname = member.getNickname();
         this.nationality = member.getNationality();
         this.gender = member.getGender().getKrName();
-        this.age = member.getAge();
+        this.birthDate = member.getBirthDate();
         this.phoneNumber = member.getPhoneNumber();
         this.nationalCertificationOfGuideYn = member.getNationalCertificationOfGuideYn().toString();
     }

@@ -37,7 +37,7 @@ class MemberRepositoryTest {
             "test123",
             "KR",
             "MALE",
-            25,
+            "19980000",
             "010-1234-0000",
             false
         );
@@ -58,7 +58,7 @@ class MemberRepositoryTest {
             () -> assertThat(member.getNickname()).isEqualTo(registerMember.getNickname()),
             () -> assertThat(member.getNationality()).isEqualTo(registerMember.getNationality()),
             () -> assertThat(member.getGender()).isEqualTo(registerMember.getGender()),
-            () -> assertThat(member.getAge()).isEqualTo(registerMember.getAge()),
+            () -> assertThat(member.getBirthDate()).isEqualTo(registerMember.getBirthDate()),
             () -> assertThat(member.getPhoneNumber()).isEqualTo(registerMember.getPhoneNumber()),
             () -> assertThat(member.getNationalCertificationOfGuideYn()).isEqualTo(registerMember.getNationalCertificationOfGuideYn())
         );
@@ -81,7 +81,7 @@ class MemberRepositoryTest {
             () -> assertThat(result.getNickname()).isEqualTo(member.getNickname()),
             () -> assertThat(result.getNationality()).isEqualTo(member.getNationality()),
             () -> assertThat(result.getGender()).isEqualTo(member.getGender()),
-            () -> assertThat(result.getAge()).isEqualTo(member.getAge()),
+            () -> assertThat(result.getBirthDate()).isEqualTo(member.getBirthDate()),
             () -> assertThat(result.getPhoneNumber()).isEqualTo(member.getPhoneNumber()),
             () -> assertThat(result.getNationalCertificationOfGuideYn()).isEqualTo(member.getNationalCertificationOfGuideYn())
         );
@@ -104,7 +104,7 @@ class MemberRepositoryTest {
             () -> assertThat(result.getNickname()).isEqualTo(member.getNickname()),
             () -> assertThat(result.getNationality()).isEqualTo(member.getNationality()),
             () -> assertThat(result.getGender()).isEqualTo(member.getGender()),
-            () -> assertThat(result.getAge()).isEqualTo(member.getAge()),
+            () -> assertThat(result.getBirthDate()).isEqualTo(member.getBirthDate()),
             () -> assertThat(result.getPhoneNumber()).isEqualTo(member.getPhoneNumber()),
             () -> assertThat(result.getNationalCertificationOfGuideYn()).isEqualTo(member.getNationalCertificationOfGuideYn())
         );
@@ -127,7 +127,7 @@ class MemberRepositoryTest {
             () -> assertThat(result.getNickname()).isEqualTo(member.getNickname()),
             () -> assertThat(result.getNationality()).isEqualTo(member.getNationality()),
             () -> assertThat(result.getGender()).isEqualTo(member.getGender()),
-            () -> assertThat(result.getAge()).isEqualTo(member.getAge()),
+            () -> assertThat(result.getBirthDate()).isEqualTo(member.getBirthDate()),
             () -> assertThat(result.getPhoneNumber()).isEqualTo(member.getPhoneNumber()),
             () -> assertThat(result.getNationalCertificationOfGuideYn()).isEqualTo(member.getNationalCertificationOfGuideYn())
         );

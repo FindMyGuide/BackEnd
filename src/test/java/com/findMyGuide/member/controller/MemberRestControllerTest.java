@@ -45,7 +45,7 @@ class MemberRestControllerTest {
             "test",
             "KR",
             "MALE",
-            25,
+            "19980000",
             "010-1234-5678",
             false
         );

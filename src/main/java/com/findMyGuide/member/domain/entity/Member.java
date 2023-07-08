@@ -36,8 +36,8 @@ public class Member {
     @Column(nullable = false)
     private Gender gender;
 
-    @Column(nullable = false)
-    private Integer age;
+    @Column(name = "birth_date", nullable = false)
+    private String birthDate;
 
     @Column(name = "phone_number")
     private String phoneNumber;
