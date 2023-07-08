@@ -5,7 +5,7 @@ import com.findMyGuide.common.ErrorCode;
 import com.findMyGuide.common.NotFoundException;
 import com.findMyGuide.member.domain.dto.CreateMemberRequest;
 import com.findMyGuide.member.domain.dto.CreateMemberResponse;
-import com.findMyGuide.member.domain.dto.ReadMemberRequest;
+import com.findMyGuide.member.domain.dto.DeleteMemberResponse;
 import com.findMyGuide.member.domain.dto.ReadMemberResponse;
 import com.findMyGuide.member.domain.dto.UpdateMemberRequest;
 import com.findMyGuide.member.domain.dto.UpdateMemberResponse;
@@ -50,24 +50,24 @@ public class MemberService {
         return new CreateMemberResponse(member);
     }
 
-    public ReadMemberResponse readMember(ReadMemberRequest memberRequest) {
-        Optional<Member> member = memberRepository.findByEmail(memberRequest.getEmail());
+    public ReadMemberResponse readMember(String email) {
+        Optional<Member> member = memberRepository.findByEmail(email);
 
         if(member.isEmpty()) {
-            log.error(memberRequest.getEmail() + " is not found");
-            throw new NotFoundException(memberRequest.getEmail(), ErrorCode.NOT_FOUND);
+            log.error(email + " is not found");
+            throw new NotFoundException(email, ErrorCode.NOT_FOUND);
         }
 
         return new ReadMemberResponse(member.get());
     }
 
     @Transactional
-    public UpdateMemberResponse updateMember(UpdateMemberRequest memberRequest) {
-        Optional<Member> member = memberRepository.findByEmail(memberRequest.getEmail());
+    public UpdateMemberResponse updateMember(String email, UpdateMemberRequest memberRequest) {
+        Optional<Member> member = memberRepository.findByEmail(email);
 
         if(member.isEmpty()) {
-            log.error(memberRequest.getEmail() + " is not found");
-            throw new NotFoundException(memberRequest.getEmail(), ErrorCode.NOT_FOUND);
+            log.error(email + " is not found");
+            throw new NotFoundException(email, ErrorCode.NOT_FOUND);
         }
 
         member.get()
@@ -78,5 +78,18 @@ public class MemberService {
                 memberRequest.getNationalCertificationOfGuideYn());
 
         return new UpdateMemberResponse(member.get());
+    }
+
+    @Transactional
+    public DeleteMemberResponse deleteMember(String email) {
+        Optional<Member> member = memberRepository.findByEmail(email);
+
+        if(member.isEmpty()) {
+            log.error(email + " is not found");
+            throw new NotFoundException(email, ErrorCode.NOT_FOUND);
+        }
+
+        memberRepository.delete(member.get());
+        return new DeleteMemberResponse(member.get());
     }
 }

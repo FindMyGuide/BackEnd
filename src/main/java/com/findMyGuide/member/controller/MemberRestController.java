@@ -2,12 +2,17 @@ package com.findMyGuide.member.controller;
 
 import com.findMyGuide.member.domain.dto.CreateMemberRequest;
 import com.findMyGuide.member.domain.dto.CreateMemberResponse;
+import com.findMyGuide.member.domain.dto.DeleteMemberResponse;
+import com.findMyGuide.member.domain.dto.ReadMemberResponse;
 import com.findMyGuide.member.domain.dto.UpdateMemberRequest;
 import com.findMyGuide.member.domain.dto.UpdateMemberResponse;
 import com.findMyGuide.member.service.MemberService;
 import java.net.URI;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.DeleteMapping;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -30,10 +35,27 @@ public class MemberRestController {
         return ResponseEntity.created(uri).body(response);
     }
 
-    @PutMapping("/update")
-    public ResponseEntity<UpdateMemberResponse> update(@RequestBody final UpdateMemberRequest request) {
+    @GetMapping("/{email}")
+    public ResponseEntity<ReadMemberResponse> read(@PathVariable("email")final String email) {
 
-        UpdateMemberResponse response = memberService.updateMember(request);
+        ReadMemberResponse response = memberService.readMember(email);
+
+        return ResponseEntity.ok(response);
+    }
+
+    @PutMapping("/update/{email}")
+    public ResponseEntity<UpdateMemberResponse> update(@PathVariable("email")final String email,
+                                                        @RequestBody final UpdateMemberRequest request) {
+
+        UpdateMemberResponse response = memberService.updateMember(email ,request);
+
+        return ResponseEntity.ok(response);
+    }
+
+    @DeleteMapping("/delete/{email}")
+    public ResponseEntity<DeleteMemberResponse> delete(@PathVariable("email")final String email) {
+
+        DeleteMemberResponse response = memberService.deleteMember(email);
 
         return ResponseEntity.ok(response);
     }
