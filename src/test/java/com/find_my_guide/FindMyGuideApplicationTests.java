@@ -1,13 +1,13 @@
 package com.find_my_guide;
 
-import com.find_my_guide.common.validation_field.Content;
-import com.find_my_guide.theme.domain.Theme;
-import com.find_my_guide.common.validation_field.Title;
-import com.find_my_guide.theme.repository.ThemeRepository;
-import com.find_my_guide.tour_product.domain.TourProduct;
-import com.find_my_guide.tour_product.repository.TourProductRepository;
-import com.find_my_guide.tour_product_theme.domain.TourProductTheme;
-import com.find_my_guide.tour_product_theme.repository.TourProductThemeRepository;
+import com.find_my_guide.main_tour_product.common.validation_field.Content;
+import com.find_my_guide.main_tour_product.theme.domain.Theme;
+import com.find_my_guide.main_tour_product.common.validation_field.Title;
+import com.find_my_guide.main_tour_product.theme.repository.ThemeRepository;
+import com.find_my_guide.main_tour_product.tour_product.domain.TourProduct;
+import com.find_my_guide.main_tour_product.tour_product.repository.TourProductRepository;
+import com.find_my_guide.main_tour_product.tour_product_theme.domain.TourProductTheme;
+import com.find_my_guide.main_tour_product.tour_product_theme.repository.TourProductThemeRepository;
 import org.assertj.core.api.Assertions;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
