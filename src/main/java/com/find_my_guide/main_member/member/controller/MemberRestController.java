@@ -7,6 +7,7 @@ import com.find_my_guide.main_member.member.domain.dto.ReadMemberResponse;
 import com.find_my_guide.main_member.member.domain.dto.UpdateMemberRequest;
 import com.find_my_guide.main_member.member.domain.dto.UpdateMemberResponse;
 import java.net.URI;
+import javax.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.DeleteMapping;
@@ -26,7 +27,7 @@ public class MemberRestController {
 
     private final com.find_my_guide.main_member.member.service.MemberService memberService;
     @PostMapping("/sign-up")
-    public ResponseEntity<CreateMemberResponse> register(@RequestBody final CreateMemberRequest request) {
+    public ResponseEntity<CreateMemberResponse> register(@RequestBody @Valid final CreateMemberRequest request) {
 
         CreateMemberResponse response = memberService.createMember(request);
         URI uri = URI.create("/find-my-guide/sign-up");
@@ -44,7 +45,7 @@ public class MemberRestController {
 
     @PutMapping("/update/{email}")
     public ResponseEntity<UpdateMemberResponse> update(@PathVariable("email")final String email,
-                                                        @RequestBody final UpdateMemberRequest request) {
+                                                        @RequestBody @Valid final UpdateMemberRequest request) {
 
         UpdateMemberResponse response = memberService.updateMember(email ,request);
 

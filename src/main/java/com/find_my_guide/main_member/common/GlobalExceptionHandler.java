@@ -1,14 +1,30 @@
 package com.find_my_guide.main_member.common;
 
+import java.util.stream.Collectors;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.validation.BindingResult;
+import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.RestControllerAdvice;
 
 @Slf4j
 @RestControllerAdvice
 public class GlobalExceptionHandler {
+
+    @ExceptionHandler(MethodArgumentNotValidException.class)
+    public String handleValidationException(MethodArgumentNotValidException e) {
+        BindingResult bindingResult = e.getBindingResult();
+        log.error("handleValidationException", e);
+
+        return bindingResult.getAllErrors()
+            .stream()
+            .map(error -> new StringBuilder().append("ObjectName=").append(error.getObjectName())
+                .append(",Message=").append(error.getDefaultMessage())
+                .append(",code=").append(error.getCode()))
+            .collect(Collectors.joining(" | "));
+    }
 
     @ExceptionHandler(DuplicateException.class)
     public ResponseEntity<ErrorResponse> handleDuplicateException(DuplicateException e) {
