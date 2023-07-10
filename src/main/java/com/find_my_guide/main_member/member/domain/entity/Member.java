@@ -1,7 +1,11 @@
 package com.find_my_guide.main_member.member.domain.entity;
 
+import java.util.List;
 import java.util.Objects;
 import javax.persistence.*;
+
+import com.find_my_guide.main_tour_product.tour_history_manager.domain.TourHistoryManager;
+import com.find_my_guide.main_tour_product.tour_product.domain.TourProduct;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;
@@ -46,6 +50,10 @@ public class Member {
 
     @Column(name = "national_certification_of_guide_yn", nullable = false)
     private Boolean nationalCertificationOfGuideYn;
+
+    @OneToMany(mappedBy = "member")
+    @Column(name = "tourHistoryManager")
+    private List<TourHistoryManager> tourHistoryManagers;
 
     public void update(PasswordEncoder passwordEncoder, String password, String nickname, String phoneNumber, String nationalCertificationOfGuideYn) {
 

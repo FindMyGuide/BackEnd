@@ -1,9 +1,11 @@
 package com.find_my_guide.main_tour_product.tour_product.domain;
 
+import com.find_my_guide.main_member.member.domain.entity.Member;
 import com.find_my_guide.main_tour_product.available_reservation_date.domain.AvailableDate;
 import com.find_my_guide.main_tour_product.common.domain.BaseEntity;
 import com.find_my_guide.main_tour_product.common.validation_field.Content;
 import com.find_my_guide.main_tour_product.common.validation_field.Title;
+import com.find_my_guide.main_tour_product.tour_history_manager.domain.TourHistoryManager;
 import com.find_my_guide.main_tour_product.tour_product_like.domain.TourProductLike;
 import com.find_my_guide.main_tour_product.tour_product_review.domain.TourProductReview;
 import com.find_my_guide.main_tour_product.tour_product_theme.domain.TourProductTheme;
@@ -32,6 +34,9 @@ public class TourProduct extends BaseEntity {
 
     @Embedded
     private Price price;
+
+    @OneToMany(mappedBy = "tourProduct", cascade = CascadeType.ALL)
+    private List<TourHistoryManager> tourHistoryManagers;
 
 
     @OneToMany(mappedBy = "tourProduct")
