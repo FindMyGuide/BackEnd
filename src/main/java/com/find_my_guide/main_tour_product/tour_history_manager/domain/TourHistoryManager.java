@@ -29,4 +29,30 @@ public class TourHistoryManager {
     private String tourStartDate;
     private String tourEndDate;
     private String guideLanguage;
+
+
+    public void addTourProduct(TourProduct tourProduct) {
+        this.tourProduct = tourProduct;
+        if (!this.tourProduct.getTourHistoryManagers().contains(this)) {
+            this.tourProduct.getTourHistoryManagers().add(this);
+        } else {
+            throw new IllegalArgumentException("이미 존재하는 내역입니다.");
+        }
+    }
+
+    public void addMember(Member member) {
+        this.member = member;
+
+        if (!this.member.getTourHistoryManagers().contains(this)) {
+            this.member.getTourHistoryManagers().add(this);
+        } else {
+            throw new IllegalArgumentException("이미 존재하는 내역입니다.");
+        }
+    }
+
+    public void update(String tourStartDate, String tourEndDate, String guideLanguage) {
+        this.tourStartDate = tourStartDate;
+        this.tourEndDate = tourEndDate;
+        this.guideLanguage = guideLanguage;
+    }
 }
