@@ -26,10 +26,6 @@ public class TourHistoryManager {
     @ManyToOne
     private TourProduct tourProduct;
 
-    private String tourStartDate;
-    private String tourEndDate;
-    private String guideLanguage;
-
 
     public void addTourProduct(TourProduct tourProduct) {
         this.tourProduct = tourProduct;
@@ -50,9 +46,4 @@ public class TourHistoryManager {
         }
     }
 
-    public void update(String tourStartDate, String tourEndDate, String guideLanguage) {
-        this.tourStartDate = tourStartDate;
-        this.tourEndDate = tourEndDate;
-        this.guideLanguage = guideLanguage;
-    }
 }

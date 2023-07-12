@@ -35,32 +35,16 @@ public class TourHistoryManagerService {
             throw new IllegalArgumentException("이미 같은 내역이 존재함");
         }
 
+        if (member.getTourHistoryManagers().contains(tourHistoryManager)) {
+            throw new IllegalArgumentException("이미 같은 내역이 존재함");
+        }
+
         tourHistoryManager.addTourProduct(tourProduct);
         tourHistoryManager.addMember(member);
 
         return new TourHistoryManagerResponse(tourHistoryManagerRepository.save(tourHistoryManager));
     }
 
-    @Transactional
-    public TourHistoryManagerResponse update(Long tourProductId, Long historyId, Long memberId, TourHistoryManagerRequest tourHistoryManagerRequest) {
-        findTourproductById(tourProductId);
-
-        TourHistoryManager manager = findTourHistoryManagerById(historyId);
-
-        matchTourProduct_TourHistoryManager(tourProductId, manager);
-
-        manager.update(tourHistoryManagerRequest.getTourStartDate(),
-                tourHistoryManagerRequest.getTourEndDate(),
-                tourHistoryManagerRequest.getGuideLanguage());
-
-        return new TourHistoryManagerResponse(tourHistoryManagerRepository.save(manager));
-    }
-
-    public void matchTourProduct_TourHistoryManager(Long tourProductId,  TourHistoryManager tourHistoryManager) {
-        if(!tourHistoryManager.getTourProduct().getTourProductId().equals(tourProductId)) {
-            throw new IllegalArgumentException("내역이 상품에 속하지 않습니다.");
-        }
-    }
 
 
     private TourProduct findTourproductById(Long id) {

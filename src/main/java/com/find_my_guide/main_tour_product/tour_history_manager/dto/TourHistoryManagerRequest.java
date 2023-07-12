@@ -11,16 +11,9 @@ import lombok.NoArgsConstructor;
 public class TourHistoryManagerRequest {
 
     private Long tourManagerHistoryId;
-    private String tourStartDate;
-    private String tourEndDate;
-    private String guideLanguage;
 
     public TourHistoryManager toTourHistoryManager() {
         return TourHistoryManager.builder()
-                .tourManagerHistoryId(tourManagerHistoryId)
-                .tourStartDate(tourStartDate)
-                .tourEndDate(tourEndDate)
-                .guideLanguage(guideLanguage)
                 .build();
     }
 }
