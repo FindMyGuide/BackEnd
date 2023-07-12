@@ -9,6 +9,7 @@ import com.find_my_guide.main_tour_product.tour_product.domain.TourProduct;
 import com.find_my_guide.main_tour_product.tour_product.dto.TourProductRequest;
 import com.find_my_guide.main_tour_product.tour_product.dto.TourProductResponse;
 import com.find_my_guide.main_tour_product.tour_product.repository.TourProductRepository;
+import com.find_my_guide.main_tour_product.tour_product_like.repository.TourProductLikeRepository;
 import com.find_my_guide.main_tour_product.tour_product_theme.dto.TourProductThemeRequest;
 import com.find_my_guide.main_tour_product.tour_product_theme.service.TourProductThemeService;
 import lombok.RequiredArgsConstructor;
@@ -16,6 +17,8 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.time.LocalDate;
+import java.util.Collections;
+import java.util.Comparator;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -27,6 +30,8 @@ public class TourProductService {
     private final TourProductRepository tourProductRepository;
     private final TourProductThemeService tourProductThemeService;
     private final AvailableService availableService;
+    private final TourProductLikeRepository tourProductLikeRepository;
+
 
     @Transactional
     public TourProductResponse addTourProduct(TourProductRequest tourProductRequest) {
@@ -69,6 +74,15 @@ public class TourProductService {
                 .collect(Collectors.toList());
     }
 
+    public List<TourProductResponse> showTourProductListInOrderLikes(){
+        List<TourProduct> tourProducts = tourProductRepository.findAll();
+        Collections.sort(tourProducts, Comparator.comparingLong(tourProduct -> countLikes(tourProduct.getTourProductId())));
+
+        return tourProducts.stream()
+                .map(TourProductResponse::new)
+                .collect(Collectors.toList());
+    }
+
     public List<AvailableDateResponse> availableDates(Long postId) {
         TourProduct tourProduct = findById(postId);
 
@@ -82,6 +96,11 @@ public class TourProductService {
         return new TourProductResponse(findById(id));
     }
 
+
+
+    public long countLikes(Long tourProductId) {
+        return tourProductLikeRepository.countByTourProduct_TourProductId(tourProductId);
+    }
 
     private TourProduct findById(Long id) {
         return tourProductRepository.findById(id).orElseThrow(() -> new IllegalArgumentException("존재 하지 않는 관광 상품 입니다."));

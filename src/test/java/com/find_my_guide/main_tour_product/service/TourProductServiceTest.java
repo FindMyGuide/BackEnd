@@ -1,27 +1,28 @@
 package com.find_my_guide.main_tour_product.service;
 
-import com.find_my_guide.main_tour_product.common.validation_field.Content;
-import com.find_my_guide.main_tour_product.common.validation_field.Title;
-import com.find_my_guide.main_tour_product.tour_product.domain.TourProduct;
-import com.find_my_guide.main_tour_product.tour_product.repository.TourProductRepository;
-import com.find_my_guide.main_tour_product.tour_product.service.TourProductService;
-import com.find_my_guide.main_tour_product.tour_product_review.domain.TourProductReview;
-import com.find_my_guide.main_tour_product.tour_product_review.dto.TourProductReviewRequest;
-import com.find_my_guide.main_tour_product.tour_product_review.dto.TourProductReviewResponse;
-import com.find_my_guide.main_tour_product.tour_product_review.service.TourProductReviewService;
-import org.junit.jupiter.api.Assertions;
-import org.junit.jupiter.api.DisplayName;
-import org.junit.jupiter.api.Test;
-import org.junit.jupiter.api.extension.ExtendWith;
-import org.mockito.InjectMocks;
-import org.mockito.Mock;
-import org.mockito.junit.jupiter.MockitoExtension;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.test.context.SpringBootTest;
+        import com.find_my_guide.main_tour_product.common.validation_field.Content;
+        import com.find_my_guide.main_tour_product.common.validation_field.Title;
+        import com.find_my_guide.main_tour_product.tour_product.domain.TourProduct;
+        import com.find_my_guide.main_tour_product.tour_product.repository.TourProductRepository;
+        import com.find_my_guide.main_tour_product.tour_product.service.TourProductService;
+        import com.find_my_guide.main_tour_product.tour_product_like.repository.TourProductLikeRepository;
+        import com.find_my_guide.main_tour_product.tour_product_review.domain.TourProductReview;
+        import com.find_my_guide.main_tour_product.tour_product_review.dto.TourProductReviewRequest;
+        import com.find_my_guide.main_tour_product.tour_product_review.dto.TourProductReviewResponse;
+        import com.find_my_guide.main_tour_product.tour_product_review.service.TourProductReviewService;
+        import org.junit.jupiter.api.Assertions;
+        import org.junit.jupiter.api.DisplayName;
+        import org.junit.jupiter.api.Test;
+        import org.junit.jupiter.api.extension.ExtendWith;
+        import org.mockito.InjectMocks;
+        import org.mockito.Mock;
+        import org.mockito.junit.jupiter.MockitoExtension;
+        import org.springframework.beans.factory.annotation.Autowired;
+        import org.springframework.boot.test.context.SpringBootTest;
 
-import static org.mockito.ArgumentMatchers.any;
-import static org.mockito.ArgumentMatchers.eq;
-import static org.mockito.Mockito.when;
+        import static org.mockito.ArgumentMatchers.any;
+        import static org.mockito.ArgumentMatchers.eq;
+        import static org.mockito.Mockito.when;
 
 @ExtendWith(MockitoExtension.class)
 @SpringBootTest
@@ -34,6 +35,9 @@ class TourProductServiceTest {
 
     @Mock
     TourProductRepository tourProductRepository;
+
+    @Mock
+    TourProductLikeRepository tourProductLikeRepository;
 
 
     @Mock
@@ -98,6 +102,7 @@ class TourProductServiceTest {
 
 
     }
+
 
 
 }

@@ -39,5 +39,12 @@ public class TourProductController {
         return ResponseEntity.ok(tourProductResponses);
     }
 
+    @GetMapping("/tourProducts/{tourProductId}/likes")
+    public Long showTourProductLikes(@PathVariable Long tourProductId){
+        long counts = tourProductService.countLikes(tourProductId);
+        return counts;
+    }
+
+
 
 }

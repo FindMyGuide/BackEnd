@@ -1,5 +1,6 @@
 package com.find_my_guide.main_tour_product.tour_product_like.domain;
 
+import com.find_my_guide.main_member.member.domain.entity.Member;
 import com.find_my_guide.main_tour_product.tour_product.domain.TourProduct;
 import lombok.*;
 
@@ -21,6 +22,8 @@ public class TourProductLike {
     private TourProduct tourProduct;
 
 
-    // 추후 MemberId 추가하기
+    @ManyToOne
+    @JoinColumn(name = "member_id")
+    private Member member;
 
 }

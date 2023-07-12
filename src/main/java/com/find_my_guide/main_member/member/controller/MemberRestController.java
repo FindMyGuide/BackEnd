@@ -1,13 +1,11 @@
 package com.find_my_guide.main_member.member.controller;
 
-import com.find_my_guide.main_member.member.domain.dto.CreateMemberRequest;
-import com.find_my_guide.main_member.member.domain.dto.CreateMemberResponse;
-import com.find_my_guide.main_member.member.domain.dto.DeleteMemberResponse;
-import com.find_my_guide.main_member.member.domain.dto.ReadMemberResponse;
-import com.find_my_guide.main_member.member.domain.dto.UpdateMemberRequest;
-import com.find_my_guide.main_member.member.domain.dto.UpdateMemberResponse;
+import com.find_my_guide.main_member.member.domain.dto.*;
+
 import java.net.URI;
 import javax.validation.Valid;
+
+import com.find_my_guide.main_member.member.service.MemberService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.DeleteMapping;
@@ -24,8 +22,8 @@ import org.springframework.web.bind.annotation.RestController;
 @RequestMapping("/find-my-guide")
 public class MemberRestController {
 
+    private final MemberService memberService;
 
-    private final com.find_my_guide.main_member.member.service.MemberService memberService;
     @PostMapping("/sign-up")
     public ResponseEntity<CreateMemberResponse> register(@RequestBody @Valid final CreateMemberRequest request) {
 
@@ -35,25 +33,34 @@ public class MemberRestController {
         return ResponseEntity.created(uri).body(response);
     }
 
+    @PostMapping("/sign-in")
+    public ResponseEntity<LoginMemberResponse> login(@RequestBody @Valid final LoginMemberRequest loginMemberRequest) {
+        LoginMemberResponse login = memberService.login(loginMemberRequest);
+        URI uri = URI.create("/find-my-guide/sign-in");
+
+        return ResponseEntity.created(uri).body(login);
+    }
+
     @GetMapping("/{email}")
-    public ResponseEntity<ReadMemberResponse> read(@PathVariable("email")final String email) {
+    public ResponseEntity<ReadMemberResponse> read(@PathVariable("email") final String email) {
 
         ReadMemberResponse response = memberService.readMember(email);
 
         return ResponseEntity.ok(response);
     }
 
-    @PutMapping("/update/{email}")
-    public ResponseEntity<UpdateMemberResponse> update(@PathVariable("email")final String email,
-                                                        @RequestBody @Valid final UpdateMemberRequest request) {
 
-        UpdateMemberResponse response = memberService.updateMember(email ,request);
+    @PutMapping("/update/{email}")
+    public ResponseEntity<UpdateMemberResponse> update(@PathVariable("email") final String email,
+                                                       @RequestBody @Valid final UpdateMemberRequest request) {
+
+        UpdateMemberResponse response = memberService.updateMember(email, request);
 
         return ResponseEntity.ok(response);
     }
 
     @DeleteMapping("/delete/{email}")
-    public ResponseEntity<DeleteMemberResponse> delete(@PathVariable("email")final String email) {
+    public ResponseEntity<DeleteMemberResponse> delete(@PathVariable("email") final String email) {
 
         DeleteMemberResponse response = memberService.deleteMember(email);
 

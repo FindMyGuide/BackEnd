@@ -18,7 +18,7 @@ public class Member {
 
     @Id
     @Column(name = "member_id")
-    @GeneratedValue(strategy = GenerationType.IDENTITY, generator = "MEM_SEQ")
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long idx;
 
     @Column(nullable = false)

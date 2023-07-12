@@ -1,21 +1,31 @@
 //회원등록
-POST localhost:8080/find-my-guide/sign-up
+POST http://localhost:8080/find-my-guide/sign-up
 Content-Type: application/json
 
 {
-  "email" : "abcde@naver.com",
-  "password" : "@qwe12345",
-  "nickname" : "kkkk",
+  "email" : "xodnjs8287@naver.com",
+  "password" : "twja0930!",
+  "nickname" : "test13",
   "nationality" : "KR",
   "gender" : "MALE",
-  "birthDate" : "19980000",
-  "phoneNumber" : "010-1000-1234",
+  "birthDate" : "19950930",
+  "phoneNumber" : "010-9249-1234",
   "nationalCertificationOfGuideYn" : "Y"
 }
 
 ###
+//회원 로그인
+POST http://localhost:8080/find-my-guide/sign-in
+Content-Type: application/json
+
+{
+  "email" : "xodnjs8287@naver.com",
+  "password": "twja0930!"
+
+}
+###
 //회원조회
-GET localhost:8080/find-my-guide/abcde@naver.com
+GET localhost:8080/find-my-guide/abcd@naver.com
 
 ###
 //회원수정
