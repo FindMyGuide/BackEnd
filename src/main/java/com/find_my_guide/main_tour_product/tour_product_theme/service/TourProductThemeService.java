@@ -25,22 +25,21 @@ public class TourProductThemeService {
 
 
     @Transactional
-    public TourProductThemeResponse addThemeToTourProduct(
-        TourProductThemeRequest tourProductThemeRequest) {
-        TourProduct tourProduct = tourProductRepository.findById(tourProductThemeRequest.getTourProductId())
-                .orElseThrow(() -> new IllegalArgumentException("이 투어는 존재하지 않습니다."));
+    public TourProductThemeResponse addThemeToTourProduct(TourProductThemeRequest tourProductThemeRequest) {
 
-        Theme theme = themeRepository.findById(tourProductThemeRequest.getThemeId())
-                .orElseThrow(() -> new IllegalArgumentException("이 테마는 없습니다"));
+        TourProductTheme tourProductTheme = TourProductTheme.builder().
+                tourProduct(findTourProduct(tourProductThemeRequest)).
+                theme(findTheme(tourProductThemeRequest)).build();
 
-        TourProductTheme tourProductTheme = TourProductTheme.builder()
-                .tourProduct(tourProduct)
-                .theme(theme)
-                .build();
+        return new TourProductThemeResponse(tourProductThemeRepository.save(tourProductTheme));
+    }
 
-        tourProductTheme = tourProductThemeRepository.save(tourProductTheme);
+    private Theme findTheme(TourProductThemeRequest tourProductThemeRequest) {
+        return themeRepository.findById(tourProductThemeRequest.getThemeId()).orElseThrow(() -> new IllegalArgumentException("이 테마는 없습니다"));
+    }
 
-        return new TourProductThemeResponse(tourProductTheme);
+    private TourProduct findTourProduct(TourProductThemeRequest tourProductThemeRequest) {
+        return tourProductRepository.findById(tourProductThemeRequest.getTourProductId()).orElseThrow(() -> new IllegalArgumentException("이 투어는 존재하지 않습니다."));
     }
 
 }

@@ -30,9 +30,7 @@ public class TourProductReviewService {
 
         TourProductReview tourProductReview = tourProductReviewRequest.toTourProductReview();
 
-        if (tourProduct.getTourProductReviews().contains(tourProductReview)) {
-            throw new IllegalArgumentException("이미 같은 리뷰가 존재함");
-        }
+        isSameReview(tourProduct.getTourProductReviews().contains(tourProductReview));
 
         tourProductReview.addReview(tourProduct);
 
@@ -40,13 +38,14 @@ public class TourProductReviewService {
         return new TourProductReviewResponse(tourProductReviewRepository.save(tourProductReview));
     }
 
+
     @Transactional
     public TourProductReviewResponse update(Long postId, Long reviewId, TourProductReviewRequest tourProductReviewRequest) {
         findTourProductById(postId);
 
         TourProductReview review = findReviewById(reviewId);
 
-        matchTourProductId_ReviewId(postId, review);
+        isMatchTourProductIdReviewId(postId, review);
 
         review.update(new Content(tourProductReviewRequest.getContent())
                 , new Rating(tourProductReviewRequest.getRating())
@@ -68,29 +67,30 @@ public class TourProductReviewService {
 
 
     public List<TourProductReviewResponse> reviewList(Long postId) {
-        List<TourProductReview> tourProductReviews = findTourProductById(postId).getTourProductReviews();
-
-        return tourProductReviews.stream()
+        return findTourProductById(postId).getTourProductReviews().stream()
                 .map(TourProductReviewResponse::new)
                 .collect(Collectors.toList());
 
     }
 
 
-    private void matchTourProductId_ReviewId(Long postId, TourProductReview review) {
-        if (!review.getTourProduct().getTourProductId().equals(postId)) {
-            throw new IllegalArgumentException("Review does not belong to the post");
-        }
+    private void isMatchTourProductIdReviewId(Long postId, TourProductReview review) {
+        isSameReview(!review.getTourProduct().getTourProductId().equals(postId));
     }
 
     private TourProductReview findReviewById(Long reviewId) {
-        TourProductReview review = tourProductReviewRepository.findById(reviewId)
+        return tourProductReviewRepository.findById(reviewId)
                 .orElseThrow(() -> new IllegalArgumentException("Review does not exist"));
-        return review;
     }
 
 
     private TourProduct findTourProductById(Long id) {
         return tourProductRepository.findById(id).orElseThrow(() -> new IllegalArgumentException("존재 하지 않는 관광 상품 입니다."));
+    }
+
+    private void isSameReview(boolean tourProduct) {
+        if (tourProduct) {
+            throw new IllegalArgumentException("이미_같은_리뷰가_존재함");
+        }
     }
 }

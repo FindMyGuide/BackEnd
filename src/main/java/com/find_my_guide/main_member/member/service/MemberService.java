@@ -6,14 +6,13 @@ import com.find_my_guide.main_member.common.NotFoundException;
 import com.find_my_guide.main_member.member.domain.dto.*;
 import com.find_my_guide.main_member.member.domain.entity.Member;
 import com.find_my_guide.main_member.member.repository.MemberRepository;
-
-import java.util.Optional;
-
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+
+import java.util.Optional;
 
 @Service
 @RequiredArgsConstructor
@@ -27,20 +26,11 @@ public class MemberService {
 
     @Transactional
     public CreateMemberResponse createMember(CreateMemberRequest memberRequest) {
-        if (findByEmail(memberRequest.getEmail()).isPresent()) {
-            log.error(memberRequest.getEmail() + " is duplicated");
-            throw new DuplicateException(memberRequest.getEmail(), ErrorCode.DUPLICATION);
-        }
+        isDuplicated(findByEmail(memberRequest.getEmail()), memberRequest.getEmail());
 
-        if (memberRepository.findByNickname(memberRequest.getNickname()).isPresent()) {
-            log.error(memberRequest.getNickname() + " is duplicated");
-            throw new DuplicateException(memberRequest.getNickname(), ErrorCode.DUPLICATION);
-        }
+        isDuplicated(memberRepository.findByNickname(memberRequest.getNickname()), memberRequest.getNickname());
 
-        if (memberRepository.findByPhoneNumber(memberRequest.getPhoneNumber()).isPresent()) {
-            log.error(memberRequest.getPhoneNumber() + " is duplicated");
-            throw new DuplicateException(memberRequest.getPhoneNumber(), ErrorCode.DUPLICATION);
-        }
+        isDuplicated(memberRepository.findByPhoneNumber(memberRequest.getPhoneNumber()), memberRequest.getPhoneNumber());
 
         Member member = memberRepository.save(memberRequest.toMember(passwordEncoder));
 
@@ -50,10 +40,7 @@ public class MemberService {
     public ReadMemberResponse readMember(String email) {
         Optional<Member> member = findByEmail(email);
 
-        if (member.isEmpty()) {
-            log.error(email + " is not found");
-            throw new NotFoundException(email, ErrorCode.NOT_FOUND);
-        }
+        isExistedEmail(member, email);
 
         return new ReadMemberResponse(member.get());
     }
@@ -62,10 +49,7 @@ public class MemberService {
     public UpdateMemberResponse updateMember(String email, UpdateMemberRequest memberRequest) {
         Optional<Member> member = findByEmail(email);
 
-        if (member.isEmpty()) {
-            log.error(email + " is not found");
-            throw new NotFoundException(email, ErrorCode.NOT_FOUND);
-        }
+        isExistedEmail(member, email);
 
         member.get()
                 .update(passwordEncoder,
@@ -81,10 +65,7 @@ public class MemberService {
     public DeleteMemberResponse deleteMember(String email) {
         Optional<Member> member = findByEmail(email);
 
-        if (member.isEmpty()) {
-            log.error(email + " is not found");
-            throw new NotFoundException(email, ErrorCode.NOT_FOUND);
-        }
+        isExistedEmail(member, email);
 
         memberRepository.delete(member.get());
         return new DeleteMemberResponse(member.get());
@@ -93,18 +74,33 @@ public class MemberService {
     public LoginMemberResponse login(LoginMemberRequest loginRequest) {
         Optional<Member> memberOpt = findByEmail(loginRequest.getEmail());
 
-        if (memberOpt.isEmpty()) {
-            log.error(loginRequest.getEmail() + " not found");
-            throw new NotFoundException(loginRequest.getEmail(), ErrorCode.NOT_FOUND);
-        }
+        isExistedEmail(memberOpt, loginRequest.getEmail());
 
         Member member = memberOpt.get();
+        isRightPassword(loginRequest, member);
+
+        return new LoginMemberResponse(member.getEmail(), member.getNickname());
+    }
+
+    private void isRightPassword(LoginMemberRequest loginRequest, Member member) {
         if (!passwordEncoder.matches(loginRequest.getPassword(), member.getPassword())) {
             log.error("Invalid password for email: " + loginRequest.getEmail());
             throw new IllegalArgumentException("Invalid password");
         }
+    }
 
-        return new LoginMemberResponse(member.getEmail(), member.getNickname());
+    private void isExistedEmail(Optional<Member> memberOpt, String loginRequest) {
+        if (memberOpt.isEmpty()) {
+            log.error(loginRequest + "is not found");
+            throw new NotFoundException(loginRequest, ErrorCode.NOT_FOUND);
+        }
+    }
+
+    private void isDuplicated(Optional<Member> memberRequest, String memberRequest1) {
+        if (memberRequest.isPresent()) {
+            log.error(memberRequest1 + " is duplicated");
+            throw new DuplicateException(memberRequest1, ErrorCode.DUPLICATION);
+        }
     }
 
     private Optional<Member> findByEmail(String email) {

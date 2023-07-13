@@ -1,8 +1,6 @@
 package com.find_my_guide.main_tour_product.tour_product.service;
 
-import com.find_my_guide.main_member.member.domain.entity.Member;
 import com.find_my_guide.main_member.member.repository.MemberRepository;
-import com.find_my_guide.main_member.member.service.MemberService;
 import com.find_my_guide.main_tour_product.available_reservation_date.dto.AvailableDateRequest;
 import com.find_my_guide.main_tour_product.available_reservation_date.dto.AvailableDateResponse;
 import com.find_my_guide.main_tour_product.available_reservation_date.service.AvailableService;
@@ -44,24 +42,23 @@ public class TourProductService {
         TourProduct tourProduct = tourProductRequest.toTourProduct();
         tourProduct = tourProductRepository.save(tourProduct);
 
-        Member member = memberRepository.findById(memberId)
-                .orElseThrow(() -> new IllegalArgumentException("존재하지 않은 회원"));
+        findMember(memberId);
 
-        for (Long themeId : tourProductRequest.getThemeIds()) {
-            TourProductThemeRequest tourProductThemeRequest = new TourProductThemeRequest(themeId, tourProduct.getTourProductId());
-            tourProductThemeService.addThemeToTourProduct(tourProductThemeRequest);
-        }
+        addTheme(tourProductRequest, tourProduct);
 
-        for (LocalDate availableDate : tourProductRequest.getAvailableDates()) {
-            AvailableDateRequest availableDateRequest = new AvailableDateRequest(availableDate);
-            availableService.registerDate(tourProduct.getTourProductId(), availableDateRequest);
-        }
+        addDates(tourProductRequest, tourProduct);
 
 
         tourHistoryManagerService.register(memberId, tourProduct.getTourProductId());
 
         return new TourProductResponse(tourProduct);
     }
+
+    private void findMember(Long memberId) {
+        memberRepository.findById(memberId)
+                .orElseThrow(() -> new IllegalArgumentException("존재하지 않은 회원"));
+    }
+
 
     @Transactional
     public TourProductResponse update(Long id, TourProductRequest tourProductRequest) {
@@ -85,7 +82,7 @@ public class TourProductService {
                 .collect(Collectors.toList());
     }
 
-    public List<TourProductResponse> showTourProductListInOrderLikes(){
+    public List<TourProductResponse> showTourProductListInOrderLikes() {
         List<TourProduct> tourProducts = tourProductRepository.findAll();
         Collections.sort(tourProducts, Comparator.comparingLong(tourProduct -> countLikes(tourProduct.getTourProductId())));
 
@@ -108,13 +105,27 @@ public class TourProductService {
     }
 
 
-
     public long countLikes(Long tourProductId) {
         return tourProductLikeRepository.countByTourProduct_TourProductId(tourProductId);
     }
 
     private TourProduct findById(Long id) {
         return tourProductRepository.findById(id).orElseThrow(() -> new IllegalArgumentException("존재 하지 않는 관광 상품 입니다."));
+    }
+
+
+    private void addDates(TourProductRequest tourProductRequest, TourProduct tourProduct) {
+        for (LocalDate availableDate : tourProductRequest.getAvailableDates()) {
+            AvailableDateRequest availableDateRequest = new AvailableDateRequest(availableDate);
+            availableService.registerDate(tourProduct.getTourProductId(), availableDateRequest);
+        }
+    }
+
+    private void addTheme(TourProductRequest tourProductRequest, TourProduct tourProduct) {
+        for (Long themeId : tourProductRequest.getThemeIds()) {
+            TourProductThemeRequest tourProductThemeRequest = new TourProductThemeRequest(themeId, tourProduct.getTourProductId());
+            tourProductThemeService.addThemeToTourProduct(tourProductThemeRequest);
+        }
     }
 
 

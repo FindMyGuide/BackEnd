@@ -10,8 +10,9 @@ import com.find_my_guide.main_tour_product.tour_product.domain.TourProduct;
 import com.find_my_guide.main_tour_product.tour_product.repository.TourProductRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
-
 import org.springframework.transaction.annotation.Transactional;
+
+import java.util.List;
 
 @Service
 @Transactional(readOnly = true)
@@ -25,34 +26,20 @@ public class TourHistoryManagerService {
 
     @Transactional
     public TourHistoryManagerResponse register(Long memberId, Long tourProductId) {
-        Member member = findMemberById(memberId);
         TourProduct tourProduct = findTourProductById(tourProductId);
 
-        if (member == null) {
-            throw new IllegalArgumentException("Member ID가 유효하지 않음: " + memberId);
-        }
-        if (tourProduct == null) {
-            throw new IllegalArgumentException("TourProduct ID가 유효하지 않음: " + tourProductId);
-        }
-
         TourHistoryManager tourHistoryManager = TourHistoryManager.builder()
-                .member(member)
+                .member(findMemberById(memberId))
                 .tourProduct(tourProduct)
                 .build();
 
-        if (tourProduct.getTourHistoryManagers().contains(tourHistoryManager)) {
-            throw new IllegalArgumentException("이미 같은 내역이 존재함");
-        }
+        isSameHistory(tourProduct.getTourHistoryManagers(), tourHistoryManager);
 
         tourHistoryManager.addTourProduct(tourProduct);
-        tourHistoryManager.addMember(member);
+        tourHistoryManager.addMember(findMemberById(memberId));
 
         return new TourHistoryManagerResponse(tourHistoryManagerRepository.save(tourHistoryManager));
     }
-
-
-
-
     @Transactional
     public TourHistoryManagerResponse addTourStartEndDate(Long memberId, Long tourProductId, TourHistoryManagerRequest tourHistoryManagerRequest) {
         Member member = findMemberById(memberId);
@@ -67,17 +54,19 @@ public class TourHistoryManagerService {
                 .build();
 
 
-        if (tourProduct.getTourHistoryManagers().contains(tourHistoryManager)) {
-            throw new IllegalArgumentException("이미 같은 내역이 존재함");
-        }
+        isSameHistory(tourProduct.getTourHistoryManagers(), tourHistoryManager);
 
-        if (member.getTourHistoryManagers().contains(tourHistoryManager)) {
-            throw new IllegalArgumentException("이미 같은 내역이 존재함");
-        }
+        isSameHistory(member.getTourHistoryManagers(), tourHistoryManager);
 
         tourHistoryManagerRepository.save(tourHistoryManager);
 
         return new TourHistoryManagerResponse(tourHistoryManager);
+    }
+
+    private void isSameHistory(List<TourHistoryManager> tourProduct, TourHistoryManager tourHistoryManager) {
+        if (tourProduct.contains(tourHistoryManager)) {
+            throw new IllegalArgumentException("이미 같은 내역이 존재함");
+        }
     }
 
 
@@ -90,9 +79,4 @@ public class TourHistoryManagerService {
         return memberRepository.findById(id).orElseThrow(() -> new IllegalArgumentException("존재하지 않는 회원 입니다."));
     }
 
-    private TourHistoryManager findTourHistoryManagerById(Long managerId) {
-        TourHistoryManager tourHistoryManager = tourHistoryManagerRepository.findById(managerId)
-                .orElseThrow(() -> new IllegalArgumentException("manager does not exist"));
-        return tourHistoryManager;
-    }
 }

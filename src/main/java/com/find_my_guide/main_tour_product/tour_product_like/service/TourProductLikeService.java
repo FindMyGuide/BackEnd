@@ -24,29 +24,25 @@ public class TourProductLikeService {
 
     @Transactional
     public TourProductLikeResponse addLike(TourProductLikeRequest request) {
-        TourProduct tourProduct = getTourProduct(request);
-
-        Member member = getMember(request);
 
         TourProductLike tourProductLike = TourProductLike.builder()
-                .tourProduct(tourProduct)
-                .member(member)
+                .tourProduct(getTourProduct(request))
+                .member(getMember(request))
                 .build();
 
-        tourProductLike = tourProductLikeRepository.save(tourProductLike);
+        tourProductLikeRepository.save(tourProductLike);
 
-        return new TourProductLikeResponse(tourProduct.getTourProductId(), member.getIdx());
+        return new TourProductLikeResponse(getTourProduct(request).getTourProductId(),
+                getMember(request).getIdx());
     }
 
     private TourProduct getTourProduct(TourProductLikeRequest request) {
-        TourProduct tourProduct = tourProductRepository.findById(request.getTourProductId())
+        return tourProductRepository.findById(request.getTourProductId())
                 .orElseThrow(() -> new IllegalArgumentException("TourProduct not found"));
-        return tourProduct;
     }
 
     private Member getMember(TourProductLikeRequest request) {
-        Member member = memberRepository.findById(request.getMemberId())
+        return memberRepository.findById(request.getMemberId())
                 .orElseThrow(() -> new IllegalArgumentException("Member not found"));
-        return member;
     }
 }

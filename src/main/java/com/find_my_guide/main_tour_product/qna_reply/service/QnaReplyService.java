@@ -24,16 +24,14 @@ public class QnaReplyService {
 
     @Transactional
     public QnaReplyResponse register(Long postId, QnaReplyRequest qnaReplyRequest) {
-        QnA qnA = findQnaById(postId);
 
         QnaReply qnaReply = qnaReplyRequest.toQnaReply();
-        qnaReply.setQna(qnA);
+
+        qnaReply.setQna(findQnaById(postId));
 
         QnaReply savedQnaReply = qnaReplyRepository.save(qnaReply);
 
-        if (Objects.isNull(savedQnaReply.getId())) {
-            throw new IllegalStateException("QnaReply could not be saved");
-        }
+        isQnaReplySaved(savedQnaReply);
 
         return new QnaReplyResponse(savedQnaReply);
     }
@@ -45,23 +43,30 @@ public class QnaReplyService {
 
         QnaReply reply = findReplyById(replyId);
 
-        matchQnaId_ReplyId(postId, reply);
+        matchQnaIdReplyId(postId, reply);
 
         reply.update(new Content(qnaReplyRequest.getContent()));
 
         return new QnaReplyResponse(qnaReplyRepository.save(reply));
     }
 
-    private void matchQnaId_ReplyId(Long postId, QnaReply reply) {
+    private void matchQnaIdReplyId(Long postId, QnaReply reply) {
         if (!reply.getQna().getQnaId().equals(postId)) {
             throw new IllegalArgumentException("Reply does not belong to th Qna");
         }
     }
 
+    private void isQnaReplySaved(QnaReply savedQnaReply) {
+        if (Objects.isNull(savedQnaReply.getId())) {
+            throw new IllegalStateException("QnaReply could not be saved");
+        }
+    }
+
+
     private QnaReply findReplyById(Long qnaId) {
-        QnaReply reply = qnaReplyRepository.findById(qnaId)
+        return qnaReplyRepository.findById(qnaId)
                 .orElseThrow(() -> new IllegalArgumentException("Qna does not exist"));
-        return reply;
+
     }
 
     private QnA findQnaById(Long id) {

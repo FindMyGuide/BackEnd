@@ -24,13 +24,17 @@ public class AvailableService {
 
         AvailableDate availableDate = availableDateRequest.toAvailableDateRequest();
 
-        if(tourProduct.getAvailableDates().contains(availableDate.getDate())){
-            throw new IllegalArgumentException("같은 날짜가 존재함");
-        }
+        isSameDate(tourProduct, availableDate);
 
         availableDate.addAvailableDate(tourProduct);
 
         return new AvailableDateResponse(availableDateRepository.save(availableDate));
+    }
+
+    private void isSameDate(TourProduct tourProduct, AvailableDate availableDate) {
+        if(tourProduct.getAvailableDates().contains(availableDate.getDate())){
+            throw new IllegalArgumentException("같은 날짜가 존재함");
+        }
     }
 
 
