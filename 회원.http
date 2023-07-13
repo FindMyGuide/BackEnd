@@ -25,7 +25,7 @@ Content-Type: application/json
 }
 ###
 //회원조회
-GET localhost:8080/find-my-guide/abcd@naver.com
+GET localhost:8080/find-my-guide/asdasd123@naver.com
 
 ###
 //회원수정

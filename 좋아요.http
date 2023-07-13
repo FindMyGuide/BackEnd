@@ -5,12 +5,12 @@ POST http://localhost:8080/tourProduct/like
 Content-Type: application/json
 
 {
-  "memberId": 6,
-  "tourProductId": 3
+  "memberId": 1,
+  "tourProductId": 1
 }
 
 ###
 // 좋아요 조회
 
-GET http://localhost:8080/tourProducts/3/likes
+GET http://localhost:8080/tourProducts/1/likes
 Content-Type: application/json

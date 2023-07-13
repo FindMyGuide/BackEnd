@@ -7,6 +7,7 @@ import javax.persistence.*;
 
 import com.find_my_guide.main_tour_product.tour_history_manager.domain.TourHistoryManager;
 import com.find_my_guide.main_tour_product.tour_product.domain.TourProduct;
+import com.find_my_guide.main_tour_product.tour_product_like.domain.TourProductLike;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;
@@ -55,6 +56,8 @@ public class Member {
     @OneToMany(mappedBy = "member", cascade = CascadeType.ALL)
     private List<TourHistoryManager> tourHistoryManagers = new ArrayList<>();
 
+    @OneToMany(mappedBy = "tourProduct", cascade = CascadeType.ALL)
+    private List<TourProductLike> tourProductLikes = new ArrayList<>();
     public void update(PasswordEncoder passwordEncoder, String password, String nickname, String phoneNumber, String nationalCertificationOfGuideYn) {
 
         if(!Objects.isNull(password)) {
