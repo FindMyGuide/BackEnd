@@ -20,15 +20,17 @@ public class TourProductController {
     private final TourProductThemeService tourProductThemeService;
     private final AvailableService availableService;
 
-    @PostMapping("/tourProduct")
+    @PostMapping("/tourProduct/register/{memberId}")
     public ResponseEntity<TourProductResponse> addTourProduct(
+            @PathVariable Long memberId,
             @RequestBody TourProductRequest tourProductRequest) {
         TourProductResponse tourProductResponse =
-                tourProductService.addTourProduct(tourProductRequest);
+                tourProductService.registerTourProduct(memberId, tourProductRequest);
         return ResponseEntity.ok(tourProductResponse);
     }
+
     @GetMapping("/tourProduct/{tourProductId}")
-    public ResponseEntity<TourProductResponse> detail(@Valid @PathVariable Long tourProductId){
+    public ResponseEntity<TourProductResponse> detail(@Valid @PathVariable Long tourProductId) {
         TourProductResponse tourProductResponse = tourProductService.detail(tourProductId);
         return ResponseEntity.ok(tourProductResponse);
     }
@@ -40,11 +42,10 @@ public class TourProductController {
     }
 
     @GetMapping("/tourProducts/{tourProductId}/likes")
-    public Long showTourProductLikes(@PathVariable Long tourProductId){
+    public Long showTourProductLikes(@PathVariable Long tourProductId) {
         long counts = tourProductService.countLikes(tourProductId);
         return counts;
     }
-
 
 
 }

@@ -1,10 +1,14 @@
 package com.find_my_guide.main_tour_product.tour_product.service;
 
+import com.find_my_guide.main_member.member.domain.entity.Member;
+import com.find_my_guide.main_member.member.repository.MemberRepository;
+import com.find_my_guide.main_member.member.service.MemberService;
 import com.find_my_guide.main_tour_product.available_reservation_date.dto.AvailableDateRequest;
 import com.find_my_guide.main_tour_product.available_reservation_date.dto.AvailableDateResponse;
 import com.find_my_guide.main_tour_product.available_reservation_date.service.AvailableService;
 import com.find_my_guide.main_tour_product.common.validation_field.Content;
 import com.find_my_guide.main_tour_product.common.validation_field.Title;
+import com.find_my_guide.main_tour_product.tour_history_manager.service.TourHistoryManagerService;
 import com.find_my_guide.main_tour_product.tour_product.domain.TourProduct;
 import com.find_my_guide.main_tour_product.tour_product.dto.TourProductRequest;
 import com.find_my_guide.main_tour_product.tour_product.dto.TourProductResponse;
@@ -31,27 +35,34 @@ public class TourProductService {
     private final TourProductThemeService tourProductThemeService;
     private final AvailableService availableService;
     private final TourProductLikeRepository tourProductLikeRepository;
+    private final TourHistoryManagerService tourHistoryManagerService;
+    private final MemberRepository memberRepository;
 
 
     @Transactional
-    public TourProductResponse addTourProduct(TourProductRequest tourProductRequest) {
+    public TourProductResponse registerTourProduct(Long memberId, TourProductRequest tourProductRequest) {
         TourProduct tourProduct = tourProductRequest.toTourProduct();
         tourProduct = tourProductRepository.save(tourProduct);
 
-        // 테마 등록
-        for(Long themeId : tourProductRequest.getThemeIds()) {
+        Member member = memberRepository.findById(memberId)
+                .orElseThrow(() -> new IllegalArgumentException("존재하지 않은 회원"));
+
+        for (Long themeId : tourProductRequest.getThemeIds()) {
             TourProductThemeRequest tourProductThemeRequest = new TourProductThemeRequest(themeId, tourProduct.getTourProductId());
             tourProductThemeService.addThemeToTourProduct(tourProductThemeRequest);
         }
 
-        // 날짜 등록
-        for(LocalDate availableDate : tourProductRequest.getAvailableDates()) {
+        for (LocalDate availableDate : tourProductRequest.getAvailableDates()) {
             AvailableDateRequest availableDateRequest = new AvailableDateRequest(availableDate);
             availableService.registerDate(tourProduct.getTourProductId(), availableDateRequest);
         }
 
+
+        tourHistoryManagerService.register(memberId, tourProduct.getTourProductId());
+
         return new TourProductResponse(tourProduct);
     }
+
     @Transactional
     public TourProductResponse update(Long id, TourProductRequest tourProductRequest) {
         TourProduct tourProduct = findById(id);

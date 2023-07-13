@@ -24,6 +24,12 @@ public class TourProductResponse {
 
     private BigDecimal price;
 
+    private BigDecimal mapX;
+
+    private BigDecimal mapY;
+
+    private String location;
+
     private List<AvailableDateResponse> availableDates;
 
     private List<TourProductThemeResponse> themeResponses;
@@ -35,6 +41,9 @@ public class TourProductResponse {
         this.id = tourProduct.getTourProductId();
         this.title = tourProduct.getTitle().getTitle();
         this.content = tourProduct.getContent().getContent();
+        this.mapX = tourProduct.getMapX();
+        this.mapY = tourProduct.getMapY();
+        this.location = tourProduct.getLocation();
         this.price = BigDecimal.valueOf(tourProduct.getPrice().getPrice().longValue());
         this.availableDates =  tourProduct.getAvailableDates().stream()
                 .map(AvailableDateResponse::new)

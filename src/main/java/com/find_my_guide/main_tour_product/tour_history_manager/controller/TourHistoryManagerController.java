@@ -16,14 +16,13 @@ public class TourHistoryManagerController {
 
     private final TourHistoryManagerService tourHistoryManagerService;
 
-    @PostMapping("/tourProduct/registerHistoryManager/{tourProductId}/{memberId}")
-    public ResponseEntity<TourHistoryManagerResponse> addHistoryManager(
-            @PathVariable Long memberId,
-            @PathVariable Long tourProductId,
-            @RequestBody TourHistoryManagerRequest tourHistoryManagerRequest
-            ) {
-        TourHistoryManagerResponse tourHistoryManagerResponse =
-                tourHistoryManagerService.register(memberId, tourProductId, tourHistoryManagerRequest);
-        return ResponseEntity.ok(tourHistoryManagerResponse);
-    }
+//    @PostMapping("/tourProduct/registerHistoryManager")
+//    public ResponseEntity<TourHistoryManagerResponse> addHistoryManager(
+//            @RequestBody TourHistoryManagerRequest tourHistoryManagerRequest
+//            ) {
+//
+//        TourHistoryManagerResponse tourHistoryManagerResponse =
+//                tourHistoryManagerService.register( tourHistoryManagerRequest);
+//        return ResponseEntity.ok(tourHistoryManagerResponse);
+//    }
 }

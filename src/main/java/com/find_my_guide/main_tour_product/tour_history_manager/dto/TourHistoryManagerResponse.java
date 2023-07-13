@@ -9,10 +9,16 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 @Getter
 public class TourHistoryManagerResponse {
-
-    private Long tourManagerHistoryId;
+    private Long guideId;
+    private Long memberId;
+    private Long tourProductId;
+    private String tourStartDate;
+    private String tourEndDate;
 
     public TourHistoryManagerResponse(TourHistoryManager tourHistoryManager) {
-        this.tourManagerHistoryId = tourHistoryManager.getTourManagerHistoryId();
+        this.guideId = tourHistoryManager.getGuideId();
+        this.memberId = tourHistoryManager.getMember().getIdx();
+        this.tourProductId = tourHistoryManager.getTourProduct().getTourProductId();
     }
+
 }

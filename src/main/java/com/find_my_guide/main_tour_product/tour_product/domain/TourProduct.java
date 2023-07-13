@@ -12,6 +12,7 @@ import com.find_my_guide.main_tour_product.tour_product_theme.domain.TourProduct
 import lombok.*;
 
 import javax.persistence.*;
+import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -35,8 +36,14 @@ public class TourProduct extends BaseEntity {
     @Embedded
     private Price price;
 
+    private BigDecimal mapX;
+
+    private BigDecimal mapY;
+
+    private String location;
+
     @OneToMany(mappedBy = "tourProduct", cascade = CascadeType.ALL)
-    private List<TourHistoryManager> tourHistoryManagers;
+    private List<TourHistoryManager> tourHistoryManagers = new ArrayList<>();
 
 
     @OneToMany(mappedBy = "tourProduct")
@@ -66,6 +73,13 @@ public class TourProduct extends BaseEntity {
             this.availableDates = new ArrayList<>();
         }
         return this.availableDates;
+    }
+
+    public List<TourHistoryManager> getTourHistoryManagers() {
+        if (this.tourHistoryManagers == null) {
+            this.tourHistoryManagers = new ArrayList<>();
+        }
+        return this.tourHistoryManagers;
     }
 
 

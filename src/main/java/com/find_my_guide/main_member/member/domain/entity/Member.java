@@ -1,5 +1,6 @@
 package com.find_my_guide.main_member.member.domain.entity;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
 import javax.persistence.*;
@@ -51,9 +52,8 @@ public class Member {
     @Column(name = "national_certification_of_guide_yn", nullable = false)
     private Boolean nationalCertificationOfGuideYn;
 
-    @OneToMany(mappedBy = "member")
-    @Column(name = "tourHistoryManager")
-    private List<TourHistoryManager> tourHistoryManagers;
+    @OneToMany(mappedBy = "member", cascade = CascadeType.ALL)
+    private List<TourHistoryManager> tourHistoryManagers = new ArrayList<>();
 
     public void update(PasswordEncoder passwordEncoder, String password, String nickname, String phoneNumber, String nationalCertificationOfGuideYn) {
 

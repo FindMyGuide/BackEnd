@@ -1,4 +1,5 @@
-POST http://localhost:8080/tourProduct
+POST http://localhost:8080/tourProduct/register/1
+// memberIdx 받아요
 Content-Type: application/json
 
 {
@@ -6,6 +7,9 @@ Content-Type: application/json
   "title": "Tour Title",
   "content": "Tour Description",
   "price": 120000,
+  "mapX" : "12",
+  "mapY" : "12",
+  "location": "해운대 암소갈비",
   "themeIds": [1],
   "availableDates": ["2023-08-01", "2023-08-02", "2023-08-03"]
 
@@ -13,8 +17,6 @@ Content-Type: application/json
 
 
 ###
-
-
 // 날짜 등록
 POST http://localhost:8080/postTourProduct/registerDate/1
 Content-Type: application/json
@@ -30,7 +32,7 @@ POST http://localhost:8080/postTheme
 Content-Type: application/json
 
 {
-  "themeTitle": "도보여행"
+  "themeTitle": "애견동반"
 }
 
 ###

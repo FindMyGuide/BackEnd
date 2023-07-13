@@ -3,13 +3,13 @@ POST http://localhost:8080/find-my-guide/sign-up
 Content-Type: application/json
 
 {
-  "email" : "xodnjs8287@naver.com",
-  "password" : "twja0930!",
-  "nickname" : "test13",
+  "email" : "asdasd123@naver.com",
+  "password" : "qpal123!",
+  "nickname" : "qpa",
   "nationality" : "KR",
   "gender" : "MALE",
   "birthDate" : "19950930",
-  "phoneNumber" : "010-9249-1234",
+  "phoneNumber" : "010-9231-1234",
   "nationalCertificationOfGuideYn" : "Y"
 }
 
@@ -19,8 +19,8 @@ POST http://localhost:8080/find-my-guide/sign-in
 Content-Type: application/json
 
 {
-  "email" : "xodnjs8287@naver.com",
-  "password": "twja0930!"
+  "email" : "asdasd123@naver.com",
+  "password": "qpal123!"
 
 }
 ###

@@ -10,6 +10,7 @@ import lombok.NoArgsConstructor;
 
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Positive;
+import java.math.BigDecimal;
 import java.time.LocalDate;
 import java.util.List;
 
@@ -26,6 +27,12 @@ public class TourProductRequest {
     @NotNull
     private String content;
 
+    private BigDecimal mapX;
+
+    private BigDecimal mapY;
+
+    private String location;
+
 
     @NotNull(message = "가격은 반드시 입력해야 합니다.")
     @Positive(message = "가격은 0보다 커야 합니다.")
@@ -41,6 +48,9 @@ public class TourProductRequest {
                 .title(new Title(title))
                 .content(new Content(content))
                 .price(new Price(price))
+                .mapX(this.mapX)
+                .mapY(this.mapY)
+                .location(this.location)
                 .build();
     }
 

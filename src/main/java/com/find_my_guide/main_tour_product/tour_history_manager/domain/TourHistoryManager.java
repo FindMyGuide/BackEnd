@@ -8,6 +8,7 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 
 import javax.persistence.*;
+import java.time.LocalDate;
 
 @Entity
 @Getter
@@ -18,13 +19,19 @@ public class TourHistoryManager {
 
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
-    private Long tourManagerHistoryId;
+    private Long guideId;
 
     @ManyToOne
+    @JoinColumn(name = "member_id")
     private Member member;
 
     @ManyToOne
+    @JoinColumn(name = "tour_product_id")
     private TourProduct tourProduct;
+
+    private LocalDate tourStartDate;
+
+    private LocalDate tourEndDate;
 
 
     public void addTourProduct(TourProduct tourProduct) {
