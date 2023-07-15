@@ -6,6 +6,8 @@ import lombok.Getter;
 @Getter
 public class ReadMemberResponse {
 
+    private String name;
+
     private String email;
 
     private String nickname;
@@ -21,6 +23,7 @@ public class ReadMemberResponse {
     private String nationalCertificationOfGuideYn;
 
     public ReadMemberResponse(Member member) {
+        this.name = member.getName();
         this.email = member.getEmail();
         this.nickname = member.getNickname();
         this.nationality = member.getNationality();

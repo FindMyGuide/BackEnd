@@ -6,7 +6,6 @@ import java.util.Objects;
 import javax.persistence.*;
 
 import com.find_my_guide.main_tour_product.tour_history_manager.domain.TourHistoryManager;
-import com.find_my_guide.main_tour_product.tour_product.domain.TourProduct;
 import com.find_my_guide.main_tour_product.tour_product_like.domain.TourProductLike;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -26,6 +25,9 @@ public class Member {
     @Column(name = "member_id")
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long idx;
+
+    @Column(nullable = false)
+    private String name;
 
     @Column(nullable = false)
     private String email;

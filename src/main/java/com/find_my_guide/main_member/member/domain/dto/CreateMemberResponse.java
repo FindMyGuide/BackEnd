@@ -10,6 +10,8 @@ public class CreateMemberResponse {
 
     private Long idx;
 
+    private String name;
+
     private String email;
 
     private String nickname;
@@ -26,6 +28,7 @@ public class CreateMemberResponse {
 
     public CreateMemberResponse(Member member) {
         this.idx = member.getIdx();
+        this.name = member.getName();
         this.email = member.getEmail();
         this.nickname = member.getNickname();
         this.nationality = member.getNationality();

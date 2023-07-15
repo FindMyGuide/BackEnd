@@ -6,9 +6,12 @@ import lombok.Getter;
 @Getter
 public class DeleteMemberResponse {
 
+    private String name;
+
     private String email;
 
     public DeleteMemberResponse(Member member) {
+        this.name = member.getName();
         this.email = member.getEmail();
     }
 }

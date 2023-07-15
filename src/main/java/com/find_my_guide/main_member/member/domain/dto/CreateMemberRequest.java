@@ -14,6 +14,9 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 @AllArgsConstructor
 @NoArgsConstructor
 public class CreateMemberRequest {
+
+    @Pattern(regexp = "^[가-힣]{2,4}|[a-zA-Z]{2,10}\\s[a-zA-Z]{2,10}$", message = "올바르지 않은 이름 형식입니다.")
+    private String name;
     @Email(message = "이메일 형식이 올바르지 않습니다.")
     private String email;
     @Pattern(regexp = "^(?=.*[a-zA-Z])(?=.*[!@#$%^*+=-])(?=.*[0-9]).{8,15}$", message = "비밀번호는 영문,숫자,특수기호를 포함한 8자리 이상, 15자리 이하이어야 합니다.")
@@ -29,6 +32,7 @@ public class CreateMemberRequest {
 
     public Member toMember(PasswordEncoder passwordEncoder) {
         return Member.builder()
+            .name(name)
             .email(email)
             .password(passwordEncoder.encode(password))
             .nickname(nickname)

@@ -43,6 +43,7 @@ class MemberServiceTest {
         memberService = new MemberService(memberRepository, passwordEncoder);
 
         memberRequest = new CreateMemberRequest(
+            "이현호",
             "abc@naver.com",
             "@qwer12345",
             "test",

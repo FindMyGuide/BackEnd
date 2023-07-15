@@ -33,6 +33,7 @@ class MemberRepositoryTest {
     void setUp() {
         passwordEncoder = new BCryptPasswordEncoder();
         memberRequest = new CreateMemberRequest(
+            "이현호",
             "abcde@naver.com",
             "@qwer12345",
             "test123",
