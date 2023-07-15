@@ -3,6 +3,7 @@ POST http://localhost:8080/find-my-guide/sign-up
 Content-Type: application/json
 
 {
+  "name" : "이현호",
   "email" : "asdasd123@naver.com",
   "password" : "qpal123!",
   "nickname" : "qpa",
