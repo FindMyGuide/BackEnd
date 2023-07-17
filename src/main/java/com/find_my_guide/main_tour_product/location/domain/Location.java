@@ -1,4 +1,4 @@
-package com.find_my_guide.main_tour_product.self_tour_location.domain;
+package com.find_my_guide.main_tour_product.location.domain;
 
 import com.find_my_guide.main_tour_product.common.validation_field.Title;
 import lombok.AllArgsConstructor;
@@ -13,7 +13,7 @@ import javax.persistence.*;
 @NoArgsConstructor
 @AllArgsConstructor
 @Builder
-public class SelfTourLocation {
+public class Location {
 
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
