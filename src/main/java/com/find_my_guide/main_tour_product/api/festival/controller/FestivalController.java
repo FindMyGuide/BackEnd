@@ -5,15 +5,17 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
 
+import java.util.List;
+
 @RestController
 @RequiredArgsConstructor
 public class FestivalController {
 
     private final FestivalService festivalService;
 
-    @GetMapping("/Festival")
+    @GetMapping("/festival") //TODO url에 대문자 제거
     @ResponseBody
-    public String FestivalResult() {
+    public List<String> FestivalResult() {
         return festivalService.getApi();
     }
 }

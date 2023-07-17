@@ -17,8 +17,7 @@ import java.util.List;
 public class TourProductController {
 
     private final TourProductService tourProductService;
-    private final TourProductThemeService tourProductThemeService;
-    private final AvailableService availableService;
+
 
     @PostMapping("/tourProduct/register/{memberId}")
     public ResponseEntity<TourProductResponse> addTourProduct(

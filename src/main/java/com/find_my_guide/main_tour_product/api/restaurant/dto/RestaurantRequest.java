@@ -10,7 +10,6 @@ import lombok.NoArgsConstructor;
 @Getter
 public class RestaurantRequest {
     private Long id;
-
     private String title;
     private String address;
     private String mapx;
@@ -20,20 +19,7 @@ public class RestaurantRequest {
     private String restaurantLcnc;
     private String introduce;
 
-    public Restaurant toRestaurant(Long id, String title, String address, String mapx, String mapy,
-                                   String telNo, String restaurantCode, String restaurantLcnc,
-                                   String introduce) {
-
-        this.id = id;
-        this.title = title;
-        this.address = address;
-        this.mapx = mapx;
-        this.mapy = mapy;
-        this.telNo = telNo;
-        this.restaurantCode = restaurantCode;
-        this.restaurantLcnc = restaurantLcnc;
-        this.introduce = introduce;
-
+    public Restaurant toRestaurant() {
         return Restaurant.builder()
                 .id(this.id)
                 .title(this.title)

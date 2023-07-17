@@ -24,6 +24,7 @@ public class FestivalDetailService {
     private final FestivalDetailRepository festivalDetailRepository;
     private final FestivalRepository festivalRepository;
 
+    @Transactional
     public String getApi(String festivalId) {
         String result;
 
@@ -77,6 +78,7 @@ public class FestivalDetailService {
         return result;
     }
 
+    @Transactional
     public void save(Long id, String place, String playtime, String startDate,
                      String expense, String content) {
 
@@ -89,7 +91,6 @@ public class FestivalDetailService {
         festivalDetail.setFestival(festival);
 
         festivalDetailRepository.save(festivalDetail);
-        System.out.println("저장완료");
     }
 
     private Festival findFestivalById(Long id) {
