@@ -2,6 +2,7 @@ package com.find_my_guide.main_tour_product.want_tour_product.domain;
 
 import com.find_my_guide.main_tour_product.common.validation_field.Content;
 import com.find_my_guide.main_tour_product.common.validation_field.Title;
+import com.find_my_guide.main_tour_product.want_reservation_date.domain.WantReservationDate;
 import com.find_my_guide.main_tour_product.want_tour_product_location.domain.WantTourProductLocation;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -33,6 +34,21 @@ public class WantTourProduct {
 
     @OneToMany(mappedBy = "wantTourProduct")
     private List<WantTourProductLocation> wantTourProductLocations = new ArrayList<>();
+
+    @OneToMany(mappedBy = "wantTourProduct")
+    private List<WantReservationDate> wantReservationDates = new ArrayList<>();
+
+
+    public void setWantReservationDates(List<WantReservationDate> wantReservationDates) {
+        this.wantReservationDates = wantReservationDates;
+    }
+
+    public List<WantReservationDate> wantReservationDates() {
+        if (this.wantReservationDates == null) {
+            this.wantReservationDates = new ArrayList<>();
+        }
+        return this.wantReservationDates;
+    }
 
    public void update(Title title, Content content) {
        this.title = title;
