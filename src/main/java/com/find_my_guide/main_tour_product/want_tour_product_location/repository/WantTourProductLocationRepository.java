@@ -1,4 +1,7 @@
 package com.find_my_guide.main_tour_product.want_tour_product_location.repository;
 
-public interface WantTourProductLocationRepository {
+import com.find_my_guide.main_tour_product.want_tour_product_location.domain.WantTourProductLocation;
+import org.springframework.data.jpa.repository.JpaRepository;
+
+public interface WantTourProductLocationRepository extends JpaRepository<WantTourProductLocation, Long> {
 }

@@ -10,6 +10,7 @@ import org.springframework.stereotype.Service;
 
 import org.springframework.transaction.annotation.Transactional;
 
+
 @Service
 @Transactional(readOnly = true)
 @RequiredArgsConstructor
@@ -37,5 +38,17 @@ public class LocationService {
         locationRepository.delete(location);
 
         return new LocationResponse(location);
+    }
+
+
+    public LocationResponse findByXY(LocationRequest locationRequest) {
+        // 있으면 있는거 호출 없으면 저장하고 호출
+
+        Location location = locationRepository.findLocationByMapXAndMapY(locationRequest.getMapX(), locationRequest.getMapY());
+        if (location.equals(null)) {
+            return register(locationRequest);
+        } else {
+            return new LocationResponse(location);
+        }
     }
 }

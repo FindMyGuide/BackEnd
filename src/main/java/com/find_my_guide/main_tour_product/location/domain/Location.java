@@ -7,6 +7,7 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 
 import javax.persistence.*;
+import java.math.BigDecimal;
 
 @Entity
 @Getter
@@ -17,15 +18,15 @@ public class Location {
 
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
-    private Long selfTourLocationId;
+    private Long locationId;
 
     @Embedded
     private Title title;
 
-    private String mapX;
-    private String mapY;
+    private BigDecimal mapX;
+    private BigDecimal mapY;
 
-    public void update(Title title, String mapX, String mapY) {
+    public void update(Title title, BigDecimal mapX, BigDecimal mapY) {
         this.title = title;
         this.mapX = mapX;
         this.mapY = mapY;
