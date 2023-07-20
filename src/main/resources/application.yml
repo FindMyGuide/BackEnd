@@ -13,6 +13,30 @@ spring:
         format_sql: true
         show_sql: true
 
+  security:
+    oauth2:
+      client:
+        registration:
+          kakao:
+            client-id: 178481d5fe03d8047894b6b3e726cfa4
+            client-secret: IWhrVhZ7dZDJBMQb5ClsN5K8BekN8UZO
+            redirect-uri: http://localhost:8080/find-my-guide
+            client-name: Kakao
+            authorization-grant-type: authorization_code
+            client-authentication-method: POST
+            scope:
+              - profile_nickname
+              - account_email
+              - gender
+
+
+        provider:
+          kakao:
+            authorization-uri: https://kauth.kakao.com/oauth/authorize
+            token-uri: https://kauth.kakao.com/oauth/token
+            user-info-uri: https://kapi.kakao.com/v2/user/me
+            user-name-attribute: id
+
 logging:
   level:
     org:

@@ -2,12 +2,15 @@ package com.find_my_guide.main_member.openapi.kakao;
 
 public class KakaoOauth {
     /*
-    REST API KEY : 8d334db8ec42264b271d7f2c6070d3d2
-    App ID : 931953
-    App Name : 파인드마이가이드
-    Redirect URI : https://finemyguide.com/oauth (임시)
-    Client Secret Code : Jdhq7DscYw0Kr3ndi9odQfDZI5BcAgy1
-    Logout Redirect URI : https://findmyguide.com/logout (임시)
+    REST API KEY : 178481d5fe03d8047894b6b3e726cfa4
+    App ID : 	942702
+    App Name : Find_My_Guide
+    Redirect URI : http://localhost:8080/find-my-guide
+    */
+
+    /*
+    http://localhost:8080/oauth2/authorization/kakao
+    위의 주소로 로그인 요청
     */
 
     public String sendRequest() {

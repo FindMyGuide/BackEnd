@@ -2,6 +2,8 @@ package com.find_my_guide.main_member.config;
 
 import com.find_my_guide.main_member.auth.LoginSuccessHandler;
 import com.find_my_guide.main_member.member.service.MemberDetailsService;
+import com.find_my_guide.main_member.member.service.OAuthService;
+import lombok.RequiredArgsConstructor;
 import org.springframework.context.annotation.Bean;
 import org.springframework.security.authentication.AuthenticationProvider;
 import org.springframework.security.authentication.dao.DaoAuthenticationProvider;
@@ -13,7 +15,10 @@ import org.springframework.security.web.SecurityFilterChain;
 import org.springframework.security.web.authentication.AuthenticationSuccessHandler;
 
 @EnableWebSecurity
+@RequiredArgsConstructor
 public class SecurityConfig {
+
+    private final OAuthService oAuthService;
 
     @Bean
     public SecurityFilterChain securityFilterChain(HttpSecurity httpSecurity) throws Exception {
@@ -38,7 +43,10 @@ public class SecurityConfig {
                 .invalidateHttpSession(true)        //세션초기화
                 .logoutSuccessUrl("/home")
                 .and()
-            //.oauth2Login()
+            .oauth2Login()
+                .userInfoEndpoint()
+                .userService(oAuthService)
+            .and().and()
             .build();
     }
 
