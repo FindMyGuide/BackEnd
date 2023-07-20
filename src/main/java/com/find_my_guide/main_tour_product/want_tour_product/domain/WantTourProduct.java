@@ -32,6 +32,9 @@ public class WantTourProduct {
     @Embedded
     private Content content;
 
+    @Embedded
+    private Vehicle vehicle;
+
     @OneToMany(mappedBy = "wantTourProduct")
     private List<WantTourProductLocation> wantTourProductLocations = new ArrayList<>();
 

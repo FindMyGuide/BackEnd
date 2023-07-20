@@ -1,5 +1,6 @@
 package com.find_my_guide.main_tour_product.want_tour_product.dto;
 
+import com.find_my_guide.main_tour_product.want_tour_product.domain.Vehicle;
 import com.find_my_guide.main_tour_product.want_tour_product.domain.WantTourProduct;
 import com.find_my_guide.main_tour_product.want_tour_product_location.dto.WantTourProductLocationResponse;
 import lombok.AllArgsConstructor;
@@ -19,6 +20,8 @@ public class WantTourProductResponse {
     private LocalDate createAt;
     private String title;
     private String content;
+
+    private Vehicle vehicle;
     private List<WantTourProductLocationResponse> locationResponses;
 
     public WantTourProductResponse(WantTourProduct wantTourProduct) {
@@ -26,6 +29,7 @@ public class WantTourProductResponse {
         this.createAt = wantTourProduct.getCreateAt();
         this.title = wantTourProduct.getTitle().getTitle();
         this.content = wantTourProduct.getContent().getContent();
+        this.vehicle = wantTourProduct.getVehicle();
         this.locationResponses = wantTourProduct.getWantTourProductLocations().stream()
                 .map(WantTourProductLocationResponse::new)
                 .collect(Collectors.toList());

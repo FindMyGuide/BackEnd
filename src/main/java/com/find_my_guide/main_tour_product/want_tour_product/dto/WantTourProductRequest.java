@@ -2,6 +2,7 @@ package com.find_my_guide.main_tour_product.want_tour_product.dto;
 
 import com.find_my_guide.main_tour_product.common.validation_field.Content;
 import com.find_my_guide.main_tour_product.common.validation_field.Title;
+import com.find_my_guide.main_tour_product.want_tour_product.domain.Vehicle;
 import com.find_my_guide.main_tour_product.want_tour_product.domain.WantTourProduct;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
@@ -25,6 +26,8 @@ public class WantTourProductRequest {
     @NotNull
     private String content;
 
+    private Vehicle vehicle;
+
     private List<Long> locationIds;
 
 
@@ -34,6 +37,7 @@ public class WantTourProductRequest {
                 .createAt(createAt)
                 .title(new Title(title))
                 .content(new Content(content))
+                .vehicle(vehicle)
                 .build();
     }
 }

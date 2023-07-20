@@ -14,6 +14,10 @@ public class WantReservationDateRequest {
 
     private LocalDate date;
 
+    public WantReservationDateRequest(String date) {
+        this.date = LocalDate.parse(date);
+    }
+
     public WantReservationDate toWantReservationDate() {
         return WantReservationDate.builder()
                 .date(date)

@@ -31,10 +31,13 @@ public class WantReservationDateService {
         return new WantReservationDateResponse(wantReservationDateRepository.save(wantReservationDate));
     }
 
-    @Transactional
-    public void deleteDate(Long wantTourProductId, Long wantReservationDateId) {
-
-    }
+//    @Transactional
+//    public void deleteDate(Long wantTourProductId, Long wantReservationDateId) {
+//        WantReservationDate wantReservationDate;
+//        wantReservationDate = wantReservationDateRepository
+//                .findByWantTourProductIdAndDateId(wantTourProductId, wantReservationDateId);
+//        wantReservationDateRepository.delete(wantReservationDate);
+//    }
 
     private void isSameDate(WantTourProduct wantTourProduct, WantReservationDate wantReservationDate) {
         if (wantTourProduct.getWantReservationDates().contains(wantReservationDate.getDate())) {
