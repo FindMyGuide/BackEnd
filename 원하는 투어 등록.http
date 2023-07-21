@@ -1,0 +1,29 @@
+POST localhost:8080/wantTourProduct/register/1
+Content-Type: application/json
+
+{
+  "title" : "원하는투어",
+  "content": "원하는투어2",
+  "price" : 10000,
+  "gender": "MALE",
+  "vehicle": "CAR",
+  "locationIds": [1],
+  "themeIds": [1],
+  "wantDates" : ["2023-08-01", "2023-08-02", "2023-08-03"]
+}
+
+###
+
+POST localhost:8080/location
+Content-Type: application/json
+
+{
+  "title": "해운대",
+  "mapX": 12.212,
+  "mapY": 213.123
+}
+
+###
+GET localhost:8080/wantTourProduct/20
+Content-Type: application/json
+
