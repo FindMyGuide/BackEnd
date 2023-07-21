@@ -10,6 +10,8 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.List;
+
 @Service
 @RequiredArgsConstructor
 public class WantReservationDateService {
@@ -40,10 +42,25 @@ public class WantReservationDateService {
 //    }
 
     private void isSameDate(WantTourProduct wantTourProduct, WantReservationDate wantReservationDate) {
-        if (wantTourProduct.getWantReservationDates().contains(wantReservationDate.getDate())) {
+        if (wantTourProduct == null) {
+            throw new IllegalArgumentException("wantTourProduct는 null이 될 수 없습니다.");
+        }
+
+        if (wantReservationDate == null) {
+            throw new IllegalArgumentException("wantReservationDate는 null이 될 수 없습니다.");
+        }
+
+        List<WantReservationDate> wantReservationDates = wantTourProduct.getWantReservationDates();
+
+        if (wantReservationDates == null) {
+            throw new IllegalArgumentException("WantReservationDates는 null이 될 수 없습니다.");
+        }
+
+        if (wantReservationDates.contains(wantReservationDate.getDate())) {
             throw new IllegalArgumentException("같은 날짜가 존재함");
         }
     }
+
 
 
     private WantTourProduct findWantTourProduct(Long id) {

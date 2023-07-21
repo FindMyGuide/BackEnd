@@ -7,7 +7,9 @@ import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 
+import java.math.BigDecimal;
 import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -17,16 +19,18 @@ import java.util.stream.Collectors;
 public class WantTourProductResponse {
 
     private Long id;
-    private LocalDate createAt;
+    private LocalDateTime createAt;
     private String title;
     private String content;
+    private BigDecimal price;
 
     private Vehicle vehicle;
     private List<WantTourProductLocationResponse> locationResponses;
 
     public WantTourProductResponse(WantTourProduct wantTourProduct) {
         this.id = wantTourProduct.getWantTourProductId();
-        this.createAt = wantTourProduct.getCreateAt();
+        this.createAt = wantTourProduct.getCreatedAt();
+        this.price = wantTourProduct.getPrice().getPrice();
         this.title = wantTourProduct.getTitle().getTitle();
         this.content = wantTourProduct.getContent().getContent();
         this.vehicle = wantTourProduct.getVehicle();

@@ -23,10 +23,13 @@ public class WantTourProductLocationService {
 
     @Transactional
     public WantTourProductLocationResponse addLocationToWantTourProduct(WantTourProductLocationRequest wantTourProductLocationRequest) {
+        Location location = findLocation(wantTourProductLocationRequest);
+        WantTourProduct wantTourProduct = findWantTourProduct(wantTourProductLocationRequest);
         WantTourProductLocation wantTourProductLocation = WantTourProductLocation.builder()
-                .wantTourProduct(findWantTourProduct(wantTourProductLocationRequest))
-                .location(findLocation(wantTourProductLocationRequest))
+                .wantTourProduct(wantTourProduct)
+                .location(location)
                 .build();
+
         return new WantTourProductLocationResponse(wantTourProductLocationRepository.save(wantTourProductLocation));
     }
 

@@ -27,9 +27,4 @@ public class LocationRequest {
                 .build();
     }
 
-    public LocationRequest(String title, BigDecimal mapX, BigDecimal mapY) {
-        this.title = title;
-        this.mapX = mapX;
-        this.mapY = mapY;
-    }
 }

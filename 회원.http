@@ -38,7 +38,8 @@ Content-Type: application/json
 {
   "password" : "@qwer1234567",
   "nickname" : "upgradeKKKK",
-  "phoneNumber" : "010-4321-1234"
+  "phoneNumber" : "010-4321-1234",
+
 }
 
 ###

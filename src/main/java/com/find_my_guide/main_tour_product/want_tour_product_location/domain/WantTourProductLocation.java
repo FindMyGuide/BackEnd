@@ -18,9 +18,11 @@ public class WantTourProductLocation {
     private Long id;
 
     @ManyToOne
+    @JoinColumn(name = "want_tour_product_id")
     private WantTourProduct wantTourProduct;
 
     @ManyToOne
+    @JoinColumn(name = "location_id")
     private Location location;
 
     public void saveWantTourProduct(WantTourProduct wantTourProduct) {
@@ -30,4 +32,5 @@ public class WantTourProductLocation {
     public void saveLocation(Location location) {
         this.location = location;
     }
+
 }

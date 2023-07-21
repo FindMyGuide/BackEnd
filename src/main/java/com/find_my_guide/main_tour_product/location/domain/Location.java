@@ -1,6 +1,7 @@
 package com.find_my_guide.main_tour_product.location.domain;
 
 import com.find_my_guide.main_tour_product.common.validation_field.Title;
+import com.find_my_guide.main_tour_product.want_tour_product.domain.WantTourProduct;
 import com.find_my_guide.main_tour_product.want_tour_product_location.domain.WantTourProductLocation;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -37,4 +38,5 @@ public class Location {
         this.mapX = mapX;
         this.mapY = mapY;
     }
+
 }
