@@ -2,11 +2,13 @@ package com.find_my_guide.main_member.common;
 
 import com.find_my_guide.main_member.member.domain.entity.Member;
 import java.util.Map;
+import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;
 
 @Getter
 @Builder
+@AllArgsConstructor
 public class KakaoOAuthAttribute {
 
     private Map<String, Object> attributes;
@@ -17,7 +19,7 @@ public class KakaoOAuthAttribute {
     public static KakaoOAuthAttribute ofKakao(String userNameAttributeName, Map<String, Object> attributes) {
 
         Map<String, Object> response = (Map<String, Object>) attributes.get("kakao_account");
-        Map<String, Object> account = (Map<String, Object>) attributes.get("profile");
+        Map<String, Object> account = (Map<String, Object>) response.get("profile");
 
         return KakaoOAuthAttribute.builder()
             .name((String) account.get("nickname"))
