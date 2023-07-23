@@ -18,14 +18,14 @@ public class KakaoOAuthAttribute {
 
     public static KakaoOAuthAttribute ofKakao(String userNameAttributeName, Map<String, Object> attributes) {
 
-        Map<String, Object> response = (Map<String, Object>) attributes.get("kakao_account");
-        Map<String, Object> account = (Map<String, Object>) response.get("profile");
+        Map<String, Object> kakaoAccount = (Map<String, Object>) attributes.get("kakao_account");
+        Map<String, Object> profile = (Map<String, Object>) kakaoAccount.get("profile");
 
         return KakaoOAuthAttribute.builder()
-            .name((String) account.get("nickname"))
-            .email((String) response.get("email"))
-            .attributes(response)
+            .name((String) profile.get("nickname"))
+            .email((String) kakaoAccount.get("email"))
             .nameAttributeKey(userNameAttributeName)
+            .attributes(attributes)
             .build();
     }
 
@@ -33,6 +33,7 @@ public class KakaoOAuthAttribute {
         return Member.builder()
             .nickname(name)
             .email(email)
+            .nationalCertificationOfGuideYn(false)
             .build();
     }
 

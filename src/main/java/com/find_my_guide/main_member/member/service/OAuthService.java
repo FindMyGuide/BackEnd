@@ -7,6 +7,7 @@ import com.find_my_guide.main_member.member.domain.dto.OAuthMemberResponse;
 import com.find_my_guide.main_member.member.domain.entity.Member;
 import com.find_my_guide.main_member.member.repository.MemberRepository;
 import java.util.Collections;
+import java.util.Optional;
 import javax.servlet.http.HttpSession;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -50,14 +51,13 @@ public class OAuthService implements OAuth2UserService<OAuth2UserRequest, OAuth2
     }
 
     private OAuthMemberResponse createOAuthMember(KakaoOAuthAttribute attribute) {
-
-        if(memberRepository.findByEmail(attribute.getEmail()).isPresent()) {
-            log.error(attribute.getEmail() + " is duplicated");
-            throw new DuplicateException(attribute.getEmail(), ErrorCode.DUPLICATION);
+        Optional<Member> member = memberRepository.findByEmail(attribute.getEmail());
+        if(member.isPresent()) {
+            return new OAuthMemberResponse(member.get());
         }
 
-        Member member = memberRepository.save(attribute.toEntity());
+        Member saveMember = memberRepository.save(attribute.toEntity());
 
-        return new OAuthMemberResponse(member);
+        return new OAuthMemberResponse(saveMember);
     }
 }
