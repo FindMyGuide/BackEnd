@@ -24,6 +24,6 @@ public class LoginSuccessHandler  extends SavedRequestAwareAuthenticationSuccess
         session.setAttribute("id", id);
 
         super.onAuthenticationSuccess(request, response, authentication);
-        response.sendRedirect("/home");
+        response.sendRedirect("/find-my-guide");
     }
 }

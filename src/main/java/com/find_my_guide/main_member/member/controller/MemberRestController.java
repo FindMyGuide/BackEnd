@@ -41,7 +41,7 @@ public class MemberRestController {
         return ResponseEntity.created(uri).body(login);
     }
 
-    @GetMapping("/{email}")
+    @GetMapping("/members/{email}")
     public ResponseEntity<ReadMemberResponse> read(@PathVariable("email") final String email) {
 
         ReadMemberResponse response = memberService.readMember(email);
@@ -50,7 +50,7 @@ public class MemberRestController {
     }
 
 
-    @PutMapping("/update/{email}")
+    @PutMapping("/members/{email}")
     public ResponseEntity<UpdateMemberResponse> update(@PathVariable("email") final String email,
                                                        @RequestBody @Valid final UpdateMemberRequest request) {
 
@@ -59,7 +59,7 @@ public class MemberRestController {
         return ResponseEntity.ok(response);
     }
 
-    @DeleteMapping("/delete/{email}")
+    @DeleteMapping("/members/{email}")
     public ResponseEntity<DeleteMemberResponse> delete(@PathVariable("email") final String email) {
 
         DeleteMemberResponse response = memberService.deleteMember(email);

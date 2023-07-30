@@ -16,7 +16,7 @@ Content-Type: application/json
 
 ###
 //회원 로그인
-POST http://localhost:8080/find-my-guide/sign-in
+POST http://localhost:8080/find-my-guide/login
 Content-Type: application/json
 
 {
@@ -26,22 +26,21 @@ Content-Type: application/json
 }
 ###
 //회원조회
-GET localhost:8080/find-my-guide/asdasd123@naver.com
+GET localhost:8080/find-my-guide/members/asdasd123@naver.com
 
 ###
 //회원수정
 //비밀번호, 닉네임, 휴대폰번호, 자격증여부 필드만 변경가능
 //변경할 필드만 입력하면 됨
-PUT localhost:8080/find-my-guide/update/abcde@naver.com
+PUT localhost:8080/find-my-guide/members/abcde@naver.com
 Content-Type: application/json
 
 {
   "password" : "@qwer1234567",
   "nickname" : "upgradeKKKK",
-  "phoneNumber" : "010-4321-1234",
-
+  "phoneNumber" : "010-4321-1234"
 }
 
 ###
 //회원삭제
-DELETE localhost:8080/find-my-guide/delete/abcde@naver.com
+DELETE localhost:8080/find-my-guide/members/abcde@naver.com

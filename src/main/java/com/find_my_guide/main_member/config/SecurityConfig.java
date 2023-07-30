@@ -34,14 +34,16 @@ public class SecurityConfig {
             .formLogin()
                 .usernameParameter("id")
                 .passwordParameter("pwd")
-                .loginPage("/login")    // 사용자 정의 로그인 페이지, default: /login
-                .loginProcessingUrl("/login")   // 로그인 Form Action Url, default: /login
+                .loginPage("/find-my-guide/login")    // 사용자 정의 로그인 페이지, default: /login
+                .loginProcessingUrl("/find-my-guide/login")   // 로그인 Form Action Url, default: /login
+                .failureUrl("/find-my-guide/login")     //로그인 실패 시 이동할 URL
                 .successHandler(loginSuccessHandler())
                 .and()
             .logout()
                 .deleteCookies("JSESSIONID")
                 .invalidateHttpSession(true)        //세션초기화
-                .logoutSuccessUrl("/home")
+                .logoutUrl("/find-my-guide/logout")
+                .logoutSuccessUrl("/find-my-guide")
                 .and()
             .oauth2Login()
                 .userInfoEndpoint()
