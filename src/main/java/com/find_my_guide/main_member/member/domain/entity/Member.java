@@ -56,6 +56,9 @@ public class Member {
     @Column(name = "national_certification_of_guide_yn", nullable = false)
     private Boolean nationalCertificationOfGuideYn;
 
+    @Column
+    private String refreshToken;
+
     @OneToMany(mappedBy = "member")
     private List<WantTourProduct> wantTourProducts = new ArrayList<>();
 
@@ -81,5 +84,9 @@ public class Member {
         if(!Objects.isNull(nationalCertificationOfGuideYn)) {
             this.nationalCertificationOfGuideYn = nationalCertificationOfGuideYn.equalsIgnoreCase("Y");
         }
+    }
+
+    public void updateRefreshToken(String refreshToken) {
+        this.refreshToken = refreshToken;
     }
 }

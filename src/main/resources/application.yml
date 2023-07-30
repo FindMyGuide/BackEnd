@@ -49,3 +49,14 @@ logging:
         type:
           descriptor:
             sql: trace
+
+jwt:
+  secretKey: JWTFindMyGuide123JWTFindMyGuide123JWTFindMyGuide123JWTFindMyGuide123   #HS512 암호화 알고리즘 사용으로 인해 64바이트 이상 필요
+
+  access:
+    expiration: 3600000             #1시간(1000(ms->s) * 60(s->m) * 60(m->h))
+    header: Authorization           #액세스토큰 담을 헤더 이름
+
+  refresh:
+    expiration: 1209600000          #2주(1000(ms->s) * 60(s->m) * 60(m->h) * 24(h->day) * 14(2주))
+    header: Authorization-refresh   #리프레시토큰 담을 헤더 이름
