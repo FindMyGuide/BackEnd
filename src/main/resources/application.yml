@@ -1,0 +1,62 @@
+spring:
+  datasource:
+    url: jdbc:mysql://43.201.21.169:3306/find_my_guide
+    username: root
+    password: qpal12!@
+
+  jpa:
+    hibernate:
+      ddl-auto: update
+
+  mvc:
+    path match:
+      matching-strategy: ant_path_matcher
+
+    properties:
+      hibernate:
+        format_sql: true
+        show_sql: true
+
+  security:
+    oauth2:
+      client:
+        registration:
+          kakao:
+            client-id: 178481d5fe03d8047894b6b3e726cfa4
+            client-secret: IWhrVhZ7dZDJBMQb5ClsN5K8BekN8UZO
+            redirect-uri: http://localhost:8080/login/oauth2/code/kakao
+            client-name: Kakao
+            authorization-grant-type: authorization_code
+            client-authentication-method: POST
+            scope:
+              - profile_nickname
+              - account_email
+              - gender
+
+
+        provider:
+          kakao:
+            authorization-uri: https://kauth.kakao.com/oauth/authorize
+            token-uri: https://kauth.kakao.com/oauth/token
+            user-info-uri: https://kapi.kakao.com/v2/user/me
+            user-name-attribute: id
+
+logging:
+  level:
+    org:
+      hibernate:
+        sql: debug
+        type:
+          descriptor:
+            sql: trace
+
+jwt:
+  secretKey: JWTFindMyGuide123JWTFindMyGuide123JWTFindMyGuide123JWTFindMyGuide123   #HS512 암호화 알고리즘 사용으로 인해 64바이트 이상 필요
+
+  access:
+    expiration: 3600000             #1시간(1000(ms->s) * 60(s->m) * 60(m->h))
+    header: Authorization           #액세스토큰 담을 헤더 이름
+
+  refresh:
+    expiration: 1209600000          #2주(1000(ms->s) * 60(s->m) * 60(m->h) * 24(h->day) * 14(2주))
+    header: Authorization-refresh   #리프레시토큰 담을 헤더 이름

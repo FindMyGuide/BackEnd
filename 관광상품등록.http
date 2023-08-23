@@ -1,0 +1,51 @@
+POST http://localhost:8080/tourProduct/register/1
+// memberIdx 받아요
+Content-Type: application/json
+
+{
+
+  "title": "Tour Title",
+  "content": "Tour Description",
+  "price": 120000,
+  "mapX" : "12",
+  "mapY" : "12",
+  "location": "해운대 암소갈비",
+  "themeIds": [1],
+  "availableDates": ["2023-08-01", "2023-08-02", "2023-08-03"]
+
+}
+
+
+###
+// 날짜 등록
+POST http://localhost:8080/postTourProduct/registerDate/1
+Content-Type: application/json
+
+{
+  "date": "2023-07-06"
+}
+###
+
+
+// 테마 등록
+POST http://localhost:8080/postTheme
+Content-Type: application/json
+
+{
+  "themeTitle": "애견동반"
+}
+
+###
+
+// 관광 상품에 테마 등록
+POST http://localhost:8080/tourProduct/registerTheme/1
+Content-Type: application/json
+
+{
+  "themeId": 1,
+  "tourProductId": 1
+}
+
+
+
+

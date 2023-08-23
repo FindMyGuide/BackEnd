@@ -1,0 +1,46 @@
+//회원등록
+POST http://localhost:8080/find-my-guide/sign-up
+Content-Type: application/json
+
+{
+  "name" : "이현호",
+  "email" : "asdasd123@naver.com",
+  "password" : "qpal123!",
+  "nickname" : "qpa",
+  "nationality" : "KR",
+  "gender" : "MALE",
+  "birthDate" : "19950930",
+  "phoneNumber" : "010-9231-1234",
+  "nationalCertificationOfGuideYn" : "Y"
+}
+
+###
+//회원 로그인
+POST http://localhost:8080/find-my-guide/login
+Content-Type: application/json
+
+{
+  "email" : "asdasd123@naver.com",
+  "password": "qpal123!"
+
+}
+###
+//회원조회
+GET localhost:8080/find-my-guide/members/asdasd123@naver.com
+
+###
+//회원수정
+//비밀번호, 닉네임, 휴대폰번호, 자격증여부 필드만 변경가능
+//변경할 필드만 입력하면 됨
+PUT localhost:8080/find-my-guide/members/abcde@naver.com
+Content-Type: application/json
+
+{
+  "password" : "@qwer1234567",
+  "nickname" : "upgradeKKKK",
+  "phoneNumber" : "010-4321-1234"
+}
+
+###
+//회원삭제
+DELETE localhost:8080/find-my-guide/members/abcde@naver.com

@@ -1,0 +1,16 @@
+###
+// 좋아요 등록
+
+POST http://localhost:8080/tourProduct/like
+Content-Type: application/json
+
+{
+  "memberId": 1,
+  "tourProductId": 1
+}
+
+###
+// 좋아요 조회
+
+GET http://localhost:8080/tourProducts/1/likes
+Content-Type: application/json
