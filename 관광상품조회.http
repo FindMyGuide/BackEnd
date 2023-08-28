@@ -12,3 +12,6 @@ Content-Type: application/json
 //좋아요순 조회
 GET http://localhost:8080/tourPr`oducts/likes
 Content-Type: application/json
+
+###
+// 잠깐 써놓는 글
