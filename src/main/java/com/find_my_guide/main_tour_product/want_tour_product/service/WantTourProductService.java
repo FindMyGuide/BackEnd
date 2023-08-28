@@ -39,9 +39,9 @@ public class WantTourProductService {
     private final WantTourProductThemeService wantTourProductThemeService;
     private final WantReservationDateService wantReservationDateService;
     @Transactional
-    public WantTourProductResponse registerWantTourProduct(Long memberId, WantTourProductRequest wantTourProductRequest) {
+    public WantTourProductResponse registerWantTourProduct(String memberId, WantTourProductRequest wantTourProductRequest) {
         WantTourProduct wantTourProduct = wantTourProductRequest.toWantTourProduct();
-        Member member = memberRepository.findById(memberId)
+        Member member = memberRepository.findByEmail(memberId)
                 .orElseThrow(() -> new IllegalArgumentException("존재하지 않는 회원입니다."));
         wantTourProduct.setMember(member);
 

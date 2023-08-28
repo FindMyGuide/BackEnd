@@ -1,75 +1,71 @@
 package com.find_my_guide.main_member.config;
 
-import com.find_my_guide.main_member.auth.LoginSuccessHandler;
-import com.find_my_guide.main_member.member.service.MemberDetailsService;
+import com.find_my_guide.main_member.filter.JwtAuthenticationFilter;
+import com.find_my_guide.main_member.filter.JwtAuthenticationProvider;
+import com.find_my_guide.main_member.jwt.service.JwtTokenUtil;
+import com.find_my_guide.main_member.member.domain.entity.Member;
+import com.find_my_guide.main_member.member.service.MemberService;
+import com.find_my_guide.main_member.member.service.PJTNameUserDetailsService;
 import com.find_my_guide.main_member.member.service.OAuthService;
 import lombok.RequiredArgsConstructor;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.ApplicationContext;
 import org.springframework.context.annotation.Bean;
-import org.springframework.security.authentication.AuthenticationProvider;
-import org.springframework.security.authentication.dao.DaoAuthenticationProvider;
+import org.springframework.context.annotation.Configuration;
+import org.springframework.security.authentication.AuthenticationManager;
+import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
+import org.springframework.security.config.http.SessionCreationPolicy;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
-import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.SecurityFilterChain;
-import org.springframework.security.web.authentication.AuthenticationSuccessHandler;
+import org.springframework.security.web.authentication.logout.LogoutFilter;
 
 @EnableWebSecurity
+@Configuration
 @RequiredArgsConstructor
 public class SecurityConfig {
 
-    private final OAuthService oAuthService;
+    private final JwtAuthenticationProvider jwtAuthenticationProvider;
 
-    @Bean
-    public SecurityFilterChain securityFilterChain(HttpSecurity httpSecurity) throws Exception {
-        return httpSecurity
-            .httpBasic()
-                .disable()      //disable 설정을 하지 않으면 Http basic Auth 기반의 로그인 창이 뜬다. 기본창을 뜨지 않게 할 때 사용, Jwt 인증방식을 이용할 때도 disable로 설정
-            .csrf()
-                .disable()           //csrf 토큰을 통해 web을 통해 들어오는 C, U, D를 막을 수 있음 지금은 rest api라서 disable이지만 브라우저를 통해 들어올때는 enable로 설정
-            .authorizeHttpRequests()
-                //.antMatchers("인증된 유저만 접속될 URL").authenticated()
-                .anyRequest().permitAll()
-                .and()
-            .formLogin()
-                .usernameParameter("id")
-                .passwordParameter("pwd")
-                .loginPage("/find-my-guide/login")    // 사용자 정의 로그인 페이지, default: /login
-                .loginProcessingUrl("/find-my-guide/login")   // 로그인 Form Action Url, default: /login
-                .failureUrl("/find-my-guide/login")     //로그인 실패 시 이동할 URL
-                .successHandler(loginSuccessHandler())
-                .and()
-            .logout()
-                .deleteCookies("JSESSIONID")
-                .invalidateHttpSession(true)        //세션초기화
-                .logoutUrl("/find-my-guide/logout")
-                .logoutSuccessUrl("/find-my-guide")
-                .and()
-            .oauth2Login()
-                .userInfoEndpoint()
-                .userService(oAuthService)
-            .and().and()
-            .build();
-    }
+    private final ApplicationContext context;
 
 
     @Bean
-    public PasswordEncoder passwordEncoder() {
+    public BCryptPasswordEncoder passwordEncoder() {
         return new BCryptPasswordEncoder();
     }
 
+    // custom authenticationProvider를 authetnicationManager를 통해 Bean 주입
     @Bean
-    public AuthenticationSuccessHandler loginSuccessHandler() {
-        return new LoginSuccessHandler();
+    public AuthenticationManager authenticationManager(HttpSecurity http) throws Exception {
+        AuthenticationManagerBuilder authenticationManagerBuilder = http.getSharedObject(AuthenticationManagerBuilder.class);
+        authenticationManagerBuilder.authenticationProvider(jwtAuthenticationProvider);
+        return authenticationManagerBuilder.build();
     }
 
     @Bean
-    public AuthenticationProvider authenticationProvider(MemberDetailsService memberDetailsService) {
-        DaoAuthenticationProvider authenticationProvider = new DaoAuthenticationProvider();
-        authenticationProvider.setUserDetailsService(memberDetailsService);
-        authenticationProvider.setPasswordEncoder(passwordEncoder());
-
-        return authenticationProvider;
+    // join 과 login을 제외한 모든 요청에 인증(custom filter를 거치게) 사용.
+    public SecurityFilterChain filterChain(
+            @Autowired HttpSecurity http,
+            @Autowired MemberService memberService,
+            @Autowired JwtTokenUtil jwtTokenUtil) throws Exception {
+        http
+                .csrf().disable()
+                .sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS)
+                .and()
+                .authorizeRequests()
+                .antMatchers("/*")
+                .permitAll()
+//                .antMatchers("/api/find-my-guide/sign-in", "/api/find-my-guide/sign-up")
+//                .permitAll()
+                .anyRequest()
+                .authenticated()
+                .and()
+                .exceptionHandling()
+                .and()
+                .addFilterBefore(context.getBean(JwtAuthenticationFilter.class), LogoutFilter.class)
+                .cors();
+        return http.build();
     }
-
 }

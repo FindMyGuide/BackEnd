@@ -5,6 +5,8 @@ import com.find_my_guide.main_tour_product.want_tour_product.dto.WantTourProduct
 import com.find_my_guide.main_tour_product.want_tour_product.service.WantTourProductService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
@@ -16,12 +18,15 @@ public class WantTourProductController {
 
     private final WantTourProductService wantTourProductService;
 
-    @PostMapping("/wantTourProduct/register/{memberId}")
+    @PostMapping("/wantTourProduct/register")
     public ResponseEntity<WantTourProductResponse> addWantTourProduct(
-            @PathVariable Long memberId,
+            final Authentication authentication,
             @RequestBody WantTourProductRequest wantTourProductRequest) {
+
+        UserDetails userDetails = (UserDetails) authentication.getPrincipal();
+        String email = userDetails.getUsername();
         WantTourProductResponse wantTourProductResponse =
-                wantTourProductService.registerWantTourProduct(memberId, wantTourProductRequest);
+                wantTourProductService.registerWantTourProduct(email, wantTourProductRequest);
         return ResponseEntity.ok(wantTourProductResponse);
     }
 
