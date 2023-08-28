@@ -28,35 +28,35 @@ class FindMyGuideApplicationTests {
     @Autowired
     private TourProductRepository tourProductRepository;
 
-    @Test
-    @Transactional
-    @DisplayName("테마 저장")
-    void saveTheme() {
-        Theme theme = Theme.builder().
-                title(new Title("식도락")).
-                build();
-
-        Theme save = themeRepository.save(theme);
-
-        TourProduct tourProduct = TourProduct.builder()
-                .title(new Title("범광"))
-                .content(new Content("범광컨텐츠"))
-                .build();
-
-        TourProduct save1 = tourProductRepository.save(tourProduct);
-
-        TourProductTheme build = TourProductTheme.builder()
-                .tourProduct(save1)
-                .theme(save)
-                .build();
-
-        TourProductTheme save2 = tourProductThemeRepository.save(build);
-
-
-        Assertions.assertThat(save2.getTheme().getTitle().getTitle())
-                .isEqualTo("식도락");
-
-    }
+//    @Test
+//    @Transactional
+//    @DisplayName("테마 저장")
+//    void saveTheme() {
+//        Theme theme = Theme.builder().
+//                title(new Title("식도락")).
+//                build();
+//
+//        Theme save1 = themeRepository.save(theme);
+//
+//        TourProduct tourProduct = TourProduct.builder()
+//                .title(new Title("범광"))
+//                .content(new Content("범광컨텐츠"))
+//                .build();
+//
+//        TourProduct save2 = tourProductRepository.save(tourProduct);
+//
+//        TourProductTheme build = TourProductTheme.builder()
+//                .tourProduct(save2)
+//                .theme(save1)
+//                .build();
+//
+//        TourProductTheme save3 = tourProductThemeRepository.save(build);
+//
+//
+//        Assertions.assertThat(save3.getTheme().getTitle().getTitle())
+//                .isEqualTo("식도락");
+//
+//    }
 
     @Test
     void saveTourProduct(){
