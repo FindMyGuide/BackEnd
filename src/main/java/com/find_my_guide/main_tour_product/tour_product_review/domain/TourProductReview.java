@@ -1,5 +1,6 @@
 package com.find_my_guide.main_tour_product.tour_product_review.domain;
 
+import com.find_my_guide.main_member.member.domain.entity.Member;
 import com.find_my_guide.main_tour_product.common.domain.BaseEntity;
 import com.find_my_guide.main_tour_product.common.validation_field.Content;
 import com.find_my_guide.main_tour_product.tour_product.domain.TourProduct;
@@ -31,6 +32,10 @@ public class TourProductReview extends BaseEntity {
     @JoinColumn(name = "tourProduct_id")
     private TourProduct tourProduct;
 
+    @ManyToOne
+    @JoinColumn(name = "member_id")
+    private Member member;
+
     public void addReview(TourProduct tourProduct){
         this.tourProduct = tourProduct;
         if (!this.tourProduct.getTourProductReviews().contains(this)) {
@@ -44,6 +49,10 @@ public class TourProductReview extends BaseEntity {
         this.content = content;
         this.rating = rating;
         this.imageUrl = imageUrl;
+    }
+
+    public void setMember(Member member){
+        this.member = member;
     }
 
 }

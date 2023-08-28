@@ -7,6 +7,7 @@ import javax.persistence.*;
 
 import com.find_my_guide.main_tour_product.tour_history_manager.domain.TourHistoryManager;
 import com.find_my_guide.main_tour_product.tour_product_like.domain.TourProductLike;
+import com.find_my_guide.main_tour_product.tour_product_review.domain.TourProductReview;
 import com.find_my_guide.main_tour_product.want_tour_product.domain.WantTourProduct;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -59,8 +60,11 @@ public class Member {
     @Column
     private String refreshToken;
 
-    @OneToMany(mappedBy = "member")
+    @OneToMany(mappedBy = "member",cascade = CascadeType.ALL)
     private List<WantTourProduct> wantTourProducts = new ArrayList<>();
+
+    @OneToMany(mappedBy = "member",cascade = CascadeType.ALL)
+    private List<TourProductReview> tourProductReviews = new ArrayList<>();
 
     @OneToMany(mappedBy = "member", cascade = CascadeType.ALL)
     private List<TourHistoryManager> tourHistoryManagers = new ArrayList<>();

@@ -7,6 +7,8 @@ import com.find_my_guide.main_tour_product.tour_product.dto.TourProductResponse;
 import com.find_my_guide.main_tour_product.tour_product_theme.service.TourProductThemeService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
@@ -19,12 +21,16 @@ public class TourProductController {
     private final TourProductService tourProductService;
 
 
-    @PostMapping("/tourProduct/register/{memberId}")
+    @PostMapping("/tourProduct/register")
     public ResponseEntity<TourProductResponse> addTourProduct(
-            @PathVariable Long memberId,
+            final Authentication authentication,
             @RequestBody TourProductRequest tourProductRequest) {
+
+        UserDetails userDetails = (UserDetails) authentication.getPrincipal();
+        String email = userDetails.getUsername();
+
         TourProductResponse tourProductResponse =
-                tourProductService.registerTourProduct(memberId, tourProductRequest);
+                tourProductService.registerTourProduct(email, tourProductRequest);
         return ResponseEntity.ok(tourProductResponse);
     }
 

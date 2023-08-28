@@ -25,7 +25,7 @@ public class TourHistoryManagerService {
     private final MemberRepository memberRepository;
 
     @Transactional
-    public TourHistoryManagerResponse register(Long memberId, Long tourProductId) {
+    public TourHistoryManagerResponse register(String memberId, Long tourProductId) {
         TourProduct tourProduct = findTourProductById(tourProductId);
 
         TourHistoryManager tourHistoryManager = TourHistoryManager.builder()
@@ -41,7 +41,7 @@ public class TourHistoryManagerService {
         return new TourHistoryManagerResponse(tourHistoryManagerRepository.save(tourHistoryManager));
     }
     @Transactional
-    public TourHistoryManagerResponse addTourStartEndDate(Long memberId, Long tourProductId, TourHistoryManagerRequest tourHistoryManagerRequest) {
+    public TourHistoryManagerResponse addTourStartEndDate(String memberId, Long tourProductId, TourHistoryManagerRequest tourHistoryManagerRequest) {
         Member member = findMemberById(memberId);
         TourProduct tourProduct = findTourProductById(tourProductId);
 
@@ -75,8 +75,8 @@ public class TourHistoryManagerService {
                 new IllegalArgumentException("존재하지 않는 상품입니다."));
     }
 
-    private Member findMemberById(Long id) {
-        return memberRepository.findById(id).orElseThrow(() -> new IllegalArgumentException("존재하지 않는 회원 입니다."));
+    private Member findMemberById(String id) {
+        return memberRepository.findByEmail(id).orElseThrow(() -> new IllegalArgumentException("존재하지 않는 회원 입니다."));
     }
 
 }

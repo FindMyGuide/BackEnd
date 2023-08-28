@@ -1,5 +1,5 @@
 //회원등록
-POST http://localhost:8080/find-my-guide/sign-up
+POST http://localhost:8080/api/find-my-guide/sign-up
 Content-Type: application/json
 
 {
@@ -16,7 +16,7 @@ Content-Type: application/json
 
 ###
 //회원 로그인
-POST http://localhost:8080/find-my-guide/login
+POST http://localhost:8080/api/find-my-guide/sign-in
 Content-Type: application/json
 
 {
@@ -26,13 +26,14 @@ Content-Type: application/json
 }
 ###
 //회원조회
-GET localhost:8080/find-my-guide/members/asdasd123@naver.com
-
-###
+GET localhost:8080/api/find-my-guide/member/detail
+Authorization:Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiJhc2Rhc2QxMjNAbmF2ZXIuY29tIiwiZXhwIjoxNjk2ODAwNTAyLCJpc3MiOiJmaW5kbXlndWlkZS5jb20ifQ.or9JCRH77D7kqVsCtgAdsT3uQdPW3jtJSJ-LdmbW-Mw
 //회원수정
 //비밀번호, 닉네임, 휴대폰번호, 자격증여부 필드만 변경가능
 //변경할 필드만 입력하면 됨
-PUT localhost:8080/find-my-guide/members/abcde@naver.com
+
+###
+PUT localhost:8080/api/find-my-guide/member/update
 Content-Type: application/json
 
 {
@@ -43,4 +44,4 @@ Content-Type: application/json
 
 ###
 //회원삭제
-DELETE localhost:8080/find-my-guide/members/abcde@naver.com
+DELETE localhost:8080/api/find-my-guide/member/delete

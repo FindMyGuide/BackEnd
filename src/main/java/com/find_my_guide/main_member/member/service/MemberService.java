@@ -3,6 +3,8 @@ package com.find_my_guide.main_member.member.service;
 import com.find_my_guide.main_member.common.DuplicateException;
 import com.find_my_guide.main_member.common.ErrorCode;
 import com.find_my_guide.main_member.common.NotFoundException;
+import com.find_my_guide.main_member.jwt.service.JwtTokenUtil;
+import com.find_my_guide.main_member.jwt.service.RedisService;
 import com.find_my_guide.main_member.member.domain.dto.*;
 import com.find_my_guide.main_member.member.domain.entity.Member;
 import com.find_my_guide.main_member.member.repository.MemberRepository;
@@ -12,6 +14,7 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.HashMap;
 import java.util.Optional;
 
 @Service
@@ -24,9 +27,15 @@ public class MemberService {
 
     private final PasswordEncoder passwordEncoder;
 
+    private final JwtTokenUtil jwtTokenUtil;
+
+    private final RedisService redisService;
+
+    private final TokenService tokenService;
+
     @Transactional
     public CreateMemberResponse createMember(CreateMemberRequest memberRequest) {
-        isDuplicated(findByEmail(memberRequest.getEmail()), memberRequest.getEmail());
+        isDuplicated(findByEmailHere(memberRequest.getEmail()), memberRequest.getEmail());
 
         isDuplicated(memberRepository.findByNickname(memberRequest.getNickname()), memberRequest.getNickname());
 
@@ -37,8 +46,14 @@ public class MemberService {
         return new CreateMemberResponse(member);
     }
 
+    public void logout(final String token, final String userId) {
+        redisService.deleteToken(userId);
+        redisService.storeAccessToken(token);
+    }
+
+
     public ReadMemberResponse readMember(String email) {
-        Optional<Member> member = findByEmail(email);
+        Optional<Member> member = findByEmailHere(email);
 
         isExistedEmail(member, email);
 
@@ -47,7 +62,7 @@ public class MemberService {
 
     @Transactional
     public UpdateMemberResponse updateMember(String email, UpdateMemberRequest memberRequest) {
-        Optional<Member> member = findByEmail(email);
+        Optional<Member> member = findByEmailHere(email);
 
         isExistedEmail(member, email);
 
@@ -63,7 +78,7 @@ public class MemberService {
 
     @Transactional
     public DeleteMemberResponse deleteMember(String email) {
-        Optional<Member> member = findByEmail(email);
+        Optional<Member> member = findByEmailHere(email);
 
         isExistedEmail(member, email);
 
@@ -71,22 +86,24 @@ public class MemberService {
         return new DeleteMemberResponse(member.get());
     }
 
-    public LoginMemberResponse login(LoginMemberRequest loginRequest) {
-        Optional<Member> memberOpt = findByEmail(loginRequest.getEmail());
-
-        isExistedEmail(memberOpt, loginRequest.getEmail());
-
-        Member member = memberOpt.get();
-        isRightPassword(loginRequest, member);
-
-        return new LoginMemberResponse(member.getEmail(), member.getNickname());
+    public HashMap<String, Object> login(final LoginMemberRequest loginMemberRequest) {
+        String userId = loginMemberRequest.getEmail();
+        String password = loginMemberRequest.getPassword();
+        Member member = findByEmail(userId);
+        if (passwordEncoder.matches(password, member.getPassword())) {
+            HashMap<String, Object> stringObjectHashMap = tokenService.generateTokens(userId);
+            return stringObjectHashMap;
+        }
+        return null;
     }
 
-    private void isRightPassword(LoginMemberRequest loginRequest, Member member) {
+
+    private boolean isRightPassword(LoginMemberRequest loginRequest, Member member) {
         if (!passwordEncoder.matches(loginRequest.getPassword(), member.getPassword())) {
             log.error("Invalid password for email: " + loginRequest.getEmail());
             throw new IllegalArgumentException("Invalid password");
         }
+        return true;
     }
 
     private void isExistedEmail(Optional<Member> memberOpt, String loginRequest) {
@@ -103,7 +120,12 @@ public class MemberService {
         }
     }
 
-    private Optional<Member> findByEmail(String email) {
+    public Member findByEmail(String email) {
+        return memberRepository.findByEmail(email)
+                .orElseThrow(() -> new NotFoundException());
+    }
+
+    private Optional<Member> findByEmailHere(String email) {
         return memberRepository.findByEmail(email);
     }
 }

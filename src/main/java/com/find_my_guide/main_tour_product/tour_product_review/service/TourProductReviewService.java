@@ -1,5 +1,7 @@
 package com.find_my_guide.main_tour_product.tour_product_review.service;
 
+import com.find_my_guide.main_member.member.domain.entity.Member;
+import com.find_my_guide.main_member.member.repository.MemberRepository;
 import com.find_my_guide.main_tour_product.common.validation_field.Content;
 import com.find_my_guide.main_tour_product.tour_product.domain.TourProduct;
 import com.find_my_guide.main_tour_product.tour_product.repository.TourProductRepository;
@@ -13,6 +15,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
+import java.util.NoSuchElementException;
 import java.util.stream.Collectors;
 
 @Service
@@ -24,11 +27,19 @@ public class TourProductReviewService {
 
     private final TourProductRepository tourProductRepository;
 
+    private final MemberRepository memberRepository;
+
     @Transactional
-    public TourProductReviewResponse register(Long postId, TourProductReviewRequest tourProductReviewRequest) {
+    public TourProductReviewResponse register(Long postId, String email, TourProductReviewRequest tourProductReviewRequest) {
         TourProduct tourProduct = findTourProductById(postId);
 
+        Member member = memberRepository.findByEmail(email).orElseThrow(() -> new NoSuchElementException());
+
+
+
         TourProductReview tourProductReview = tourProductReviewRequest.toTourProductReview();
+        tourProductReview.setMember(member);
+
 
         isSameReview(tourProduct.getTourProductReviews().contains(tourProductReview));
 

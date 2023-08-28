@@ -30,33 +30,31 @@ import java.util.stream.Collectors;
 public class TourProductService {
 
     private final TourProductRepository tourProductRepository;
+
     private final TourProductThemeService tourProductThemeService;
+
     private final AvailableService availableService;
+
     private final TourProductLikeRepository tourProductLikeRepository;
+
     private final TourHistoryManagerService tourHistoryManagerService;
+
     private final MemberRepository memberRepository;
-
-
     @Transactional
-    public TourProductResponse registerTourProduct(Long memberId, TourProductRequest tourProductRequest) {
+    public TourProductResponse registerTourProduct(String email, TourProductRequest tourProductRequest) {
         TourProduct tourProduct = tourProductRequest.toTourProduct();
         tourProduct = tourProductRepository.save(tourProduct);
 
-        findMember(memberId);
+        findMember(email);
 
         addTheme(tourProductRequest, tourProduct);
 
         addDates(tourProductRequest, tourProduct);
 
 
-        tourHistoryManagerService.register(memberId, tourProduct.getTourProductId());
+        tourHistoryManagerService.register(email, tourProduct.getTourProductId());
 
         return new TourProductResponse(tourProduct);
-    }
-
-    private void findMember(Long memberId) {
-        memberRepository.findById(memberId)
-                .orElseThrow(() -> new IllegalArgumentException("존재하지 않은 회원"));
     }
 
 
@@ -127,6 +125,13 @@ public class TourProductService {
             tourProductThemeService.addThemeToTourProduct(tourProductThemeRequest);
         }
     }
+
+    private void findMember(String memberId) {
+        memberRepository.findByEmail(memberId)
+                .orElseThrow(() -> new IllegalArgumentException("존재하지 않은 회원"));
+    }
+
+
 
 
 }
