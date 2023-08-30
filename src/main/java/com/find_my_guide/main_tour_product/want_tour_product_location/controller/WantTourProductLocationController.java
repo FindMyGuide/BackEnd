@@ -3,15 +3,15 @@ package com.find_my_guide.main_tour_product.want_tour_product_location.controlle
 import com.find_my_guide.main_tour_product.want_tour_product_location.dto.WantTourProductLocationRequest;
 import com.find_my_guide.main_tour_product.want_tour_product_location.dto.WantTourProductLocationResponse;
 import com.find_my_guide.main_tour_product.want_tour_product_location.service.WantTourProductLocationService;
+import io.swagger.annotations.Api;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 @RestController
 @RequiredArgsConstructor
+@RequestMapping("/api")
+@Api
 public class WantTourProductLocationController {
 
     private final WantTourProductLocationService wantTourProductLocationService;

@@ -2,10 +2,10 @@ package com.find_my_guide.main_member.openapi.kakao;
 
 public class KakaoOauth {
     /*
-    REST API KEY : 178481d5fe03d8047894b6b3e726cfa4
+    REST API KEY : 95d1a134adf441176df2b1e4a2b1e10f
     App ID : 	942702
     App Name : Find_My_Guide
-    Redirect URI : http://localhost:8080/find-my-guide
+    Redirect URI : http://localhost:8080/login/oauth2/code/kakao
     */
 
     /*

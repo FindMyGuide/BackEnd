@@ -5,6 +5,7 @@ import com.find_my_guide.main_tour_product.tour_product.service.TourProductServi
 import com.find_my_guide.main_tour_product.tour_product.dto.TourProductRequest;
 import com.find_my_guide.main_tour_product.tour_product.dto.TourProductResponse;
 import com.find_my_guide.main_tour_product.tour_product_theme.service.TourProductThemeService;
+import io.swagger.annotations.Api;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.Authentication;
@@ -16,6 +17,8 @@ import java.util.List;
 
 @RestController
 @RequiredArgsConstructor
+@RequestMapping("/api")
+@Api
 public class TourProductController {
 
     private final TourProductService tourProductService;

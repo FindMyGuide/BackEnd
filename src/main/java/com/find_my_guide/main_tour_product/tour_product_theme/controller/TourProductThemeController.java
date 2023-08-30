@@ -4,15 +4,15 @@ package com.find_my_guide.main_tour_product.tour_product_theme.controller;
 import com.find_my_guide.main_tour_product.tour_product_theme.dto.TourProductThemeRequest;
 import com.find_my_guide.main_tour_product.tour_product_theme.dto.TourProductThemeResponse;
 import com.find_my_guide.main_tour_product.tour_product_theme.service.TourProductThemeService;
+import io.swagger.annotations.Api;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 @RestController
 @RequiredArgsConstructor
+@RequestMapping("/api")
+@Api
 public class TourProductThemeController {
 
     private final TourProductThemeService tourProductThemeService;

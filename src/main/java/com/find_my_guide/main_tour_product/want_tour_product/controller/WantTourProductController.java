@@ -3,6 +3,7 @@ package com.find_my_guide.main_tour_product.want_tour_product.controller;
 import com.find_my_guide.main_tour_product.want_tour_product.dto.WantTourProductRequest;
 import com.find_my_guide.main_tour_product.want_tour_product.dto.WantTourProductResponse;
 import com.find_my_guide.main_tour_product.want_tour_product.service.WantTourProductService;
+import io.swagger.annotations.Api;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.Authentication;
@@ -14,6 +15,8 @@ import java.util.List;
 
 @RestController
 @RequiredArgsConstructor
+@RequestMapping("/api")
+@Api
 public class WantTourProductController {
 
     private final WantTourProductService wantTourProductService;

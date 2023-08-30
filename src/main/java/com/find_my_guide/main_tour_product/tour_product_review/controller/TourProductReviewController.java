@@ -4,17 +4,17 @@ package com.find_my_guide.main_tour_product.tour_product_review.controller;
 import com.find_my_guide.main_tour_product.tour_product_review.dto.TourProductReviewRequest;
 import com.find_my_guide.main_tour_product.tour_product_review.dto.TourProductReviewResponse;
 import com.find_my_guide.main_tour_product.tour_product_review.service.TourProductReviewService;
+import io.swagger.annotations.Api;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.userdetails.UserDetails;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 @RestController
 @RequiredArgsConstructor
+@RequestMapping("/api")
+@Api
 public class TourProductReviewController {
 
 
