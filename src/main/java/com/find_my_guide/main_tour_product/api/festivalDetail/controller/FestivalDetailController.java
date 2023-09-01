@@ -1,14 +1,14 @@
 package com.find_my_guide.main_tour_product.api.festivalDetail.controller;
 
 import com.find_my_guide.main_tour_product.api.festivalDetail.service.FestivalDetailService;
+import io.swagger.annotations.Api;
 import lombok.RequiredArgsConstructor;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.ResponseBody;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 @RestController
 @RequiredArgsConstructor
+@RequestMapping("/api")
+@Api
 public class FestivalDetailController {
 
     private final FestivalDetailService festivalDetailService;
