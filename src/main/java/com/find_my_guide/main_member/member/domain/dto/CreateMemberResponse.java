@@ -24,6 +24,7 @@ public class CreateMemberResponse {
 
     private String phoneNumber;
 
+
     private String nationalCertificationOfGuideYn;
 
     public CreateMemberResponse(Member member) {

@@ -3,12 +3,13 @@ package com.find_my_guide.main_member.member.domain.dto;
 
 import com.find_my_guide.main_member.member.domain.entity.Gender;
 import com.find_my_guide.main_member.member.domain.entity.Member;
-import javax.validation.constraints.Email;
-import javax.validation.constraints.Pattern;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import org.springframework.security.crypto.password.PasswordEncoder;
+
+import javax.validation.constraints.Email;
+import javax.validation.constraints.Pattern;
 
 @Getter
 @AllArgsConstructor
@@ -32,15 +33,15 @@ public class CreateMemberRequest {
 
     public Member toMember(PasswordEncoder passwordEncoder) {
         return Member.builder()
-            .name(name)
-            .email(email)
-            .password(passwordEncoder.encode(password))
-            .nickname(nickname)
-            .nationality(nationality)
-            .gender(Gender.valueOf(gender))
-            .birthDate(birthDate)
-            .phoneNumber(phoneNumber)
-            .nationalCertificationOfGuideYn(nationalCertificationOfGuideYn.equalsIgnoreCase("Y"))
-            .build();
+                .name(name)
+                .email(email)
+                .password(passwordEncoder.encode(password))
+                .nickname(nickname)
+                .nationality(nationality)
+                .gender(Gender.valueOf(gender))
+                .birthDate(birthDate)
+                .phoneNumber(phoneNumber)
+                .nationalCertificationOfGuideYn(nationalCertificationOfGuideYn.equalsIgnoreCase("Y"))
+                .build();
     }
 }

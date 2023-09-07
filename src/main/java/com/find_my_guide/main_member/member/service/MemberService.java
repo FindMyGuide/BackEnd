@@ -5,15 +5,20 @@ import com.find_my_guide.main_member.common.ErrorCode;
 import com.find_my_guide.main_member.common.NotFoundException;
 import com.find_my_guide.main_member.jwt.service.JwtTokenUtil;
 import com.find_my_guide.main_member.jwt.service.RedisService;
+import com.find_my_guide.main_member.mail.dto.MailConfirmDto;
+import com.find_my_guide.main_member.mail.service.MailService;
 import com.find_my_guide.main_member.member.domain.dto.*;
 import com.find_my_guide.main_member.member.domain.entity.Member;
 import com.find_my_guide.main_member.member.repository.MemberRepository;
+import com.find_my_guide.main_member.temp_token.domain.PasswordResetToken;
+import com.find_my_guide.main_member.temp_token.repository.PasswordResetTokenRepository;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.time.LocalDateTime;
 import java.util.HashMap;
 import java.util.Optional;
 
@@ -29,21 +34,49 @@ public class MemberService {
 
     private final JwtTokenUtil jwtTokenUtil;
 
+    private final PasswordResetTokenRepository passwordResetTokenRepository;
+
     private final RedisService redisService;
 
     private final TokenService tokenService;
 
+    private final MailService mailService;
+
     @Transactional
-    public CreateMemberResponse createMember(CreateMemberRequest memberRequest) {
+    public String initiateSignUp(CreateMemberRequest memberRequest) throws Exception {
+        // 중복 확인
         isDuplicated(findByEmailHere(memberRequest.getEmail()), memberRequest.getEmail());
-
         isDuplicated(memberRepository.findByNickname(memberRequest.getNickname()), memberRequest.getNickname());
-
         isDuplicated(memberRepository.findByPhoneNumber(memberRequest.getPhoneNumber()), memberRequest.getPhoneNumber());
 
-        Member member = memberRepository.save(memberRequest.toMember(passwordEncoder));
+        // 이메일에 인증 코드 발송
+        String code = mailService.sendMail(memberRequest.getEmail());
 
-        return new CreateMemberResponse(member);
+        // 사용자 정보를 '미인증' 상태로 저장
+        Member tempMember = memberRequest.toMember(passwordEncoder);
+        tempMember.setEmailVerified(Boolean.FALSE);
+        memberRepository.save(tempMember);
+
+        return code;
+    }
+
+    @Transactional
+    public CreateMemberResponse verifyEmailAndCompleteSignUp(String email, String enteredCode) {
+        Member tempMember = memberRepository.findByEmail(email).orElseThrow(() -> new NotFoundException());
+
+        // DB에 저장된 인증 코드와 입력받은 인증 코드 확인
+        if (!mailService.confirmCode(new MailConfirmDto(email, enteredCode))) {
+            throw new IllegalArgumentException("정확하지 않은 코드입니다.");
+        }
+
+        // 사용자 상태를 '활성화'로 변경
+        tempMember.setEmailVerified(Boolean.TRUE);
+
+        return new CreateMemberResponse(tempMember);
+    }
+
+    public Boolean CheckDuplicated(CheckDuplicatedEmailRequest userDuplicateCheckRequest) {
+        return memberRepository.findByEmail(userDuplicateCheckRequest.getEmail()).isPresent();
     }
 
     public void logout(final String token, final String userId) {
@@ -97,6 +130,66 @@ public class MemberService {
         return null;
     }
 
+    public FindMemberResponse findMemberEmail(FindMemberRequest findMemberRequest) {
+        return new FindMemberResponse(checkValidMember(findMemberRequest));
+
+    }
+
+
+    @Transactional
+    public String initiatePasswordReset(SendEmailRequest email) throws Exception {
+        Member member = memberRepository.findByEmail(email.getEmail())
+                .orElseThrow(() -> new NotFoundException("No member associated with the provided email"));
+
+        // 인증 코드 생성 및 이메일 전송
+        String code = mailService.sendPasswordResetMail(email.getEmail());
+
+        // 데이터베이스에 인증 코드 저장
+        PasswordResetToken passwordResetToken = new PasswordResetToken();
+
+        passwordResetToken.setToken(email.getEmail(), code, LocalDateTime.now().plusHours(1));
+
+        passwordResetTokenRepository.save(passwordResetToken);
+
+        return "패스워드 변경 링크가 이메일로 발송되었습니다. ";
+    }
+
+    @Transactional
+    public void resetPassword(String code, String newPassword) {
+        PasswordResetToken passwordResetToken = passwordResetTokenRepository.findByToken(code)
+                .orElseThrow(() -> new IllegalArgumentException("유효하지 않은 코드이거나 코드가 만료 되었습니다."));
+
+        if (passwordResetToken.getExpiryDate().isBefore(LocalDateTime.now())) {
+            throw new IllegalArgumentException("만료된 코드");
+        }
+
+        Member member = memberRepository.findByEmail(passwordResetToken.getEmail())
+                .orElseThrow(() -> new NotFoundException("등록된 회원이 아닙니다."));
+
+        // 비밀번호 업데이트
+        member.setPassword(passwordEncoder.encode(newPassword));
+
+        // 인증 코드 삭제
+        passwordResetTokenRepository.delete(passwordResetToken);
+    }
+
+    private Member checkValidMember(FindMemberRequest findMemberRequest) {
+        memberRepository.findByName(findMemberRequest.getName()).orElseThrow(() ->
+                new NotFoundException("등록된 회원이 아닙니다")
+        );
+
+        Member member = memberRepository.findByPhoneNumber(findMemberRequest.getPhoneNumber()).orElseThrow(()
+                -> new NotFoundException("등록된 회원이 아닙니다")
+        );
+
+        return member;
+    }
+
+    public Member findByEmail(String email) {
+        return memberRepository.findByEmail(email)
+                .orElseThrow(() -> new NotFoundException());
+    }
+
 
     private boolean isRightPassword(LoginMemberRequest loginRequest, Member member) {
         if (!passwordEncoder.matches(loginRequest.getPassword(), member.getPassword())) {
@@ -109,7 +202,7 @@ public class MemberService {
     private void isExistedEmail(Optional<Member> memberOpt, String loginRequest) {
         if (memberOpt.isEmpty()) {
             log.error(loginRequest + "is not found");
-            throw new NotFoundException(loginRequest, ErrorCode.NOT_FOUND);
+            throw new NotFoundException(loginRequest);
         }
     }
 
@@ -120,10 +213,6 @@ public class MemberService {
         }
     }
 
-    public Member findByEmail(String email) {
-        return memberRepository.findByEmail(email)
-                .orElseThrow(() -> new NotFoundException());
-    }
 
     private Optional<Member> findByEmailHere(String email) {
         return memberRepository.findByEmail(email);

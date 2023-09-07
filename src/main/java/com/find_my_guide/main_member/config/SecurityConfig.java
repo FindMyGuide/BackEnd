@@ -18,6 +18,7 @@ import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.http.SessionCreationPolicy;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
+import org.springframework.security.oauth2.client.web.OAuth2LoginAuthenticationFilter;
 import org.springframework.security.web.SecurityFilterChain;
 import org.springframework.security.web.authentication.logout.LogoutFilter;
 
@@ -27,6 +28,8 @@ import org.springframework.security.web.authentication.logout.LogoutFilter;
 public class SecurityConfig {
 
     private final JwtAuthenticationProvider jwtAuthenticationProvider;
+
+    private final OAuthService oAuthService;
 
     private final ApplicationContext context;
 
@@ -45,7 +48,6 @@ public class SecurityConfig {
     }
 
     @Bean
-    // join 과 login을 제외한 모든 요청에 인증(custom filter를 거치게) 사용.
     public SecurityFilterChain filterChain(
             @Autowired HttpSecurity http,
             @Autowired MemberService memberService,
@@ -55,17 +57,19 @@ public class SecurityConfig {
                 .sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS)
                 .and()
                 .authorizeRequests()
-                .antMatchers("/*")
-                .permitAll()
-//                .antMatchers("/api/find-my-guide/sign-in", "/api/find-my-guide/sign-up")
-//                .permitAll()
-//                .anyRequest()
-//                .authenticated()
+                .antMatchers("/*").permitAll()
+                .antMatchers("/auth/kakao/callback").permitAll()  // 카카오 콜백 URL은 접근 가능하게 설정
+                .and()
+                .oauth2Login()  // OAuth2 로그인 설정 시작
+                .userInfoEndpoint()
+                .userService(oAuthService)  // OAuth2 로그인 후, 사용자 정보를 가져오는 서비스 지정
+                .and()
                 .and()
                 .exceptionHandling()
                 .and()
-                .addFilterBefore(context.getBean(JwtAuthenticationFilter.class), LogoutFilter.class)
+                .addFilterBefore(context.getBean(JwtAuthenticationFilter.class), OAuth2LoginAuthenticationFilter.class)  // JWT 필터를 OAuth2 로그인 필터 전에 위치시킴
                 .cors();
+
         return http.build();
     }
 }

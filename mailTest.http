@@ -1,0 +1,7 @@
+POST http://localhost:9000/api/mail/send
+Content-Type: application/json
+
+{
+  "email" : "xodnjs8287@naver.com",
+  "code" : null
+}

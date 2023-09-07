@@ -10,8 +10,7 @@ public class NotFoundException extends RuntimeException{
     public NotFoundException() {
     }
 
-    public NotFoundException(String message, ErrorCode errorCode) {
+    public NotFoundException(String message) {
         super(message + " is not found");
-        this.errorCode = errorCode;
     }
 }
