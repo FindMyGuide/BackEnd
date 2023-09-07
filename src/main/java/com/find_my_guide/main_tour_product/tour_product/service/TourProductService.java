@@ -6,7 +6,6 @@ import com.find_my_guide.main_tour_product.available_reservation_date.dto.Availa
 import com.find_my_guide.main_tour_product.available_reservation_date.service.AvailableService;
 import com.find_my_guide.main_tour_product.common.validation_field.Content;
 import com.find_my_guide.main_tour_product.common.validation_field.Title;
-import com.find_my_guide.main_tour_product.tour_history_manager.service.TourHistoryManagerService;
 import com.find_my_guide.main_tour_product.tour_product.domain.TourProduct;
 import com.find_my_guide.main_tour_product.tour_product.dto.TourProductRequest;
 import com.find_my_guide.main_tour_product.tour_product.dto.TourProductResponse;
@@ -37,7 +36,7 @@ public class TourProductService {
 
     private final TourProductLikeRepository tourProductLikeRepository;
 
-    private final TourHistoryManagerService tourHistoryManagerService;
+//    private final TourHistoryManagerService tourHistoryManagerService;
 
     private final MemberRepository memberRepository;
     @Transactional
@@ -52,7 +51,7 @@ public class TourProductService {
         addDates(tourProductRequest, tourProduct);
 
 
-        tourHistoryManagerService.register(email, tourProduct.getTourProductId());
+//        tourHistoryManagerService.registerTourProductByGuide(email, tourProduct.getTourProductId());
 
         return new TourProductResponse(tourProduct);
     }

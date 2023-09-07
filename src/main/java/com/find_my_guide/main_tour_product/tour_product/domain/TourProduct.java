@@ -46,10 +46,10 @@ public class TourProduct extends BaseEntity {
     private List<TourHistoryManager> tourHistoryManagers = new ArrayList<>();
 
 
-    @OneToMany(mappedBy = "tourProduct")
+    @OneToMany(mappedBy = "tourProduct",cascade = CascadeType.REMOVE, orphanRemoval = true)
     private List<TourProductTheme> tourProductThemes = new ArrayList<>();
 
-    @OneToMany(mappedBy = "tourProduct")
+    @OneToMany(mappedBy = "tourProduct",cascade = CascadeType.REMOVE, orphanRemoval = true)
     private List<TourProductReview> tourProductReviews = new ArrayList<>();
 
     @OneToMany(mappedBy = "tourProduct")

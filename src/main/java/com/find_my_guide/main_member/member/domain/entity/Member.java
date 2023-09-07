@@ -4,10 +4,9 @@ import com.find_my_guide.main_tour_product.tour_history_manager.domain.TourHisto
 import com.find_my_guide.main_tour_product.tour_product_like.domain.TourProductLike;
 import com.find_my_guide.main_tour_product.tour_product_review.domain.TourProductReview;
 import com.find_my_guide.main_tour_product.want_tour_product.domain.WantTourProduct;
-import lombok.AllArgsConstructor;
-import lombok.Builder;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
+import lombok.*;
+import org.hibernate.annotations.DynamicInsert;
+import org.hibernate.annotations.DynamicUpdate;
 import org.springframework.security.crypto.password.PasswordEncoder;
 
 import javax.persistence.*;
@@ -19,8 +18,10 @@ import java.util.Objects;
 @Entity
 @Builder
 @Getter
-@NoArgsConstructor
+@NoArgsConstructor(access = AccessLevel.PROTECTED)
 @AllArgsConstructor
+@DynamicUpdate
+@DynamicInsert
 public class Member {
 
     @Id
@@ -72,17 +73,18 @@ public class Member {
     @OneToMany(mappedBy = "member", cascade = CascadeType.ALL)
     private List<TourProductReview> tourProductReviews = new ArrayList<>();
 
-    @OneToMany(mappedBy = "member", cascade = CascadeType.ALL)
-    private List<TourHistoryManager> tourHistoryManagers = new ArrayList<>();
+    @OneToMany(mappedBy = "tourist")
+    private List<TourHistoryManager> tourHistoriesAsTourist = new ArrayList<>();
+
 
     @OneToMany(mappedBy = "member", cascade = CascadeType.ALL)
     private List<TourProductLike> tourProductLikes = new ArrayList<>();
 
-    public void update(PasswordEncoder passwordEncoder, String password, String nickname, String phoneNumber, String nationalCertificationOfGuideYn) {
+    public List<TourHistoryManager> getTourHistoryManagersAsTourist() {
+        return tourHistoriesAsTourist;
+    }
 
-        if (!Objects.isNull(password)) {
-            this.password = passwordEncoder.encode(password);
-        }
+    public void update(String nickname, String phoneNumber, String nationalCertificationOfGuideYn) {
 
         if (!Objects.isNull(nickname)) {
             this.nickname = nickname;

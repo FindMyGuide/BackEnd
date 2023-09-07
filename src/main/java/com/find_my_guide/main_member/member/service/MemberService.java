@@ -42,6 +42,8 @@ public class MemberService {
 
     private final MailService mailService;
 
+//    private final TourHistoryManagerService tourHistoryManagerService;
+
     @Transactional
     public String initiateSignUp(CreateMemberRequest memberRequest) throws Exception {
         // 중복 확인
@@ -100,8 +102,7 @@ public class MemberService {
         isExistedEmail(member, email);
 
         member.get()
-                .update(passwordEncoder,
-                        memberRequest.getPassword(),
+                .update(
                         memberRequest.getNickname(),
                         memberRequest.getPhoneNumber(),
                         memberRequest.getNationalCertificationOfGuideYn());
@@ -115,7 +116,14 @@ public class MemberService {
 
         isExistedEmail(member, email);
 
+//        if (tourHistoryManagerService.hasReservationHistory(member.get().getIdx())) {
+//            throw new IllegalArgumentException("예약 내역이 존재 하여 삭제할 수 없습니다.");
+//        }
+
+
         memberRepository.delete(member.get());
+
+
         return new DeleteMemberResponse(member.get());
     }
 

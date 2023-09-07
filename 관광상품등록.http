@@ -28,7 +28,7 @@ Content-Type: application/json
 
 
 // 테마 등록
-POST http://localhost:8080/postTheme
+POST http://localhost:9000/api/postTheme
 Content-Type: application/json
 
 {

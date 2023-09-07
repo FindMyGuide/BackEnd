@@ -12,19 +12,17 @@ import java.time.LocalDate;
 @NoArgsConstructor
 @AllArgsConstructor
 @Getter
-public class TourHistoryManagerRequest {
-    private Long memberId;
+public class TourHistoryManagerGuideRequest {
+    private Long guideId;
     private Long tourProductId;
     private LocalDate tourStartDate;
     private LocalDate tourEndDate;
 
-    public TourHistoryManager toTourHistoryManager(Member member, TourProduct tourProduct) {
+    public TourHistoryManager toTourHistoryManager(Member guide, TourProduct tourProduct) {
         return TourHistoryManager.builder()
-                .member(member)
                 .tourProduct(tourProduct)
                 .tourStartDate(tourStartDate)
                 .tourEndDate(tourEndDate)
                 .build();
     }
-
 }
