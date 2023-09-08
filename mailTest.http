@@ -5,3 +5,23 @@ Content-Type: application/json
   "email" : "xodnjs8287@naver.com",
   "code" : null
 }
+
+###
+POST http://localhost:9000/api/find-my-guide/member/initiate-change-password
+Content-Type: application/json
+
+{
+
+  "email" : "xodnjs8287@naver.com"
+}
+###
+###9uP2Ow0k
+
+POST http://localhost:9000/api/find-my-guide/member/reset-password
+Content-Type: application/json
+
+{
+
+  "code" : "9uP2Ow0k",
+  "newPassword" : "xodnjs783!"
+}

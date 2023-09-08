@@ -1,11 +1,13 @@
 package com.find_my_guide.main_tour_product.tour_product.service;
 
+import com.find_my_guide.main_member.member.domain.entity.Member;
 import com.find_my_guide.main_member.member.repository.MemberRepository;
 import com.find_my_guide.main_tour_product.available_reservation_date.dto.AvailableDateRequest;
 import com.find_my_guide.main_tour_product.available_reservation_date.dto.AvailableDateResponse;
 import com.find_my_guide.main_tour_product.available_reservation_date.service.AvailableService;
 import com.find_my_guide.main_tour_product.common.validation_field.Content;
 import com.find_my_guide.main_tour_product.common.validation_field.Title;
+import com.find_my_guide.main_tour_product.tour_history_manager.service.TourHistoryManagerService;
 import com.find_my_guide.main_tour_product.tour_product.domain.TourProduct;
 import com.find_my_guide.main_tour_product.tour_product.dto.TourProductRequest;
 import com.find_my_guide.main_tour_product.tour_product.dto.TourProductResponse;
@@ -36,24 +38,26 @@ public class TourProductService {
 
     private final TourProductLikeRepository tourProductLikeRepository;
 
-//    private final TourHistoryManagerService tourHistoryManagerService;
+    private final TourHistoryManagerService tourHistoryManagerService;
 
     private final MemberRepository memberRepository;
+
     @Transactional
     public TourProductResponse registerTourProduct(String email, TourProductRequest tourProductRequest) {
         TourProduct tourProduct = tourProductRequest.toTourProduct();
         tourProduct = tourProductRepository.save(tourProduct);
 
-        findMember(email);
+        Member member = findMember(email);
 
         addTheme(tourProductRequest, tourProduct);
 
         addDates(tourProductRequest, tourProduct);
 
+        TourProduct save = tourProductRepository.save(tourProduct);
 
-//        tourHistoryManagerService.registerTourProductByGuide(email, tourProduct.getTourProductId());
+        tourHistoryManagerService.registerTourProductByGuide(member.getEmail(), save.getTourProductId());
 
-        return new TourProductResponse(tourProduct);
+        return new TourProductResponse(save);
     }
 
 
@@ -74,26 +78,20 @@ public class TourProductService {
     }
 
     public List<TourProductResponse> showTourProductList() {
-        return tourProductRepository.findAll().stream()
-                .map(TourProductResponse::new)
-                .collect(Collectors.toList());
+        return tourProductRepository.findAll().stream().map(TourProductResponse::new).collect(Collectors.toList());
     }
 
     public List<TourProductResponse> showTourProductListInOrderLikes() {
         List<TourProduct> tourProducts = tourProductRepository.findAll();
         Collections.sort(tourProducts, Comparator.comparingLong(tourProduct -> countLikes(tourProduct.getTourProductId())));
 
-        return tourProducts.stream()
-                .map(TourProductResponse::new)
-                .collect(Collectors.toList());
+        return tourProducts.stream().map(TourProductResponse::new).collect(Collectors.toList());
     }
 
     public List<AvailableDateResponse> availableDates(Long postId) {
         TourProduct tourProduct = findById(postId);
 
-        return tourProduct.getAvailableDates().stream()
-                .map(AvailableDateResponse::new)
-                .collect(Collectors.toList());
+        return tourProduct.getAvailableDates().stream().map(AvailableDateResponse::new).collect(Collectors.toList());
     }
 
 
@@ -125,12 +123,9 @@ public class TourProductService {
         }
     }
 
-    private void findMember(String memberId) {
-        memberRepository.findByEmail(memberId)
-                .orElseThrow(() -> new IllegalArgumentException("존재하지 않은 회원"));
+    private Member findMember(String memberId) {
+        return memberRepository.findByEmail(memberId).orElseThrow(() -> new IllegalArgumentException("존재하지 않은 회원"));
     }
-
-
 
 
 }

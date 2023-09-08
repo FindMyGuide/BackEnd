@@ -26,7 +26,7 @@ Content-Type: application/json
 
 {
   "email": "xodnjs8287@naver.com",
-  "code":"g84GzDeS"
+  "code":"Dd4o40XU"
 }
 
 ###
@@ -65,7 +65,7 @@ Content-Type: application/json
 
 {
   "email" : "xodnjs8287@naver.com",
-  "password": "xodnjs783!"
+  "password": "qpal123!"
 
 }
 
@@ -84,6 +84,26 @@ Content-Type: application/json
 //회원조회
 GET localhost:9000/api/find-my-guide/member/detail
 Authorization:Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiJ4b2RuanM4Mjg3QG5hdmVyLmNvbSIsImV4cCI6MjU4MzExODg4OSwiaXNzIjoiZmluZG15Z3VpZGUuY29tIn0.s7Sdj-qrKop5BpB7TgyKOEqI2V3-T3z6EcLPKXvu4LI
+//회원수정
+//비밀번호, 닉네임, 휴대폰번호, 자격증여부 필드만 변경가능
+//변경할 필드만 입력하면 됨
+
+###
+
+//인기 가이드 조회
+GET localhost:9000/api/find-my-guide/member/popular-guide
+Content-Type: application/json
+
+
+###
+//전체 가이드 조회
+
+GET localhost:9000/api/find-my-guide/member/guides
+Content-Type: application/json
+
+
+
+
 //회원수정
 //비밀번호, 닉네임, 휴대폰번호, 자격증여부 필드만 변경가능
 //변경할 필드만 입력하면 됨

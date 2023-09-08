@@ -76,11 +76,18 @@ public class Member {
     @OneToMany(mappedBy = "tourist")
     private List<TourHistoryManager> tourHistoriesAsTourist = new ArrayList<>();
 
+    @OneToMany(mappedBy = "guide")
+    private List<TourHistoryManager> tourHistoriesAsGuide = new ArrayList<>();
+
 
     @OneToMany(mappedBy = "member", cascade = CascadeType.ALL)
     private List<TourProductLike> tourProductLikes = new ArrayList<>();
 
-    public List<TourHistoryManager> getTourHistoryManagersAsTourist() {
+    public List<TourHistoryManager> getTourHistoriesAsGuide() {
+        return tourHistoriesAsGuide;
+    }
+
+    public List<TourHistoryManager> getTourHistoriesAsTourist() {
         return tourHistoriesAsTourist;
     }
 

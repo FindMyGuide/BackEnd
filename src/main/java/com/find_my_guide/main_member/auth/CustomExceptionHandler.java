@@ -16,4 +16,9 @@ public class CustomExceptionHandler {
     public ResponseEntity<Object> handleOAuth2UserNotFoundException(CustomOAuth2UserNotFoundException ex) {
         return ResponseEntity.status(HttpStatus.FOUND).location(URI.create("/find-my-guide/sign-up")).build();
     }
+
+    @ExceptionHandler(IllegalArgumentException.class)
+    public ResponseEntity<String> handleIllegalArgumentException(IllegalArgumentException ex) {
+        return new ResponseEntity<>(ex.getMessage(), HttpStatus.BAD_REQUEST);
+    }
 }

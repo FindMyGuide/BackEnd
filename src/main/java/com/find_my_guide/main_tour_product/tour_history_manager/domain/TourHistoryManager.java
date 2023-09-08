@@ -27,6 +27,12 @@ public class TourHistoryManager extends BaseEntity {
     private Member tourist;  // 여행객
 
     @ManyToOne
+    @JoinColumn(name = "guide_id")
+    private Member guide;
+
+
+
+    @ManyToOne
     @JoinColumn(name = "tour_product_id")
     private TourProduct tourProduct;
 
@@ -48,9 +54,18 @@ public class TourHistoryManager extends BaseEntity {
 
     public void addTourist(Member tourist) {
         this.tourist = tourist;
-        if (!tourist.getTourHistoryManagersAsTourist().contains(this)) {
-            tourist.getTourHistoryManagersAsTourist().add(this);
+        if (!tourist.getTourHistoriesAsTourist().contains(this)) {
+            tourist.getTourHistoriesAsTourist().add(this);
         } else {
+            throw new IllegalArgumentException("이미 존재하는 내역입니다.");
+        }
+    }
+
+    public void addGuide(Member guide){
+        this.guide = guide;
+        if(!guide.getTourHistoriesAsGuide().contains(this)) {
+            guide.getTourHistoriesAsGuide().add(this);
+        }else {
             throw new IllegalArgumentException("이미 존재하는 내역입니다.");
         }
     }
@@ -66,4 +81,8 @@ public class TourHistoryManager extends BaseEntity {
     public void setTourEndDate(LocalDate tourEndDate){
         this.tourEndDate = tourEndDate;
     }
+
+
+
+
 }

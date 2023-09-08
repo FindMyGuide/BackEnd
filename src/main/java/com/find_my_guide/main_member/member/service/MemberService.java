@@ -12,15 +12,19 @@ import com.find_my_guide.main_member.member.domain.entity.Member;
 import com.find_my_guide.main_member.member.repository.MemberRepository;
 import com.find_my_guide.main_member.temp_token.domain.PasswordResetToken;
 import com.find_my_guide.main_member.temp_token.repository.PasswordResetTokenRepository;
+import com.find_my_guide.main_tour_product.tour_history_manager.service.TourHistoryManagerService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.data.domain.PageRequest;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.time.LocalDateTime;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Optional;
+import java.util.stream.Collectors;
 
 @Service
 @RequiredArgsConstructor
@@ -42,7 +46,7 @@ public class MemberService {
 
     private final MailService mailService;
 
-//    private final TourHistoryManagerService tourHistoryManagerService;
+    private final TourHistoryManagerService tourHistoryManagerService;
 
     @Transactional
     public String initiateSignUp(CreateMemberRequest memberRequest) throws Exception {
@@ -116,9 +120,9 @@ public class MemberService {
 
         isExistedEmail(member, email);
 
-//        if (tourHistoryManagerService.hasReservationHistory(member.get().getIdx())) {
-//            throw new IllegalArgumentException("예약 내역이 존재 하여 삭제할 수 없습니다.");
-//        }
+        if (tourHistoryManagerService.hasReservationHistory(member.get().getIdx())) {
+            throw new IllegalArgumentException("예약 내역이 존재 하여 삭제할 수 없습니다.");
+        }
 
 
         memberRepository.delete(member.get());
@@ -180,6 +184,21 @@ public class MemberService {
         // 인증 코드 삭제
         passwordResetTokenRepository.delete(passwordResetToken);
     }
+
+    public List<GuideResponse> getTop10PopularGuides() {
+        return memberRepository.findTop10PopularGuides(PageRequest.of(0, 10))
+                .stream()
+                .map(GuideResponse::new)
+                .collect(Collectors.toList());
+    }
+
+    public List<GuideResponse> findAllGuides() {
+        return memberRepository.findAllGuides()
+                .stream()
+                .map(GuideResponse::new)
+                .collect(Collectors.toList());
+    }
+
 
     private Member checkValidMember(FindMemberRequest findMemberRequest) {
         memberRepository.findByName(findMemberRequest.getName()).orElseThrow(() ->

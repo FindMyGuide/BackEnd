@@ -39,7 +39,6 @@ public class SecurityConfig {
         return new BCryptPasswordEncoder();
     }
 
-    // custom authenticationProvider를 authetnicationManager를 통해 Bean 주입
     @Bean
     public AuthenticationManager authenticationManager(HttpSecurity http) throws Exception {
         AuthenticationManagerBuilder authenticationManagerBuilder = http.getSharedObject(AuthenticationManagerBuilder.class);

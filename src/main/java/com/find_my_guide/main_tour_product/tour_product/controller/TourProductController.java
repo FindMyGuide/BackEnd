@@ -29,11 +29,8 @@ public class TourProductController {
             final Authentication authentication,
             @RequestBody TourProductRequest tourProductRequest) {
 
-        UserDetails userDetails = (UserDetails) authentication.getPrincipal();
-        String email = userDetails.getUsername();
-
         TourProductResponse tourProductResponse =
-                tourProductService.registerTourProduct(email, tourProductRequest);
+                tourProductService.registerTourProduct((String) authentication.getPrincipal(), tourProductRequest);
         return ResponseEntity.ok(tourProductResponse);
     }
 

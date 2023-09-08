@@ -1,5 +1,5 @@
-POST http://localhost:8080/tourProduct/register/1
-// memberIdx 받아요
+POST http://localhost:9000/api/tourProduct/register
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiJ4b2RuanM4Mjg3QG5hdmVyLmNvbSIsImV4cCI6MjU4MzE3MTQxNywiaXNzIjoiZmluZG15Z3VpZGUuY29tIn0.qlNKx3iAr7d1CpmkupkJ9ps1rTmzPVDTeXTGQEG_JDI
 Content-Type: application/json
 
 {
@@ -17,13 +17,24 @@ Content-Type: application/json
 
 
 ###
-// 날짜 등록
-POST http://localhost:8080/postTourProduct/registerDate/1
+
+//관광상품 예약
+POST http://localhost:9000/api/tourProduct/reserve-tour/1
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiJ4b2RuanM4Mjg3QG5hdmVyLmNvbSIsImV4cCI6MjU4MzE3MTQxNywiaXNzIjoiZmluZG15Z3VpZGUuY29tIn0.qlNKx3iAr7d1CpmkupkJ9ps1rTmzPVDTeXTGQEG_JDI
 Content-Type: application/json
 
 {
-  "date": "2023-07-06"
+  "email": "xodnjs8287@naver.com",
+  "startDate": "2023-08-01",
+  "endDate": "2023-08-01"
 }
+
+
+
+
+
+
+
 ###
 
 
@@ -36,15 +47,6 @@ Content-Type: application/json
 }
 
 ###
-
-// 관광 상품에 테마 등록
-POST http://localhost:8080/tourProduct/registerTheme/1
-Content-Type: application/json
-
-{
-  "themeId": 1,
-  "tourProductId": 1
-}
 
 
 

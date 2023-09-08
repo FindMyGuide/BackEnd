@@ -15,6 +15,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.validation.Valid;
 import java.net.URI;
 import java.util.HashMap;
+import java.util.List;
 
 @RequiredArgsConstructor
 @RestController
@@ -110,6 +111,16 @@ public class MemberRestController {
         } catch (Exception e) {
             return ResponseEntity.badRequest().body(e.getMessage());
         }
+    }
+
+    @GetMapping("/popular-guide")
+    public ResponseEntity<List<GuideResponse>> getTop10PopularGuides() {
+        return ResponseEntity.ok(memberService.getTop10PopularGuides());
+    }
+
+    @GetMapping("/guides")
+    public ResponseEntity<List<GuideResponse>> findAllGuides() {
+        return ResponseEntity.ok(memberService.findAllGuides());
     }
 
 

@@ -19,6 +19,7 @@ public class TourHistoryManagerResponse {
     private boolean isCompleted;
 
     public TourHistoryManagerResponse(TourHistoryManager tourHistoryManager) {
+        this.guideId = tourHistoryManager.getGuide().getIdx();
         this.touristId = tourHistoryManager.getTourist() != null ? tourHistoryManager.getTourist().getIdx() : null;
         this.tourProductId = tourHistoryManager.getTourProduct().getTourProductId();
         this.isCompleted = tourHistoryManager.isCompleted();

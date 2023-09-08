@@ -9,5 +9,8 @@ import java.util.Optional;
 
 @Repository
 public interface TourHistoryManagerRepository extends JpaRepository<TourHistoryManager, Long> {
+    Optional<TourHistoryManager> findByTourProduct_TourProductId(Long aLong);
+
+    List<TourHistoryManager> findByGuide_Idx(Long memberId);
 
 }
