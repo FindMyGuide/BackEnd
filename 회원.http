@@ -3,14 +3,14 @@ POST http://localhost:9000/api/find-my-guide/member/initiate-sign-up
 Content-Type: application/json
 
 {
-  "name" : "장태원",
-  "email" : "xodnjs8287@naver.com",
+  "name" : "하하호",
+  "email" : "xodnjs1837@gmail.com",
   "password" : "qpal123!",
-  "nickname" : "qpaasd",
+  "nickname" : "qweqwe",
   "nationality" : "KR",
-  "gender" : "MALE",
+  "gender" : "FEMALE",
   "birthDate" : "19950930",
-  "phoneNumber" : "010-9249-8287",
+  "phoneNumber" : "010-4123-8287",
   "nationalCertificationOfGuideYn" : "Y"
 }
 
@@ -26,7 +26,7 @@ Content-Type: application/json
 
 {
   "email": "xodnjs8287@naver.com",
-  "code":"Dd4o40XU"
+  "code": "o7xZzGgb"
 }
 
 ###
@@ -57,6 +57,10 @@ Content-Type: application/json
 
 }
 
+###
+GET http://localhost:9000/api/find-my-guide/guides/search?date=2022-08-01
+Content-Type: application/json
+
 
 ###
 //회원 로그인
@@ -64,7 +68,7 @@ POST http://localhost:9000/api/find-my-guide/member/sign-in
 Content-Type: application/json
 
 {
-  "email" : "xodnjs8287@naver.com",
+  "email" : "xodnjs1837@naver.com",
   "password": "qpal123!"
 
 }
@@ -91,9 +95,12 @@ Authorization:Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiJ4b2RuanM4Mj
 ###
 
 //인기 가이드 조회
-GET localhost:9000/api/find-my-guide/member/popular-guide
+GET localhost:9000/api/find-my-guide/guide/popular-guide
 Content-Type: application/json
 
+###
+GET localhost:9000/api/find-my-guide/guide/guides/detail/2
+Content-Type: application/json
 
 ###
 //전체 가이드 조회

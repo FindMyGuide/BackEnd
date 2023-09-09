@@ -23,7 +23,7 @@ import java.util.List;
 @Getter
 public class TourProduct extends BaseEntity {
     @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "tourProduct_id")
     private Long tourProductId;
 
@@ -36,13 +36,17 @@ public class TourProduct extends BaseEntity {
     @Embedded
     private Price price;
 
-    private BigDecimal mapX;
+    @Embedded
+    private Coordinates coordinates;
 
-    private BigDecimal mapY;
+    @ElementCollection(targetClass = Languages.class, fetch = FetchType.EAGER)
+    @CollectionTable(name = "tour_product_languages", joinColumns = @JoinColumn(name = "tour_product_id"))
+    @Enumerated(EnumType.STRING)
+    private List<Languages> languages = new ArrayList<>();
 
     private String location;
 
-    @OneToMany(mappedBy = "tourProduct", cascade = CascadeType.ALL)
+    @OneToMany(mappedBy = "tourProduct", cascade = CascadeType.REMOVE, orphanRemoval = true)
     private List<TourHistoryManager> tourHistoryManagers = new ArrayList<>();
 
 
@@ -52,10 +56,10 @@ public class TourProduct extends BaseEntity {
     @OneToMany(mappedBy = "tourProduct",cascade = CascadeType.REMOVE, orphanRemoval = true)
     private List<TourProductReview> tourProductReviews = new ArrayList<>();
 
-    @OneToMany(mappedBy = "tourProduct")
+    @OneToMany(mappedBy = "tourProduct",cascade = CascadeType.REMOVE, orphanRemoval = true)
     private List<AvailableDate> availableDates = new ArrayList<>();
 
-    @OneToMany(mappedBy = "tourProduct", cascade = CascadeType.ALL)
+    @OneToMany(mappedBy = "tourProduct", cascade = CascadeType.REMOVE, orphanRemoval = true)
     private List<TourProductLike> tourProductLikes = new ArrayList<>();
 
     public void update(Title title, Content content) {

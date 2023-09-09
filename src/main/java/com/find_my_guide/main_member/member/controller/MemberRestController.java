@@ -3,10 +3,13 @@ package com.find_my_guide.main_member.member.controller;
 import com.find_my_guide.main_member.jwt.service.JwtTokenUtil;
 import com.find_my_guide.main_member.mail.dto.MailConfirmDto;
 import com.find_my_guide.main_member.member.domain.dto.*;
+import com.find_my_guide.main_member.member.domain.entity.Gender;
 import com.find_my_guide.main_member.member.service.MemberService;
+import com.find_my_guide.main_tour_product.tour_product.domain.Languages;
 import io.swagger.annotations.Api;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.Authentication;
 import org.springframework.web.bind.annotation.*;
@@ -14,6 +17,7 @@ import org.springframework.web.bind.annotation.*;
 import javax.servlet.http.HttpServletRequest;
 import javax.validation.Valid;
 import java.net.URI;
+import java.time.LocalDate;
 import java.util.HashMap;
 import java.util.List;
 
@@ -113,15 +117,7 @@ public class MemberRestController {
         }
     }
 
-    @GetMapping("/popular-guide")
-    public ResponseEntity<List<GuideResponse>> getTop10PopularGuides() {
-        return ResponseEntity.ok(memberService.getTop10PopularGuides());
-    }
 
-    @GetMapping("/guides")
-    public ResponseEntity<List<GuideResponse>> findAllGuides() {
-        return ResponseEntity.ok(memberService.findAllGuides());
-    }
 
 
 }

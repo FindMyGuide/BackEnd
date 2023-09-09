@@ -11,28 +11,38 @@ import org.springframework.security.core.Authentication;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.List;
+
 @RestController
 @RequiredArgsConstructor
-@RequestMapping("/api")
+@RequestMapping("/api/tour-product-review")
 @Api
 public class TourProductReviewController {
 
 
     private final TourProductReviewService tourProductReviewService;
 
-    @PostMapping("/tour-product-review/register/{postId}")
+    @PostMapping("/register/{postId}")
     public ResponseEntity<TourProductReviewResponse> register(
             final Authentication authentication,
             @PathVariable Long postId,
             @RequestBody TourProductReviewRequest tourProductReviewRequest) {
 
-        UserDetails userDetails = (UserDetails) authentication.getPrincipal();
-        String email = userDetails.getUsername();
 
-        return ResponseEntity.ok(tourProductReviewService.register(postId, email, tourProductReviewRequest));
+        return ResponseEntity.ok(tourProductReviewService.register(postId,(String) authentication.getPrincipal(), tourProductReviewRequest));
 
 
     }
+
+    @GetMapping("/all/{postId}")
+    public ResponseEntity<List<TourProductReviewResponse>> findAll(
+            @PathVariable Long postId
+    ){
+
+        return ResponseEntity.ok(tourProductReviewService.reviewList(postId));
+    }
+
+
 
 
 }

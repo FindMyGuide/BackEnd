@@ -1,17 +1,17 @@
 POST http://localhost:9000/api/tourProduct/register
-Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiJ4b2RuanM4Mjg3QG5hdmVyLmNvbSIsImV4cCI6MjU4MzE3MTQxNywiaXNzIjoiZmluZG15Z3VpZGUuY29tIn0.qlNKx3iAr7d1CpmkupkJ9ps1rTmzPVDTeXTGQEG_JDI
 Content-Type: application/json
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiJ4b2RuanMxODM3QG5hdmVyLmNvbSIsImV4cCI6MjU4MzI5NzY3NCwiaXNzIjoiZmluZG15Z3VpZGUuY29tIn0.lFp4KhzTLa87Q6omoTMjy7DxQJ43jSojJrxqH2532n0
 
 {
 
   "title": "Tour Title",
   "content": "Tour Description",
   "price": 120000,
-  "mapX" : "12",
-  "mapY" : "12",
+  "coordinates" : [12,12],
+  "languages" : ["JAPANESE"],
   "location": "해운대 암소갈비",
   "themeIds": [1],
-  "availableDates": ["2023-08-01", "2023-08-02", "2023-08-03"]
+  "availableDates": ["2022-08-01"]
 
 }
 

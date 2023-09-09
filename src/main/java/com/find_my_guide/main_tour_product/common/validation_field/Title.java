@@ -2,6 +2,7 @@ package com.find_my_guide.main_tour_product.common.validation_field;
 
 
 import com.find_my_guide.main_tour_product.theme.exception.TitleNotEmptyException;
+import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 

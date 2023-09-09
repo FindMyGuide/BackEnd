@@ -14,6 +14,7 @@ import com.find_my_guide.main_tour_product.tour_product.dto.TourProductResponse;
 import com.find_my_guide.main_tour_product.tour_product.repository.TourProductRepository;
 import com.find_my_guide.main_tour_product.tour_product_like.repository.TourProductLikeRepository;
 import com.find_my_guide.main_tour_product.tour_product_theme.dto.TourProductThemeRequest;
+import com.find_my_guide.main_tour_product.tour_product_theme.dto.TourProductThemeResponse;
 import com.find_my_guide.main_tour_product.tour_product_theme.service.TourProductThemeService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
@@ -57,7 +58,11 @@ public class TourProductService {
 
         tourHistoryManagerService.registerTourProductByGuide(member.getEmail(), save.getTourProductId());
 
-        return new TourProductResponse(save);
+        TourProductResponse tourProductResponse = new TourProductResponse(save);
+
+        tourProductResponse.setThemeResponses(tourProductThemeService.findByTourProductId(save.getTourProductId()));
+
+        return tourProductResponse;
     }
 
 

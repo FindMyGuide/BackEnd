@@ -8,11 +8,14 @@ import com.find_my_guide.main_member.jwt.service.RedisService;
 import com.find_my_guide.main_member.mail.dto.MailConfirmDto;
 import com.find_my_guide.main_member.mail.service.MailService;
 import com.find_my_guide.main_member.member.domain.dto.*;
+import com.find_my_guide.main_member.member.domain.entity.Gender;
 import com.find_my_guide.main_member.member.domain.entity.Member;
+import com.find_my_guide.main_member.member.repository.CustomMemberRepository;
 import com.find_my_guide.main_member.member.repository.MemberRepository;
 import com.find_my_guide.main_member.temp_token.domain.PasswordResetToken;
 import com.find_my_guide.main_member.temp_token.repository.PasswordResetTokenRepository;
 import com.find_my_guide.main_tour_product.tour_history_manager.service.TourHistoryManagerService;
+import com.find_my_guide.main_tour_product.tour_product.domain.Languages;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.data.domain.PageRequest;
@@ -20,6 +23,7 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.HashMap;
 import java.util.List;
@@ -33,6 +37,8 @@ import java.util.stream.Collectors;
 public class MemberService {
 
     private final MemberRepository memberRepository;
+
+    private final CustomMemberRepository customMemberRepository;
 
     private final PasswordEncoder passwordEncoder;
 
@@ -79,6 +85,14 @@ public class MemberService {
         tempMember.setEmailVerified(Boolean.TRUE);
 
         return new CreateMemberResponse(tempMember);
+    }
+
+    public List<GuideResponse> findGuideByCriteria(Gender gender, LocalDate birthDate, Languages language, LocalDate date){
+
+       return customMemberRepository.findGuidesByCriteria(gender,birthDate,language,date)
+               .stream()
+               .map(GuideResponse::new)
+               .collect(Collectors.toList());
     }
 
     public Boolean CheckDuplicated(CheckDuplicatedEmailRequest userDuplicateCheckRequest) {
@@ -132,9 +146,15 @@ public class MemberService {
     }
 
     public HashMap<String, Object> login(final LoginMemberRequest loginMemberRequest) {
+
         String userId = loginMemberRequest.getEmail();
         String password = loginMemberRequest.getPassword();
         Member member = findByEmail(userId);
+
+        if(!member.isEmailVerified()){
+            throw new NotFoundException("이메일 인증이 완료되지 않았습니다. ");
+
+        }
         if (passwordEncoder.matches(password, member.getPassword())) {
             HashMap<String, Object> stringObjectHashMap = tokenService.generateTokens(userId);
             return stringObjectHashMap;
@@ -197,6 +217,14 @@ public class MemberService {
                 .stream()
                 .map(GuideResponse::new)
                 .collect(Collectors.toList());
+    }
+
+    public GuideResponse guideDetail(Long guideId){
+        return memberRepository.findAllGuides()
+                .stream().filter(it -> it.getIdx()==guideId)
+                .map(GuideResponse::new)
+                .findAny().orElseThrow(() -> new NotFoundException("이 가이드는 존재 하지 않습니다."));
+
     }
 
 

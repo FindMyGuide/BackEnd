@@ -14,8 +14,6 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 public class TourProductReviewRequest {
 
-    private Long id;
-
     private String content;
 
 
@@ -28,7 +26,6 @@ public class TourProductReviewRequest {
 
     public TourProductReview toTourProductReview(){
         return TourProductReview.builder()
-                .id(id)
                 .content(new Content(content))
                 .rating(new Rating(rating))
                 .imageUrl(imageUrl)

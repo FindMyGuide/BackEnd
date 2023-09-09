@@ -12,6 +12,9 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.List;
+import java.util.stream.Collectors;
+
 @Service
 @Transactional(readOnly = true)
 @RequiredArgsConstructor
@@ -32,6 +35,13 @@ public class TourProductThemeService {
                 theme(findTheme(tourProductThemeRequest)).build();
 
         return new TourProductThemeResponse(tourProductThemeRepository.save(tourProductTheme));
+    }
+
+    public List<TourProductThemeResponse> findByTourProductId(Long id){
+       return tourProductThemeRepository.findByTourProduct_TourProductId(id)
+               .stream()
+               .map(TourProductThemeResponse::new)
+               .collect(Collectors.toList());
     }
 
     private Theme findTheme(TourProductThemeRequest tourProductThemeRequest) {

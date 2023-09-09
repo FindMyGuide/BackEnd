@@ -1,5 +1,6 @@
 package com.find_my_guide.main_member.member.domain.entity;
 
+import com.find_my_guide.main_member.guideLike.domain.GuideLike;
 import com.find_my_guide.main_tour_product.tour_history_manager.domain.TourHistoryManager;
 import com.find_my_guide.main_tour_product.tour_product_like.domain.TourProductLike;
 import com.find_my_guide.main_tour_product.tour_product_review.domain.TourProductReview;
@@ -75,6 +76,9 @@ public class Member {
 
     @OneToMany(mappedBy = "tourist")
     private List<TourHistoryManager> tourHistoriesAsTourist = new ArrayList<>();
+
+    @OneToMany(mappedBy = "guide")
+    private List<GuideLike> likedByMembers = new ArrayList<>();
 
     @OneToMany(mappedBy = "guide")
     private List<TourHistoryManager> tourHistoriesAsGuide = new ArrayList<>();
