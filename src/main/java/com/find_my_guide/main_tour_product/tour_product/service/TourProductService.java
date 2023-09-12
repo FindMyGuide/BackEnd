@@ -7,14 +7,19 @@ import com.find_my_guide.main_tour_product.available_reservation_date.dto.Availa
 import com.find_my_guide.main_tour_product.available_reservation_date.service.AvailableService;
 import com.find_my_guide.main_tour_product.common.validation_field.Content;
 import com.find_my_guide.main_tour_product.common.validation_field.Title;
+import com.find_my_guide.main_tour_product.location.domain.Location;
+import com.find_my_guide.main_tour_product.location.dto.LocationRequest;
+import com.find_my_guide.main_tour_product.location.dto.LocationResponse;
+import com.find_my_guide.main_tour_product.location.service.LocationService;
 import com.find_my_guide.main_tour_product.tour_history_manager.service.TourHistoryManagerService;
 import com.find_my_guide.main_tour_product.tour_product.domain.TourProduct;
 import com.find_my_guide.main_tour_product.tour_product.dto.TourProductRequest;
 import com.find_my_guide.main_tour_product.tour_product.dto.TourProductResponse;
 import com.find_my_guide.main_tour_product.tour_product.repository.TourProductRepository;
 import com.find_my_guide.main_tour_product.tour_product_like.repository.TourProductLikeRepository;
+import com.find_my_guide.main_tour_product.tour_product_location.domain.TourProductLocation;
+import com.find_my_guide.main_tour_product.tour_product_location.repository.TourProductLocationRepository;
 import com.find_my_guide.main_tour_product.tour_product_theme.dto.TourProductThemeRequest;
-import com.find_my_guide.main_tour_product.tour_product_theme.dto.TourProductThemeResponse;
 import com.find_my_guide.main_tour_product.tour_product_theme.service.TourProductThemeService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
@@ -35,7 +40,11 @@ public class TourProductService {
 
     private final TourProductThemeService tourProductThemeService;
 
+    private final TourProductLocationRepository tourProductLocationRepository;
+
     private final AvailableService availableService;
+
+    private final LocationService locationService;
 
     private final TourProductLikeRepository tourProductLikeRepository;
 
@@ -53,6 +62,7 @@ public class TourProductService {
         addTheme(tourProductRequest, tourProduct);
 
         addDates(tourProductRequest, tourProduct);
+
 
         TourProduct save = tourProductRepository.save(tourProduct);
 

@@ -3,11 +3,9 @@ package com.find_my_guide.main_tour_product.tour_product.dto;
 import com.find_my_guide.main_tour_product.available_reservation_date.dto.AvailableDateResponse;
 import com.find_my_guide.main_tour_product.tour_product.domain.Languages;
 import com.find_my_guide.main_tour_product.tour_product.domain.TourProduct;
+import com.find_my_guide.main_tour_product.tour_product_location.dto.TourProductLocationResponse;
 import com.find_my_guide.main_tour_product.tour_product_theme.dto.TourProductThemeResponse;
-import lombok.AllArgsConstructor;
 import lombok.Data;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
 
 import java.math.BigDecimal;
 import java.util.ArrayList;
@@ -25,11 +23,7 @@ public class TourProductResponse {
 
     private BigDecimal price;
 
-    private BigDecimal mapX;
-
-    private BigDecimal mapY;
-
-    private String location;
+    private List<TourProductLocationResponse> locations = new ArrayList<>();
 
     private List<AvailableDateResponse> availableDates;
 
@@ -38,18 +32,18 @@ public class TourProductResponse {
     private List<TourProductThemeResponse> themeResponses;
 
 
-
-
     public TourProductResponse(TourProduct tourProduct) {
         this.id = tourProduct.getTourProductId();
         this.title = tourProduct.getTitle().getTitle();
         this.content = tourProduct.getContent().getContent();
-        this.mapX = tourProduct.getCoordinates().getMapX();
-        this.mapY = tourProduct.getCoordinates().getMapY();
-        this.location = tourProduct.getLocation();
+        if (tourProduct.getTourProductThemes() != null) {
+            this.locations = tourProduct.getTourProductLocations().
+                    stream().map(TourProductLocationResponse::new)
+                    .collect(Collectors.toList());
+        }
         this.languages = tourProduct.getLanguages();
         this.price = BigDecimal.valueOf(tourProduct.getPrice().getPrice().longValue());
-        this.availableDates =  tourProduct.getAvailableDates().stream()
+        this.availableDates = tourProduct.getAvailableDates().stream()
                 .map(AvailableDateResponse::new)
                 .collect(Collectors.toList());
         if (tourProduct.getTourProductThemes() != null) {

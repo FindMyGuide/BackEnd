@@ -44,6 +44,7 @@ public class FestivalService {
         return results;
     }
 
+
     private String fetchAndSaveFestivalData(int sigunguCode) throws Exception {
         URL url = new URL(SERVICE_URL + sigunguCode);
         HttpURLConnection connection = (HttpURLConnection) url.openConnection();

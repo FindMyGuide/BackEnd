@@ -1,12 +1,11 @@
 package com.find_my_guide.main_tour_product.location.domain;
 
 import com.find_my_guide.main_tour_product.common.validation_field.Title;
+import com.find_my_guide.main_tour_product.tour_product.domain.Coordinates;
+import com.find_my_guide.main_tour_product.tour_product_location.domain.TourProductLocation;
 import com.find_my_guide.main_tour_product.want_tour_product.domain.WantTourProduct;
 import com.find_my_guide.main_tour_product.want_tour_product_location.domain.WantTourProductLocation;
-import lombok.AllArgsConstructor;
-import lombok.Builder;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
+import lombok.*;
 
 import javax.persistence.*;
 import java.math.BigDecimal;
@@ -15,6 +14,7 @@ import java.util.List;
 
 @Entity
 @Getter
+@Setter
 @NoArgsConstructor
 @AllArgsConstructor
 @Builder
@@ -27,16 +27,16 @@ public class Location {
     @Embedded
     private Title title;
 
-    private BigDecimal mapX;
-    private BigDecimal mapY;
+    @Embedded
+    private Coordinates coordinates;
 
-    @OneToMany(mappedBy = "location")
+    @OneToMany(mappedBy = "location", cascade = CascadeType.ALL, orphanRemoval = true)
     private List<WantTourProductLocation> wantTourProductLocations = new ArrayList<>();
 
-    public void update(Title title, BigDecimal mapX, BigDecimal mapY) {
-        this.title = title;
-        this.mapX = mapX;
-        this.mapY = mapY;
-    }
+    @OneToMany(mappedBy = "location", cascade = CascadeType.ALL, orphanRemoval = true)
+    private List<TourProductLocation> tourProductLocations = new ArrayList<>();
+
+
+
 
 }

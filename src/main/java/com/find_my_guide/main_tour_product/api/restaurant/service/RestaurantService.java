@@ -1,6 +1,7 @@
 package com.find_my_guide.main_tour_product.api.restaurant.service;
 
 import com.find_my_guide.main_tour_product.api.restaurant.dto.RestaurantRequest;
+import com.find_my_guide.main_tour_product.api.restaurant.dto.RestaurantResponse;
 import com.find_my_guide.main_tour_product.api.restaurant.repository.RestaurantRepository;
 import lombok.RequiredArgsConstructor;
 import org.json.simple.JSONArray;
@@ -12,6 +13,8 @@ import org.springframework.transaction.annotation.Transactional;
 import java.io.BufferedReader;
 import java.io.InputStreamReader;
 import java.net.URL;
+import java.util.List;
+import java.util.stream.Collectors;
 
 @Service
 @RequiredArgsConstructor
@@ -56,6 +59,13 @@ public class RestaurantService {
 
         restaurantRepository.save(restaurantRequest.toRestaurant());
         System.out.println("저장완료");
+    }
+
+    public List<RestaurantResponse> restaurantResponses(){
+        return restaurantRepository.findAll()
+                .stream()
+                .map(RestaurantResponse::new)
+                .collect(Collectors.toList());
     }
 
     private RestaurantRequest parseRestaurantRequest(JSONObject item) {

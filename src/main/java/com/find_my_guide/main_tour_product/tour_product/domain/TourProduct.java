@@ -7,6 +7,7 @@ import com.find_my_guide.main_tour_product.common.validation_field.Content;
 import com.find_my_guide.main_tour_product.common.validation_field.Title;
 import com.find_my_guide.main_tour_product.tour_history_manager.domain.TourHistoryManager;
 import com.find_my_guide.main_tour_product.tour_product_like.domain.TourProductLike;
+import com.find_my_guide.main_tour_product.tour_product_location.domain.TourProductLocation;
 import com.find_my_guide.main_tour_product.tour_product_review.domain.TourProductReview;
 import com.find_my_guide.main_tour_product.tour_product_theme.domain.TourProductTheme;
 import lombok.*;
@@ -36,19 +37,16 @@ public class TourProduct extends BaseEntity {
     @Embedded
     private Price price;
 
-    @Embedded
-    private Coordinates coordinates;
-
     @ElementCollection(targetClass = Languages.class, fetch = FetchType.EAGER)
     @CollectionTable(name = "tour_product_languages", joinColumns = @JoinColumn(name = "tour_product_id"))
     @Enumerated(EnumType.STRING)
     private List<Languages> languages = new ArrayList<>();
 
-    private String location;
-
     @OneToMany(mappedBy = "tourProduct", cascade = CascadeType.REMOVE, orphanRemoval = true)
     private List<TourHistoryManager> tourHistoryManagers = new ArrayList<>();
 
+    @OneToMany(mappedBy = "tourProduct", cascade = CascadeType.ALL, orphanRemoval = true)
+    private List<TourProductLocation> tourProductLocations = new ArrayList<>();
 
     @OneToMany(mappedBy = "tourProduct",cascade = CascadeType.REMOVE, orphanRemoval = true)
     private List<TourProductTheme> tourProductThemes = new ArrayList<>();

@@ -2,29 +2,29 @@ package com.find_my_guide.main_tour_product.location.dto;
 
 import com.find_my_guide.main_tour_product.common.validation_field.Title;
 import com.find_my_guide.main_tour_product.location.domain.Location;
+import com.find_my_guide.main_tour_product.tour_product.domain.Coordinates;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 
 import java.math.BigDecimal;
+import java.util.ArrayList;
+import java.util.List;
 
+@Getter
 @NoArgsConstructor
 @AllArgsConstructor
-@Getter
 public class LocationRequest {
 
-    private Long id;
     private String title;
-    private BigDecimal mapX;
-    private BigDecimal mapY;
 
-    public Location toSelfTourLocation() {
+    private List<BigDecimal> coordinates = new ArrayList<>();  // 변경된 부분
+
+    public Location toLocation() {
         return Location.builder()
-                .locationId(id)
                 .title(new Title(title))
-                .mapX(mapX)
-                .mapY(mapY)
+                .coordinates(new Coordinates(coordinates.get(0), coordinates.get(1)))
                 .build();
     }
-
 }
+

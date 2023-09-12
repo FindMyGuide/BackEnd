@@ -18,7 +18,7 @@ public class LocationResponse {
 
     public LocationResponse(Location location) {
         this.title = location.getTitle().getTitle();
-        this.mapX = location.getMapX();
-        this.mapY = location.getMapY();
+        this.mapX = location.getCoordinates().getMapX();
+        this.mapY = location.getCoordinates().getMapY();
     }
 }

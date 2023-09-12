@@ -1,0 +1,2 @@
+GET localhost:9000/api/restaurant
+Content-Type: application/json
