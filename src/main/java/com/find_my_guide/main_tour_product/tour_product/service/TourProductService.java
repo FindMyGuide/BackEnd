@@ -149,6 +149,13 @@ public class TourProductService {
 
     }
 
+    public List<TourProductResponse> getTourProductsByLocationTitle(String title) {
+        return tourProductLocationRepository.findTourProductsByLocationTitle(new Title(title))
+                .stream()
+                .map(TourProductResponse::new)
+                .collect(Collectors.toList());
+    }
+
     private TourProduct findById(Long id) {
         return tourProductRepository.findById(id).orElseThrow(() -> new IllegalArgumentException("존재 하지 않는 관광 상품 입니다."));
     }

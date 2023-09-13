@@ -58,5 +58,10 @@ public class TourProductController {
         return counts;
     }
 
+    @GetMapping("/tourProducts/search")
+    public ResponseEntity<List<TourProductResponse>> findByLocation(@RequestParam String title){
+        return ResponseEntity.ok(tourProductService.getTourProductsByLocationTitle(title));
+    }
+
 
 }
