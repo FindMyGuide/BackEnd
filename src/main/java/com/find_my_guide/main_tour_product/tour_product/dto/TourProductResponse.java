@@ -8,7 +8,6 @@ import com.find_my_guide.main_tour_product.tour_product_theme.dto.TourProductThe
 import lombok.Data;
 
 import java.math.BigDecimal;
-import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -23,11 +22,11 @@ public class TourProductResponse {
 
     private BigDecimal price;
 
-    private List<TourProductLocationResponse> locations = new ArrayList<>();
+    private List<TourProductLocationResponse> locations;
 
     private List<AvailableDateResponse> availableDates;
 
-    private List<Languages> languages = new ArrayList<>();
+    private List<Languages> languages;
 
     private List<TourProductThemeResponse> themeResponses;
 
@@ -36,11 +35,11 @@ public class TourProductResponse {
         this.id = tourProduct.getTourProductId();
         this.title = tourProduct.getTitle().getTitle();
         this.content = tourProduct.getContent().getContent();
-        if (tourProduct.getTourProductThemes() != null) {
-            this.locations = tourProduct.getTourProductLocations().
-                    stream().map(TourProductLocationResponse::new)
-                    .collect(Collectors.toList());
-        }
+
+        this.locations = tourProduct.getTourProductLocations().
+                stream().map(TourProductLocationResponse::new)
+                .collect(Collectors.toList());
+
         this.languages = tourProduct.getLanguages();
         this.price = BigDecimal.valueOf(tourProduct.getPrice().getPrice().longValue());
         this.availableDates = tourProduct.getAvailableDates().stream()

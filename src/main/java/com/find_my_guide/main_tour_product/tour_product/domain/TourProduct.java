@@ -85,6 +85,8 @@ public class TourProduct extends BaseEntity {
     }
 
 
+    public void setTourProductLocations() {
+        this.tourProductLocations = new ArrayList<>();
 
-
+    }
 }

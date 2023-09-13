@@ -9,8 +9,7 @@ import com.find_my_guide.main_tour_product.common.validation_field.Content;
 import com.find_my_guide.main_tour_product.common.validation_field.Title;
 import com.find_my_guide.main_tour_product.location.domain.Location;
 import com.find_my_guide.main_tour_product.location.dto.LocationRequest;
-import com.find_my_guide.main_tour_product.location.dto.LocationResponse;
-import com.find_my_guide.main_tour_product.location.service.LocationService;
+import com.find_my_guide.main_tour_product.location.repository.LocationRepository;
 import com.find_my_guide.main_tour_product.tour_history_manager.service.TourHistoryManagerService;
 import com.find_my_guide.main_tour_product.tour_product.domain.TourProduct;
 import com.find_my_guide.main_tour_product.tour_product.dto.TourProductRequest;
@@ -18,6 +17,7 @@ import com.find_my_guide.main_tour_product.tour_product.dto.TourProductResponse;
 import com.find_my_guide.main_tour_product.tour_product.repository.TourProductRepository;
 import com.find_my_guide.main_tour_product.tour_product_like.repository.TourProductLikeRepository;
 import com.find_my_guide.main_tour_product.tour_product_location.domain.TourProductLocation;
+import com.find_my_guide.main_tour_product.tour_product_location.dto.TourProductLocationResponse;
 import com.find_my_guide.main_tour_product.tour_product_location.repository.TourProductLocationRepository;
 import com.find_my_guide.main_tour_product.tour_product_theme.dto.TourProductThemeRequest;
 import com.find_my_guide.main_tour_product.tour_product_theme.service.TourProductThemeService;
@@ -44,7 +44,7 @@ public class TourProductService {
 
     private final AvailableService availableService;
 
-    private final LocationService locationService;
+    private final LocationRepository locationRepository;
 
     private final TourProductLikeRepository tourProductLikeRepository;
 
@@ -55,6 +55,11 @@ public class TourProductService {
     @Transactional
     public TourProductResponse registerTourProduct(String email, TourProductRequest tourProductRequest) {
         TourProduct tourProduct = tourProductRequest.toTourProduct();
+
+        if (tourProduct.getTourProductLocations() == null) {
+            tourProduct.setTourProductLocations();
+        }
+
         tourProduct = tourProductRepository.save(tourProduct);
 
         Member member = findMember(email);
@@ -62,6 +67,20 @@ public class TourProductService {
         addTheme(tourProductRequest, tourProduct);
 
         addDates(tourProductRequest, tourProduct);
+
+        List<LocationRequest> locations = tourProductRequest.getLocation();
+
+        for (LocationRequest locationRequest : locations) {
+            Location locationEntity = locationRequest.toLocation();
+            Location savedLocation = locationRepository.save(locationEntity);
+
+            TourProductLocation build = TourProductLocation.builder()
+                    .tourProduct(tourProduct)
+                    .location(savedLocation)
+                    .build();
+            tourProductLocationRepository.save(build);
+        }
+
 
 
         TourProduct save = tourProductRepository.save(tourProduct);
@@ -71,6 +90,8 @@ public class TourProductService {
         TourProductResponse tourProductResponse = new TourProductResponse(save);
 
         tourProductResponse.setThemeResponses(tourProductThemeService.findByTourProductId(save.getTourProductId()));
+
+        tourProductResponse.setLocations(findByTourProductId(save.getTourProductId()));
 
         return tourProductResponse;
     }
@@ -117,6 +138,15 @@ public class TourProductService {
 
     public long countLikes(Long tourProductId) {
         return tourProductLikeRepository.countByTourProduct_TourProductId(tourProductId);
+    }
+
+
+    public List<TourProductLocationResponse> findByTourProductId(Long id){
+        return tourProductLocationRepository.findByTourProduct_TourProductId(id)
+                .stream()
+                .map(TourProductLocationResponse::new)
+                .collect(Collectors.toList());
+
     }
 
     private TourProduct findById(Long id) {

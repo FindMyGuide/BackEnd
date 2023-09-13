@@ -7,6 +7,7 @@ import com.find_my_guide.main_tour_product.tour_product.dto.TourProductResponse;
 import com.find_my_guide.main_tour_product.tour_product_theme.service.TourProductThemeService;
 import io.swagger.annotations.Api;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.userdetails.UserDetails;
@@ -17,6 +18,7 @@ import java.util.List;
 
 @RestController
 @RequiredArgsConstructor
+@Slf4j
 @RequestMapping("/api")
 @Api
 public class TourProductController {
@@ -29,8 +31,12 @@ public class TourProductController {
             final Authentication authentication,
             @RequestBody TourProductRequest tourProductRequest) {
 
+
         TourProductResponse tourProductResponse =
                 tourProductService.registerTourProduct((String) authentication.getPrincipal(), tourProductRequest);
+
+        log.info("test log {}", tourProductResponse.getLocations());
+
         return ResponseEntity.ok(tourProductResponse);
     }
 

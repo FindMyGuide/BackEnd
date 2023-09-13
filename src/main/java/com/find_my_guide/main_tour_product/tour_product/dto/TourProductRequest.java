@@ -31,6 +31,7 @@ public class TourProductRequest {
     @NotNull
     private String content;
 
+
     private List<LocationRequest> location = new ArrayList<>();  // 변경된 부분
 
     private List<Languages> languages = new ArrayList<>();
