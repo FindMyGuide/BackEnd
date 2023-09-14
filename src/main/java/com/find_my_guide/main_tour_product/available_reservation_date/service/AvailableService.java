@@ -19,21 +19,26 @@ public class AvailableService {
     private final TourProductRepository tourProductRepository;
 
     @Transactional
-    public AvailableDateResponse registerDate(Long postId, AvailableDateRequest availableDateRequest){
+    public AvailableDateResponse registerDate(Long postId, AvailableDateRequest availableDateRequest) {
         TourProduct tourProduct = findById(postId);
 
         AvailableDate availableDate = availableDateRequest.toAvailableDateRequest();
 
-        isSameDate(tourProduct, availableDate);
+        isDateReserved(tourProduct, availableDate);  // 예약 가능 여부 확인
 
         availableDate.addAvailableDate(tourProduct);
+
+        availableDate.setReserved(true);  // 예약 상태 설정
 
         return new AvailableDateResponse(availableDateRepository.save(availableDate));
     }
 
-    private void isSameDate(TourProduct tourProduct, AvailableDate availableDate) {
-        if(tourProduct.getAvailableDates().contains(availableDate.getDate())){
-            throw new IllegalArgumentException("같은 날짜가 존재함");
+
+    private void isDateReserved(TourProduct tourProduct, AvailableDate availableDate) {
+        for (AvailableDate date : tourProduct.getAvailableDates()) {
+            if (date.getDate().equals(availableDate.getDate()) && date.isReserved()) {
+                throw new IllegalArgumentException("해당 날짜는 이미 예약되었습니다.");
+            }
         }
     }
 

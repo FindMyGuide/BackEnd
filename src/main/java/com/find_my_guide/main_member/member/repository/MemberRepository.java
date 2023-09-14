@@ -27,14 +27,6 @@ public interface MemberRepository extends JpaRepository<Member, Long> {
     @Query("SELECT g.guide FROM TourHistoryManager g GROUP BY g.guide")
     List<Member> findAllGuides();
 
-//    @Query("SELECT m FROM Member m WHERE " +
-//            "(?1 IS NULL OR m.gender = ?1) AND " +
-//            "(?2 IS NULL OR m.birthDate = ?2) AND " +
-//            "(?3 IS NULL OR m.la = ?3) AND " +
-//            "(?4 IS NULL OR m.tourDate = ?4)")
-//    List<Member> findGuidesByConditions(String gender, String age, String guideLanguage, String tourDate);
-
-
     Optional<Member> findByKakaoId(String kakaoId);
     boolean existsByRefreshToken(String refreshToken);
 }

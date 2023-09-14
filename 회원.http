@@ -6,11 +6,11 @@ Content-Type: application/json
   "name" : "하하호",
   "email" : "xodnjs1837@gmail.com",
   "password" : "qpal123!",
-  "nickname" : "qweqwe",
+  "nickname" : "qweqwe2",
   "nationality" : "KR",
   "gender" : "FEMALE",
   "birthDate" : "19950930",
-  "phoneNumber" : "010-4123-8287",
+  "phoneNumber" : "010-1234-8287",
   "nationalCertificationOfGuideYn" : "Y"
 }
 
@@ -25,8 +25,8 @@ POST http://localhost:9000/api/find-my-guide/member/complete-sign-up
 Content-Type: application/json
 
 {
-  "email": "xodnjs8287@naver.com",
-  "code": "o7xZzGgb"
+  "email": "xodnjs1837@gmail.com",
+  "code": "0Zj0Uv0D"
 }
 
 ###
@@ -68,7 +68,7 @@ POST http://localhost:9000/api/find-my-guide/member/sign-in
 Content-Type: application/json
 
 {
-  "email" : "xodnjs1837@naver.com",
+  "email" : "xodnjs1837@gmail.com",
   "password": "qpal123!"
 
 }
@@ -87,7 +87,7 @@ Content-Type: application/json
 
 //회원조회
 GET localhost:9000/api/find-my-guide/member/detail
-Authorization:Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiJ4b2RuanM4Mjg3QG5hdmVyLmNvbSIsImV4cCI6MjU4MzExODg4OSwiaXNzIjoiZmluZG15Z3VpZGUuY29tIn0.s7Sdj-qrKop5BpB7TgyKOEqI2V3-T3z6EcLPKXvu4LI
+Authorization:Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiJ4b2RuanMxODM3QGdtYWlsLmNvbSIsImV4cCI6MjU4MzY5MTA0MSwiaXNzIjoiZmluZG15Z3VpZGUuY29tIn0.BwerMGDuCKYV6SSBeVOVX5tq6GU7iHXY_2UddC1SW98
 //회원수정
 //비밀번호, 닉네임, 휴대폰번호, 자격증여부 필드만 변경가능
 //변경할 필드만 입력하면 됨

@@ -5,7 +5,7 @@ Content-Type: application/json
 
 ###
 //하나의 상품 조회
-GET http://localhost:8080/tourProduct/1
+GET http://localhost:9000/api/tourProduct/2
 Content-Type: application/json
 
 ###
@@ -16,4 +16,14 @@ Content-Type: application/json
 ###
 //장소로 조회
 GET http://localhost:9000/api/tourProducts/search?title=해운대 암소갈비
+Content-Type: application/json
+
+###
+//top10 관광상품 조회
+GET http://localhost:9000/api/tourProduct/top-10
+Content-Type: application/json
+
+###
+//테마별 조회
+GET http://localhost:9000/api/tourProducts/search-theme?title=애견동반
 Content-Type: application/json

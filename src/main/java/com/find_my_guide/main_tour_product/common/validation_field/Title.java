@@ -42,6 +42,11 @@ public class Title {
         return Objects.equals(title, that.title);
     }
 
+    public String value() {
+        return this.title;
+    }
+
+
     @Override
     public int hashCode() {
         return Objects.hash(title);

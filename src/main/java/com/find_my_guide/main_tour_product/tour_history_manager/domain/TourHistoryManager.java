@@ -47,8 +47,6 @@ public class TourHistoryManager extends BaseEntity {
         this.tourProduct = tourProduct;
         if (!this.tourProduct.getTourHistoryManagers().contains(this)) {
             this.tourProduct.getTourHistoryManagers().add(this);
-        } else {
-            throw new IllegalArgumentException("이미 존재하는 내역입니다.");
         }
     }
 
@@ -56,8 +54,6 @@ public class TourHistoryManager extends BaseEntity {
         this.tourist = tourist;
         if (!tourist.getTourHistoriesAsTourist().contains(this)) {
             tourist.getTourHistoriesAsTourist().add(this);
-        } else {
-            throw new IllegalArgumentException("이미 존재하는 내역입니다.");
         }
     }
 
@@ -65,8 +61,6 @@ public class TourHistoryManager extends BaseEntity {
         this.guide = guide;
         if(!guide.getTourHistoriesAsGuide().contains(this)) {
             guide.getTourHistoriesAsGuide().add(this);
-        }else {
-            throw new IllegalArgumentException("이미 존재하는 내역입니다.");
         }
     }
 

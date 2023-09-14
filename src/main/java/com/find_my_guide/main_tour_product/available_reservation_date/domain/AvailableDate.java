@@ -24,12 +24,19 @@ public class AvailableDate {
     @JoinColumn(name = "tourProduct_id")
     private TourProduct tourProduct;
 
+    private boolean isReserved;  // 예약 상태 표시
+
+
     public void addAvailableDate(TourProduct tourProduct) {
         this.tourProduct = tourProduct;
         if (this.tourProduct.getAvailableDates() == null) {
             this.tourProduct.setAvailableDates(new ArrayList<>());
         }
         this.tourProduct.getAvailableDates().add(this);
+    }
+
+    public void setReserved(Boolean isReserved){
+        this.isReserved = isReserved;
     }
 
 

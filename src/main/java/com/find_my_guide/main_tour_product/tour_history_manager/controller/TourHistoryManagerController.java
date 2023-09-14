@@ -4,11 +4,14 @@ import com.find_my_guide.main_tour_product.tour_history_manager.dto.TourHistoryM
 import com.find_my_guide.main_tour_product.tour_history_manager.dto.TourHistoryManagerResponse;
 import com.find_my_guide.main_tour_product.tour_history_manager.dto.TourHistoryTouristRequest;
 import com.find_my_guide.main_tour_product.tour_history_manager.service.TourHistoryManagerService;
+import com.find_my_guide.main_tour_product.tour_product.dto.TourProductResponse;
 import io.swagger.annotations.Api;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.Authentication;
 import org.springframework.web.bind.annotation.*;
+
+import java.util.List;
 
 @RestController
 @RequiredArgsConstructor
@@ -29,6 +32,11 @@ public class TourHistoryManagerController {
         request.setEmail((String) authentication.getPrincipal());
 
         return ResponseEntity.ok(tourHistoryManagerService.reserveTourByTourist(request));
+    }
+
+    @GetMapping("/top-10")
+    public ResponseEntity<List<TourProductResponse>> top10(){
+        return ResponseEntity.ok(tourHistoryManagerService.getTop10TourProductsByFrequency());
     }
 
 

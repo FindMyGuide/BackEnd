@@ -4,28 +4,55 @@ import com.find_my_guide.main_tour_product.tour_history_manager.domain.TourHisto
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
+import lombok.Setter;
+import reactor.util.annotation.Nullable;
 
 import java.time.format.DateTimeFormatter;
 
 @NoArgsConstructor
 @AllArgsConstructor
+@Setter
 @Getter
 public class TourHistoryManagerResponse {
     private Long guideId;
     private Long touristId;  // 여행객의 ID
     private Long tourProductId;
+
+    @Nullable
     private String tourStartDate;
+
+    @Nullable
     private String tourEndDate;
+    @Nullable
     private boolean isCompleted;
 
     public TourHistoryManagerResponse(TourHistoryManager tourHistoryManager) {
-        this.guideId = tourHistoryManager.getGuide().getIdx();
-        this.touristId = tourHistoryManager.getTourist() != null ? tourHistoryManager.getTourist().getIdx() : null;
-        this.tourProductId = tourHistoryManager.getTourProduct().getTourProductId();
+        if (tourHistoryManager == null) {
+            throw new IllegalArgumentException("TourHistoryManager must not be null");
+        }
+
+        if (tourHistoryManager.getGuide() != null) {
+            this.guideId = tourHistoryManager.getGuide().getIdx();
+        }
+
+        if (tourHistoryManager.getTourist() != null) {
+            this.touristId = tourHistoryManager.getTourist().getIdx();
+        }
+
+        if (tourHistoryManager.getTourProduct() != null) {
+            this.tourProductId = tourHistoryManager.getTourProduct().getTourProductId();
+        }
+
         this.isCompleted = tourHistoryManager.isCompleted();
 
         DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd");
-        this.tourStartDate = tourHistoryManager.getTourStartDate() != null ? tourHistoryManager.getTourStartDate().format(formatter) : null;
-        this.tourEndDate = tourHistoryManager.getTourEndDate() != null ? tourHistoryManager.getTourEndDate().format(formatter) : null;
+        if (tourHistoryManager.getTourStartDate() != null) {
+            this.tourStartDate = tourHistoryManager.getTourStartDate().format(formatter);
+        }
+
+        if (tourHistoryManager.getTourEndDate() != null) {
+            this.tourEndDate = tourHistoryManager.getTourEndDate().format(formatter);
+        }
     }
+
 }

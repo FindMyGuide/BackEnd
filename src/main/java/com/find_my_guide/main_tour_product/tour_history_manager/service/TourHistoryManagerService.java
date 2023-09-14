@@ -3,19 +3,24 @@ package com.find_my_guide.main_tour_product.tour_history_manager.service;
 import com.find_my_guide.main_member.common.NotFoundException;
 import com.find_my_guide.main_member.member.domain.entity.Member;
 import com.find_my_guide.main_member.member.repository.MemberRepository;
+import com.find_my_guide.main_tour_product.available_reservation_date.domain.AvailableDate;
+import com.find_my_guide.main_tour_product.available_reservation_date.repository.AvailableDateRepository;
 import com.find_my_guide.main_tour_product.tour_history_manager.domain.TourHistoryManager;
 import com.find_my_guide.main_tour_product.tour_history_manager.dto.TourHistoryManagerGuideRequest;
 import com.find_my_guide.main_tour_product.tour_history_manager.dto.TourHistoryManagerResponse;
 import com.find_my_guide.main_tour_product.tour_history_manager.dto.TourHistoryTouristRequest;
 import com.find_my_guide.main_tour_product.tour_history_manager.repository.TourHistoryManagerRepository;
 import com.find_my_guide.main_tour_product.tour_product.domain.TourProduct;
+import com.find_my_guide.main_tour_product.tour_product.dto.TourProductResponse;
 import com.find_my_guide.main_tour_product.tour_product.repository.TourProductRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.time.LocalDate;
 import java.util.List;
 import java.util.Optional;
+import java.util.stream.Collectors;
 
 @Service
 @Transactional(readOnly = true)
@@ -24,6 +29,8 @@ public class TourHistoryManagerService {
 
     private final TourProductRepository tourProductRepository;
     private final TourHistoryManagerRepository tourHistoryManagerRepository;
+    private final AvailableDateRepository availableDateRepository; // 추가
+
 
     private final MemberRepository memberRepository;
 
@@ -48,22 +55,68 @@ public class TourHistoryManagerService {
     @Transactional
     public TourHistoryManagerResponse reserveTourByTourist(TourHistoryTouristRequest tourHistoryTouristRequest) {
         Member tourist = findMemberByEmail(tourHistoryTouristRequest.getEmail());
-        TourHistoryManager existingTourHistoryManager = findTourHistoryManagerByTourProductId(tourHistoryTouristRequest.getProductId());
+        TourProduct tourProduct = findTourProductById(tourHistoryTouristRequest.getProductId());
 
-        if (existingTourHistoryManager.getTourist() != null) {
-            throw new IllegalArgumentException("이 상품은 이미 예약되었습니다.");
-        }
+        checkIfTourDateIsAlreadyReservedForProduct(tourHistoryTouristRequest.getStartDate(), tourHistoryTouristRequest.getEndDate(), tourHistoryTouristRequest.getProductId());
 
-        existingTourHistoryManager.addTourist(tourist);
-        existingTourHistoryManager.setTourStartDate(tourHistoryTouristRequest.getStartDate());
-        existingTourHistoryManager.setTourEndDate(tourHistoryTouristRequest.getEndDate());
+        List<TourHistoryManager> tourHistoryManagerByTourProductId = findTourHistoryManagerByTourProductId(tourProduct.getTourProductId());
 
-        return new TourHistoryManagerResponse(tourHistoryManagerRepository.save(existingTourHistoryManager));
+        Member guide = tourHistoryManagerByTourProductId.get(0).getGuide();
+
+
+        TourHistoryManager newTourHistoryManager = TourHistoryManager.builder()
+                .guide(guide)
+                .tourist(tourist)
+                .tourProduct(tourProduct)
+                .tourStartDate(tourHistoryTouristRequest.getStartDate())
+                .tourEndDate(tourHistoryTouristRequest.getEndDate())
+                .build();
+
+        removeAvailableDatesBetween(tourHistoryTouristRequest.getStartDate(),tourHistoryTouristRequest.getEndDate(),tourProduct.getTourProductId());
+
+        TourHistoryManager savedTourHistoryManager = tourHistoryManagerRepository.save(newTourHistoryManager);
+
+        TourHistoryManagerResponse tourHistoryManagerResponse = new TourHistoryManagerResponse(savedTourHistoryManager);
+
+
+        tourHistoryManagerResponse.setGuideId(tourHistoryManagerByTourProductId.get(0).getGuide().getIdx());
+
+        return tourHistoryManagerResponse;
     }
 
-    private TourHistoryManager findTourHistoryManagerByTourProductId(Long tourProductId) {
-       return tourHistoryManagerRepository.findByTourProduct_TourProductId(tourProductId).orElseThrow(() ->
-               new IllegalArgumentException("존재하지 않는 상품입니다."));
+    public List<TourProductResponse> getTop10TourProductsByFrequency() {
+        List<Long> top10TourProductIds = tourHistoryManagerRepository.findTop10TourProductIdsByFrequency();
+
+        return top10TourProductIds.stream()
+                .map(tourProductId -> {
+                    TourProduct tourProduct = tourProductRepository.findById(tourProductId)
+                            .orElseThrow(() -> new RuntimeException("TourProduct not found with ID: " + tourProductId));
+                    return new TourProductResponse(tourProduct);
+                })
+                .collect(Collectors.toList());
+    }
+
+    private void checkIfTourDateIsAlreadyReservedForProduct(LocalDate startDate, LocalDate endDate, Long tourProductId) {
+        List<TourHistoryManager> existingReservations = tourHistoryManagerRepository.findByTourStartDateAndTourEndDateAndTourProduct_TourProductId(startDate, endDate, tourProductId);
+
+        if (!existingReservations.isEmpty()) {
+            throw new IllegalArgumentException("이미 해당 날짜에 예약된 투어가 있습니다.");
+        }
+    }
+
+
+    private void removeAvailableDatesBetween(LocalDate startDate, LocalDate endDate, Long tourProductId) {
+        List<AvailableDate> datesToRemove = availableDateRepository.findAllByDateBetweenAndTourProduct_TourProductId(startDate, endDate, tourProductId);
+
+        if (!datesToRemove.isEmpty()) {
+            availableDateRepository.deleteAll(datesToRemove);
+        }
+    }
+
+    private List<TourHistoryManager> findTourHistoryManagerByTourProductId(Long tourProductId) {
+       return tourHistoryManagerRepository.findByTourProduct_TourProductId(tourProductId)
+               .stream()
+               .collect(Collectors.toList());
 
     }
 
@@ -72,12 +125,6 @@ public class TourHistoryManagerService {
         return !tourHistoryManagerRepository.findByGuide_Idx(memberId).isEmpty();
     }
 
-
-    private void isSameHistory(List<TourHistoryManager> tourProduct, TourHistoryManager tourHistoryManager) {
-        if (tourProduct.contains(tourHistoryManager)) {
-            throw new IllegalArgumentException("이미 같은 내역이 존재함");
-        }
-    }
 
     private Member findMemberByEmail(String guideEmail) {
         return memberRepository.findByEmail(guideEmail).orElseThrow(() -> new NotFoundException("존재하지 않는 회원"));
@@ -89,12 +136,6 @@ public class TourHistoryManagerService {
                 new IllegalArgumentException("존재하지 않는 상품입니다."));
     }
 
-    private Member findMemberById(String id) {
-        return memberRepository.findByEmail(id).orElseThrow(() -> new IllegalArgumentException("존재하지 않는 회원 입니다."));
-    }
 
-    private TourHistoryManager findTourHistoryManagerById(Long id) {
-        return tourHistoryManagerRepository.findById(id).orElseThrow(() -> new IllegalArgumentException("존재하지 않는 예약 내역입니다."));
-    }
 
 }

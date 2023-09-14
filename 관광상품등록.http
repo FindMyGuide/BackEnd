@@ -1,6 +1,6 @@
 POST http://localhost:9000/api/tourProduct/register
 Content-Type: application/json
-Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiJ4b2RuanMxODM3QG5hdmVyLmNvbSIsImV4cCI6MjU4MzI5NzY3NCwiaXNzIjoiZmluZG15Z3VpZGUuY29tIn0.lFp4KhzTLa87Q6omoTMjy7DxQJ43jSojJrxqH2532n0
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiJ4b2RuanMxODM3QGdtYWlsLmNvbSIsImV4cCI6MjU4MzY5MTA0MSwiaXNzIjoiZmluZG15Z3VpZGUuY29tIn0.BwerMGDuCKYV6SSBeVOVX5tq6GU7iHXY_2UddC1SW98
 
 {
 
@@ -19,7 +19,7 @@ Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiJ4b2RuanMxO
     }
   ],
   "themeIds": [1],
-  "availableDates": ["2022-08-01"]
+  "availableDates": ["2022-08-01","2022-07-01","2022-07-02"]
 
 }
 
@@ -27,20 +27,15 @@ Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiJ4b2RuanMxO
 ###
 
 //관광상품 예약
-POST http://localhost:9000/api/tourProduct/reserve-tour/1
+POST http://localhost:9000/api/tourProduct/reserve-tour/3
 Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiJ4b2RuanM4Mjg3QG5hdmVyLmNvbSIsImV4cCI6MjU4MzE3MTQxNywiaXNzIjoiZmluZG15Z3VpZGUuY29tIn0.qlNKx3iAr7d1CpmkupkJ9ps1rTmzPVDTeXTGQEG_JDI
 Content-Type: application/json
 
 {
   "email": "xodnjs8287@naver.com",
-  "startDate": "2023-08-01",
-  "endDate": "2023-08-01"
+  "startDate": "2022-08-01",
+  "endDate": "2022-08-01"
 }
-
-
-
-
-
 
 
 ###

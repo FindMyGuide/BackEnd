@@ -42,9 +42,11 @@ public class TourProductResponse {
 
         this.languages = tourProduct.getLanguages();
         this.price = BigDecimal.valueOf(tourProduct.getPrice().getPrice().longValue());
-        this.availableDates = tourProduct.getAvailableDates().stream()
-                .map(AvailableDateResponse::new)
-                .collect(Collectors.toList());
+        if (tourProduct.getAvailableDates() != null) {
+            this.availableDates = tourProduct.getAvailableDates().stream()
+                    .map(AvailableDateResponse::new)
+                    .collect(Collectors.toList());
+        }
         if (tourProduct.getTourProductThemes() != null) {
             this.themeResponses = tourProduct.getTourProductThemes().stream()
                     .map(TourProductThemeResponse::new)
