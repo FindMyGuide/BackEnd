@@ -13,30 +13,32 @@ public class FestivalDetailRequest {
 
     private Long id;
 
-    private Festival festival;
     private String place;
     private String playtime;
     private String startDate;
+    private String endDate;
     private String expense;
     private String content;
+
 
     public FestivalDetail toFestivalDetail() {
         return FestivalDetail.builder()
                 .festivalDetailId(this.id)
-                .festival(this.festival)
                 .place(this.place)
                 .playtime(this.playtime)
                 .startDate(this.startDate)
+                .endDate(this.endDate)
                 .expense(this.expense)
                 .content(this.content).build();
     }
 
     public FestivalDetailRequest( String place, String playtime,
-                                 String startDate, String expense, String content) {
+                                 String startDate, String endDate, String expense, String content) {
         this.place = place;
         this.playtime = playtime;
         this.startDate = startDate;
         this.expense = expense;
         this.content = content;
+        this.endDate = endDate;
     }
 }

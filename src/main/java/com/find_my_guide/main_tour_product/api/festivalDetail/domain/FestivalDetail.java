@@ -15,7 +15,6 @@ import javax.persistence.*;
 @Builder
 public class FestivalDetail {
     @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
     private Long festivalDetailId;
 
     @OneToOne
@@ -25,6 +24,7 @@ public class FestivalDetail {
     private String place;
     private String playtime;
     private String startDate;
+    private String endDate;
     private String expense;
     private String content;
 

@@ -16,13 +16,17 @@ public class FestivalDetailResponse {
     private String startDate;
     private String expense;
     private String content;
+    private String mapX;
+    private String mapY;
 
     public FestivalDetailResponse(FestivalDetail festivalDetail) {
+        this.id = festivalDetail.getFestivalDetailId();
         this.place = festivalDetail.getPlace();
         this.playtime = festivalDetail.getPlaytime();
         this.startDate = festivalDetail.getStartDate();
         this.expense = festivalDetail.getExpense();
         this.content = festivalDetail.getContent();
-
+        this.mapX = festivalDetail.getFestival().getMapx();
+        this.mapY = festivalDetail.getFestival().getMapy();
     }
 }
