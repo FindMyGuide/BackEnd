@@ -4,10 +4,7 @@ import com.find_my_guide.main_tour_product.common.validation_field.Content;
 import com.find_my_guide.main_tour_product.common.validation_field.Title;
 import com.find_my_guide.main_tour_product.location.domain.Location;
 import com.find_my_guide.main_tour_product.location.dto.LocationRequest;
-import com.find_my_guide.main_tour_product.tour_product.domain.Coordinates;
-import com.find_my_guide.main_tour_product.tour_product.domain.Languages;
-import com.find_my_guide.main_tour_product.tour_product.domain.Price;
-import com.find_my_guide.main_tour_product.tour_product.domain.TourProduct;
+import com.find_my_guide.main_tour_product.tour_product.domain.*;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -31,6 +28,8 @@ public class TourProductRequest {
     @NotNull
     private String content;
 
+    private List<String> howManyDay = new ArrayList<>();
+
 
     private List<LocationRequest> location = new ArrayList<>();  // 변경된 부분
 
@@ -50,6 +49,7 @@ public class TourProductRequest {
     public TourProduct toTourProduct() {
         return TourProduct.builder()
                 .title(new Title(title))
+                .howManyDay(new HowManyDay(howManyDay.get(0),howManyDay.get(1)))
                 .content(new Content(content))
                 .price(new Price(price))
                 .languages(this.languages)

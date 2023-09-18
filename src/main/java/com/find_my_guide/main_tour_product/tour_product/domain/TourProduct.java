@@ -35,6 +35,9 @@ public class TourProduct extends BaseEntity {
     private Content content;
 
     @Embedded
+    private HowManyDay howManyDay;
+
+    @Embedded
     private Price price;
 
     @ElementCollection(targetClass = Languages.class, fetch = FetchType.EAGER)

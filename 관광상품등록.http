@@ -8,6 +8,7 @@ Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiJ4b2RuanMxO
   "content": "Tour Description",
   "price": 120000,
   "languages" : ["JAPANESE"],
+  "howManyDay": ["1","2"],
   "location": [
     {
       "title": "해운대 암소갈비",
