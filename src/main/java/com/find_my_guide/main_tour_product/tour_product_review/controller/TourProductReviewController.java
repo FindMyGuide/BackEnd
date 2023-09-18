@@ -42,6 +42,13 @@ public class TourProductReviewController {
         return ResponseEntity.ok(tourProductReviewService.reviewList(postId));
     }
 
+    @GetMapping("/recent-reviews/{postId}")
+    public ResponseEntity<List<TourProductReviewResponse>> showRecentReviews(
+            @PathVariable Long postId
+    ) {
+        return ResponseEntity.ok(tourProductReviewService.findLatestReviewsByTourProduct(postId));
+    }
+
 
 
 

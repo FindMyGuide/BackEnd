@@ -1,6 +1,6 @@
 POST http://localhost:9000/api/tourProduct/register
 Content-Type: application/json
-Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiJ4b2RuanMxODM3QGdtYWlsLmNvbSIsImV4cCI6MjU4MzY5MTA0MSwiaXNzIjoiZmluZG15Z3VpZGUuY29tIn0.BwerMGDuCKYV6SSBeVOVX5tq6GU7iHXY_2UddC1SW98
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiJ4b2RuanMxODM3QGdtYWlsLmNvbSIsImV4cCI6MjU4NDA3MjQ2MywiaXNzIjoiZmluZG15Z3VpZGUuY29tIn0.1z1SH_qNhnY4qbX_azxDOQh9zz4TjOPTTLHCSV_2Um4
 
 {
 
@@ -11,7 +11,7 @@ Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiJ4b2RuanMxO
   "location": [
     {
       "title": "해운대 암소갈비",
-      "coordinates": [12.0, 14.0]
+      "coordinates": [12.2131, 14.3213]
     },
     {
       "title": "맛있는 음식점2",

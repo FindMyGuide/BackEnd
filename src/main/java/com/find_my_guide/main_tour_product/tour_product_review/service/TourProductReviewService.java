@@ -11,6 +11,7 @@ import com.find_my_guide.main_tour_product.tour_product_review.dto.TourProductRe
 import com.find_my_guide.main_tour_product.tour_product_review.dto.TourProductReviewResponse;
 import com.find_my_guide.main_tour_product.tour_product_review.repository.TourProductReviewRepository;
 import lombok.RequiredArgsConstructor;
+import org.springframework.data.domain.PageRequest;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -82,6 +83,16 @@ public class TourProductReviewService {
                 .map(TourProductReviewResponse::new)
                 .collect(Collectors.toList());
 
+    }
+
+    public List<TourProductReviewResponse> findLatestReviewsByTourProduct(Long postId) {
+        TourProduct tourProduct = findTourProductById(postId);
+
+        List<TourProductReview> reviews = tourProductReviewRepository.findByTourProductOrderByCreatedAtDesc(tourProduct, PageRequest.of(0, 10));
+
+        return reviews.stream()
+                .map(TourProductReviewResponse::new)
+                .collect(Collectors.toList());
     }
 
 

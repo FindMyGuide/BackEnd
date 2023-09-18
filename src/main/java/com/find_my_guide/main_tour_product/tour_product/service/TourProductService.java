@@ -81,8 +81,6 @@ public class TourProductService {
             tourProductLocationRepository.save(build);
         }
 
-
-
         TourProduct save = tourProductRepository.save(tourProduct);
 
         tourHistoryManagerService.registerTourProductByGuide(member.getEmail(), save.getTourProductId());
