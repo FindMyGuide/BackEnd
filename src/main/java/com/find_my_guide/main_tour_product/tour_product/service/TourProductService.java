@@ -60,6 +60,8 @@ public class TourProductService {
             tourProduct.setTourProductLocations();
         }
 
+
+
         tourProduct = tourProductRepository.save(tourProduct);
 
         Member member = findMember(email);
@@ -80,8 +82,6 @@ public class TourProductService {
                     .build();
             tourProductLocationRepository.save(build);
         }
-
-
 
         TourProduct save = tourProductRepository.save(tourProduct);
 

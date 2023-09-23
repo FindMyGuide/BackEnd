@@ -1,14 +1,18 @@
-POST localhost:9000/api/tour-product-review/register/2
-Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiJ4b2RuanMxODM3QG5hdmVyLmNvbSIsImV4cCI6MjU4MzI5NzY3NCwiaXNzIjoiZmluZG15Z3VpZGUuY29tIn0.lFp4KhzTLa87Q6omoTMjy7DxQJ43jSojJrxqH2532n0
+POST localhost:9000/api/tour-product-review/register/6
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiJ4b2RuanMxODM3QGdtYWlsLmNvbSIsImV4cCI6MjU4NDA3MjQ2MywiaXNzIjoiZmluZG15Z3VpZGUuY29tIn0.1z1SH_qNhnY4qbX_azxDOQh9zz4TjOPTTLHCSV_2Um4
 Content-Type: application/json
 
 {
-  "content": "리뷰 ",
-  "rating": 4.5,
+  "content": "리뷰3 ",
+  "rating": 1.5,
   "image": null
 }
 
 
 ###
-GET localhost:9000/api/tour-product-review/all/2
+GET localhost:9000/api/tour-product-review/all/6
+Content-Type: application/json
+
+###
+GET localhost:9000/api/tour-product-review/tour-product-review/recent-reviews/6
 Content-Type: application/json

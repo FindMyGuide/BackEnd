@@ -25,12 +25,5 @@ public class WantTourProductLocation {
     @JoinColumn(name = "location_id")
     private Location location;
 
-    public void saveWantTourProduct(WantTourProduct wantTourProduct) {
-        this.wantTourProduct = wantTourProduct;
-    }
-
-    public void saveLocation(Location location) {
-        this.location = location;
-    }
 
 }

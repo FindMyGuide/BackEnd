@@ -36,7 +36,7 @@ public class WantTourProduct extends BaseEntity {
     @Embedded
     private Price price;
 
-    @Enumerated(EnumType.STRING) //EnumType.ORDINAL : enum의 순서 값, EnumType.STRING : enum의 이름
+    @Enumerated(EnumType.STRING)
     private Gender gender;
 
     @Embedded
@@ -44,6 +44,8 @@ public class WantTourProduct extends BaseEntity {
 
     @Enumerated(EnumType.STRING)
     private Vehicle vehicle;
+
+    private Integer totalPeople;
 
     @ManyToOne
     @JoinColumn(name = "member_id")
@@ -99,6 +101,13 @@ public class WantTourProduct extends BaseEntity {
        this.title = title;
        this.content = content;
    }
+
+    public void setWantTourProductLocations() {
+        this.wantTourProductLocations = new ArrayList<>();
+
+    }
+
+
 
 
 
