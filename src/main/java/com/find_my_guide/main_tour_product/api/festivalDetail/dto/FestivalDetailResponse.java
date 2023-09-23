@@ -18,6 +18,8 @@ public class FestivalDetailResponse {
     private String content;
     private String mapX;
     private String mapY;
+    private String image;
+    private String title;
 
     public FestivalDetailResponse(FestivalDetail festivalDetail) {
         this.id = festivalDetail.getFestivalDetailId();
@@ -28,5 +30,7 @@ public class FestivalDetailResponse {
         this.content = festivalDetail.getContent();
         this.mapX = festivalDetail.getFestival().getMapx();
         this.mapY = festivalDetail.getFestival().getMapy();
+        this.image = festivalDetail.getFestival().getImage();
+        this.title = festivalDetail.getFestival().getTitle();
     }
 }

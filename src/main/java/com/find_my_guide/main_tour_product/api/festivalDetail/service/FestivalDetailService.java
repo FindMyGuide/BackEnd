@@ -126,7 +126,6 @@ public class FestivalDetailService {
         LocalDate date = Year.of(Integer.parseInt(festivalDetail.getEndDate().substring(0, 4)))
                 .atMonth(Integer.parseInt(festivalDetail.getEndDate().substring(4, 6)))
                 .atDay(Integer.parseInt(festivalDetail.getEndDate().substring(6, 8)));
-        System.out.println(date +  LocalDate.now().toString());
         return !date.isBefore(LocalDate.now());
     }
 
