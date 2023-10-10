@@ -6,6 +6,7 @@ import com.find_my_guide.main_tour_product.tour_product.domain.TourProduct;
 import com.find_my_guide.main_tour_product.tour_product_location.dto.TourProductLocationResponse;
 import com.find_my_guide.main_tour_product.tour_product_theme.dto.TourProductThemeResponse;
 import lombok.Data;
+import reactor.util.annotation.Nullable;
 
 import java.math.BigDecimal;
 import java.util.ArrayList;
@@ -22,6 +23,9 @@ public class TourProductResponse {
     private String content;
 
     private BigDecimal price;
+
+    @Nullable
+    private Long likes;
 
     private List<TourProductLocationResponse> locations;
 

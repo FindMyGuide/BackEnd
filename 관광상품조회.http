@@ -1,6 +1,6 @@
 ###
 //전체 상품 목록 조회
-GET http://localhost:9000/api/tourProducts
+GET https://find-my-guide.site/api/tourProducts
 Content-Type: application/json
 
 ###
@@ -10,7 +10,7 @@ Content-Type: application/json
 
 ###
 //좋아요순 조회
-GET http://localhost:8080/tourProducts/likes
+GET http://localhost:9000/tourProducts/likes
 Content-Type: application/json
 
 ###
@@ -27,3 +27,17 @@ Content-Type: application/json
 //테마별 조회
 GET http://localhost:9000/api/tourProducts/search-theme?title=애견동반
 Content-Type: application/json
+
+###
+//완료된 상품 조회
+GET http://localhost:9000/api/my-page/reservation/completed-tours
+Content-Type: application/json
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiJ4b2RuanM4Mjg3QG5hdmVyLmNvbSIsImV4cCI6MjU4NTk1ODI3NiwiaXNzIjoiZmluZG15Z3VpZGUuY29tIn0.-eEReu9NCJXAKAyNyWbVI47VcntCPwXu9c1_ma7g4UU
+
+###
+//
+GET http://localhost:9000/api/my-page/reservation/upcoming-tours
+Content-Type: application/json
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiJ4b2RuanM4Mjg3QG5hdmVyLmNvbSIsImV4cCI6MjU4NTk1ODI3NiwiaXNzIjoiZmluZG15Z3VpZGUuY29tIn0.-eEReu9NCJXAKAyNyWbVI47VcntCPwXu9c1_ma7g4UU
+
+

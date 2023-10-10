@@ -64,11 +64,11 @@ Content-Type: application/json
 
 ###
 //회원 로그인
-POST http://localhost:9000/api/find-my-guide/member/sign-in
+POST https://find-my-guide.site/api/find-my-guide/member/sign-in
 Content-Type: application/json
 
 {
-  "email" : "xodnjs1837@gmail.com",
+  "email" : "xodnjs8287@naver.com",
   "password": "qpal123!"
 
 }

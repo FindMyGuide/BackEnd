@@ -6,20 +6,20 @@ import com.find_my_guide.main_member.member.repository.MemberRepository;
 import com.find_my_guide.main_tour_product.available_reservation_date.domain.AvailableDate;
 import com.find_my_guide.main_tour_product.available_reservation_date.repository.AvailableDateRepository;
 import com.find_my_guide.main_tour_product.tour_history_manager.domain.TourHistoryManager;
-import com.find_my_guide.main_tour_product.tour_history_manager.dto.TourHistoryManagerGuideRequest;
 import com.find_my_guide.main_tour_product.tour_history_manager.dto.TourHistoryManagerResponse;
 import com.find_my_guide.main_tour_product.tour_history_manager.dto.TourHistoryTouristRequest;
 import com.find_my_guide.main_tour_product.tour_history_manager.repository.TourHistoryManagerRepository;
 import com.find_my_guide.main_tour_product.tour_product.domain.TourProduct;
 import com.find_my_guide.main_tour_product.tour_product.dto.TourProductResponse;
 import com.find_my_guide.main_tour_product.tour_product.repository.TourProductRepository;
+import com.find_my_guide.main_tour_product.tour_product.service.TourProductService;
+import com.find_my_guide.main_tour_product.tour_product_like.repository.TourProductLikeRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.time.LocalDate;
 import java.util.List;
-import java.util.Optional;
 import java.util.stream.Collectors;
 
 @Service
@@ -30,8 +30,7 @@ public class TourHistoryManagerService {
     private final TourProductRepository tourProductRepository;
     private final TourHistoryManagerRepository tourHistoryManagerRepository;
     private final AvailableDateRepository availableDateRepository; // 추가
-
-
+    private final TourProductLikeRepository tourProductLikeRepository;
     private final MemberRepository memberRepository;
 
     @Transactional
@@ -42,6 +41,7 @@ public class TourHistoryManagerService {
         TourHistoryManager tourHistoryManager = TourHistoryManager.builder()
                 .guide(guide)
                 .tourProduct(tourProduct)
+                .isCompleted(false)
                 .build();
 
         tourHistoryManager.addTourProduct(tourProduct);
@@ -49,7 +49,6 @@ public class TourHistoryManagerService {
 
         return new TourHistoryManagerResponse(tourHistoryManagerRepository.save(tourHistoryManager));
     }
-
 
 
     @Transactional
@@ -72,7 +71,7 @@ public class TourHistoryManagerService {
                 .tourEndDate(tourHistoryTouristRequest.getEndDate())
                 .build();
 
-        removeAvailableDatesBetween(tourHistoryTouristRequest.getStartDate(),tourHistoryTouristRequest.getEndDate(),tourProduct.getTourProductId());
+        removeAvailableDatesBetween(tourHistoryTouristRequest.getStartDate(), tourHistoryTouristRequest.getEndDate(), tourProduct.getTourProductId());
 
         TourHistoryManager savedTourHistoryManager = tourHistoryManagerRepository.save(newTourHistoryManager);
 
@@ -84,14 +83,59 @@ public class TourHistoryManagerService {
         return tourHistoryManagerResponse;
     }
 
+    @Transactional
+    public void markToursAsCompleted() {
+        LocalDate now = LocalDate.now();
+        List<TourHistoryManager> tours = tourHistoryManagerRepository.findByTourEndDateBeforeAndIsCompletedFalse(now);
+        for (TourHistoryManager tour : tours) {
+            tour.setCompleted(true);
+        }
+    }
+
+
+
+    public List<TourProductResponse> getCompletedToursForTourist(String touristEmail) {
+        Member tourist = findMemberByEmail(touristEmail);
+        List<TourHistoryManager> histories = tourHistoryManagerRepository.findByTourist(tourist);
+
+        histories.forEach(TourHistoryManager::updateCompletionStatus);
+
+        return histories.stream()
+                .filter(TourHistoryManager::getIsCompleted)
+                .map(history -> new TourProductResponse(history.getTourProduct()))
+                .collect(Collectors.toList());
+    }
+
+    public List<TourProductResponse> getUpcomingToursForTourist(String touristEmail) {
+        Member tourist = findMemberByEmail(touristEmail);
+        List<TourHistoryManager> histories = tourHistoryManagerRepository.findByTourist(tourist);
+
+        histories.forEach(TourHistoryManager::updateCompletionStatus);
+
+        return histories.stream()
+                .filter(history -> !history.getIsCompleted())
+                .map(history -> new TourProductResponse(history.getTourProduct()))
+                .collect(Collectors.toList());
+    }
+
+
+
+
     public List<TourProductResponse> getTop10TourProductsByFrequency() {
         List<Long> top10TourProductIds = tourHistoryManagerRepository.findTop10TourProductIdsByFrequency();
 
+
         return top10TourProductIds.stream()
                 .map(tourProductId -> {
+
+                    long likes = tourProductLikeRepository.countByTourProduct_TourProductId(tourProductId);
+
                     TourProduct tourProduct = tourProductRepository.findById(tourProductId)
-                            .orElseThrow(() -> new RuntimeException("TourProduct not found with ID: " + tourProductId));
-                    return new TourProductResponse(tourProduct);
+                            .orElseThrow(() -> new RuntimeException("관광상품이 없습니다. " + tourProductId));
+                    TourProductResponse tourProductResponse = new TourProductResponse(tourProduct);
+
+                    tourProductResponse.setLikes(likes);
+                    return tourProductResponse;
                 })
                 .collect(Collectors.toList());
     }
@@ -114,9 +158,9 @@ public class TourHistoryManagerService {
     }
 
     private List<TourHistoryManager> findTourHistoryManagerByTourProductId(Long tourProductId) {
-       return tourHistoryManagerRepository.findByTourProduct_TourProductId(tourProductId)
-               .stream()
-               .collect(Collectors.toList());
+        return tourHistoryManagerRepository.findByTourProduct_TourProductId(tourProductId)
+                .stream()
+                .collect(Collectors.toList());
 
     }
 
@@ -135,7 +179,6 @@ public class TourHistoryManagerService {
         return tourProductRepository.findById(id).orElseThrow(() ->
                 new IllegalArgumentException("존재하지 않는 상품입니다."));
     }
-
 
 
 }
