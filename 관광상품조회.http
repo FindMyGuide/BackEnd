@@ -25,7 +25,7 @@ Content-Type: application/json
 
 ###
 //테마별 조회
-GET http://localhost:9000/api/tourProducts/search-theme?title=애견동반
+GET http://find-my-guide.site/api/tourProducts/search-theme?title=애견동반
 Content-Type: application/json
 
 ###

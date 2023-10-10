@@ -6,10 +6,8 @@ import com.find_my_guide.main_tour_product.tour_product_like.service.TourProduct
 import io.swagger.annotations.Api;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.security.core.Authentication;
+import org.springframework.web.bind.annotation.*;
 
 @RestController
 @RequiredArgsConstructor
@@ -20,7 +18,26 @@ public class TourProductLikeController {
     private final TourProductLikeService tourProductLikeService;
 
     @PostMapping("/tourProduct/like")
-    public ResponseEntity<TourProductLikeResponse> addLike(@RequestBody TourProductLikeRequest requestDto){
-        return ResponseEntity.ok(tourProductLikeService.addLike(requestDto));
+    public ResponseEntity<TourProductLikeResponse> addLike(@RequestParam Long tourProductId, final Authentication authentication){
+
+        String email = (String) authentication.getPrincipal();
+
+        TourProductLikeRequest tourProductLikeRequest = new TourProductLikeRequest();
+        tourProductLikeRequest.setTourProductId(tourProductId);
+        tourProductLikeRequest.setEmail(email);
+        return ResponseEntity.ok(tourProductLikeService.addLike(tourProductLikeRequest));
     }
+
+    @DeleteMapping("/tourProduct/like")
+    public ResponseEntity<Void> removeLike(@RequestParam Long tourProductId, final Authentication authentication){
+        String email = (String) authentication.getPrincipal();
+
+        TourProductLikeRequest tourProductLikeRequest = new TourProductLikeRequest();
+        tourProductLikeRequest.setTourProductId(tourProductId);
+        tourProductLikeRequest.setEmail(email);
+
+        tourProductLikeService.removeLike(tourProductLikeRequest);
+        return ResponseEntity.noContent().build();
+    }
+
 }
