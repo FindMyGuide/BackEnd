@@ -26,7 +26,6 @@ Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiJ4b2RuanMxO
 
 
 ###
-
 //관광상품 예약
 POST http://localhost:9000/api/tourProduct/reserve-tour/3
 Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiJ4b2RuanM4Mjg3QG5hdmVyLmNvbSIsImV4cCI6MjU4MzE3MTQxNywiaXNzIjoiZmluZG15Z3VpZGUuY29tIn0.qlNKx3iAr7d1CpmkupkJ9ps1rTmzPVDTeXTGQEG_JDI

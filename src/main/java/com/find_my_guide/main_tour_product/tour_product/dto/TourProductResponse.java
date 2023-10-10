@@ -43,8 +43,14 @@ public class TourProductResponse {
                 stream().map(TourProductLocationResponse::new)
                 .collect(Collectors.toList());
 
-        this.howManyDay.add(tourProduct.getHowManyDay().getNight());
-        this.howManyDay.add(tourProduct.getHowManyDay().getDay());
+        if (tourProduct.getHowManyDay() != null) {
+            if (tourProduct.getHowManyDay().getNight() != null) {
+                this.howManyDay.add(tourProduct.getHowManyDay().getNight());
+            }
+            if (tourProduct.getHowManyDay().getDay() != null) {
+                this.howManyDay.add(tourProduct.getHowManyDay().getDay());
+            }
+        }
 
 
         this.languages = tourProduct.getLanguages();
