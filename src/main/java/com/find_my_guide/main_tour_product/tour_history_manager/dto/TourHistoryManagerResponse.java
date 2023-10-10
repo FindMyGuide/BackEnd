@@ -43,7 +43,7 @@ public class TourHistoryManagerResponse {
             this.tourProductId = tourHistoryManager.getTourProduct().getTourProductId();
         }
 
-        this.isCompleted = tourHistoryManager.isCompleted();
+        this.isCompleted = tourHistoryManager.getIsCompleted();
 
         DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd");
         if (tourHistoryManager.getTourStartDate() != null) {

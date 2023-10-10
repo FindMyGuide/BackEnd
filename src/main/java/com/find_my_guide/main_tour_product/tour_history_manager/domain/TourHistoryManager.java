@@ -3,10 +3,7 @@ package com.find_my_guide.main_tour_product.tour_history_manager.domain;
 import com.find_my_guide.main_member.member.domain.entity.Member;
 import com.find_my_guide.main_tour_product.common.domain.BaseEntity;
 import com.find_my_guide.main_tour_product.tour_product.domain.TourProduct;
-import lombok.AllArgsConstructor;
-import lombok.Builder;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
+import lombok.*;
 
 import javax.persistence.*;
 import java.time.LocalDate;
@@ -15,6 +12,7 @@ import java.time.LocalDate;
 @Getter
 @NoArgsConstructor
 @AllArgsConstructor
+@Setter
 @Builder
 public class TourHistoryManager extends BaseEntity {
 
@@ -28,7 +26,7 @@ public class TourHistoryManager extends BaseEntity {
 
     @ManyToOne
     @JoinColumn(name = "guide_id")
-    private Member guide;
+    private Member guide;  // 가이드
 
 
 
@@ -76,7 +74,13 @@ public class TourHistoryManager extends BaseEntity {
         this.tourEndDate = tourEndDate;
     }
 
-
-
+    public boolean getIsCompleted(){
+        return this.isCompleted;
+    }
+    public void updateCompletionStatus() {
+        if (!isCompleted && tourEndDate.isBefore(LocalDate.now())) {
+            isCompleted = true;
+        }
+    }
 
 }

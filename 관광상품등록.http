@@ -28,11 +28,12 @@ Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiJ4b2RuanMxO
 ###
 //관광상품 예약
 POST http://localhost:9000/api/tourProduct/reserve-tour/3
-Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiJ4b2RuanM4Mjg3QG5hdmVyLmNvbSIsImV4cCI6MjU4MzE3MTQxNywiaXNzIjoiZmluZG15Z3VpZGUuY29tIn0.qlNKx3iAr7d1CpmkupkJ9ps1rTmzPVDTeXTGQEG_JDI
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiJ4b2RuanMxODM3QGdtYWlsLmNvbSIsImV4cCI6MjU4NTk1NzgyOSwiaXNzIjoiZmluZG15Z3VpZGUuY29tIn0.ivIHXcw5dqTFGYfw2DJz40H39lWLhopvKLizTcqyjxM
+
 Content-Type: application/json
 
 {
-  "email": "xodnjs8287@naver.com",
+  "email": "xodnjs1837@naver.com",
   "startDate": "2022-08-01",
   "endDate": "2022-08-01"
 }
