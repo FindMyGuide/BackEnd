@@ -13,6 +13,6 @@ import lombok.Setter;
 public class TourProductLikeRequest {
 
     private Long tourProductId;
-    private Long memberId;
+    private String email;
 
 }

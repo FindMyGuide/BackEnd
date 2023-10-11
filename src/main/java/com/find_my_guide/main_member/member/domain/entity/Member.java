@@ -1,7 +1,9 @@
 package com.find_my_guide.main_member.member.domain.entity;
 
 import com.find_my_guide.main_member.guideLike.domain.GuideLike;
+import com.find_my_guide.main_tour_product.location_like.domain.LocationLike;
 import com.find_my_guide.main_tour_product.tour_history_manager.domain.TourHistoryManager;
+import com.find_my_guide.main_tour_product.tour_product.domain.Languages;
 import com.find_my_guide.main_tour_product.tour_product_like.domain.TourProductLike;
 import com.find_my_guide.main_tour_product.tour_product_review.domain.TourProductReview;
 import com.find_my_guide.main_tour_product.want_tour_product.domain.WantTourProduct;
@@ -59,6 +61,9 @@ public class Member {
     @Column(name = "national_certification_of_guide_yn", nullable = false)
     private Boolean nationalCertificationOfGuideYn;
 
+    @OneToMany(mappedBy = "member", cascade = CascadeType.ALL, orphanRemoval = true)
+    private List<LocationLike> likedLocations = new ArrayList<>();
+
     @Column
     private String refreshToken;
 
@@ -67,6 +72,23 @@ public class Member {
 
     @Column
     private boolean isEmailVerified;
+
+    // 가이드 경력 필드
+    @Column(name = "guide_experience")
+    private Integer guideExperience;
+
+    @Column(name = "profile_picture")
+    private String profilePicture;
+
+    // 사용 가능 언어
+    @ElementCollection(targetClass = Languages.class, fetch = FetchType.LAZY)
+    @CollectionTable(name = "member_languages", joinColumns = @JoinColumn(name = "member_id"))
+    @Enumerated(EnumType.STRING)
+    private List<Languages> languages = new ArrayList<>();
+
+    // 가이드 소개 필드
+    @Column(name = "guide_intro", length = 2000)  // 소개 내용이 길 수 있으므로 길이를 조금 늘렸습니다.
+    private String guideIntro;
 
     @OneToMany(mappedBy = "member", cascade = CascadeType.ALL)
     private List<WantTourProduct> wantTourProducts = new ArrayList<>();

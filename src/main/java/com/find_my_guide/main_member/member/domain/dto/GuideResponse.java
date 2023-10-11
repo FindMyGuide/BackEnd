@@ -2,6 +2,7 @@ package com.find_my_guide.main_member.member.domain.dto;
 
 import com.find_my_guide.main_member.member.domain.entity.Member;
 import com.find_my_guide.main_tour_product.common.validation_field.Title;
+import com.find_my_guide.main_tour_product.tour_product.domain.Languages;
 import lombok.Data;
 
 import java.util.ArrayList;
@@ -17,6 +18,13 @@ public class GuideResponse {
     private String gender;
     private boolean hasGuideCertification;
     private List<Title> tourProductTitles;
+    private int guideExperience;
+    private List<Languages> languages;
+    private String guideIntro;
+
+    private String profilePicture;
+
+
     public GuideResponse(Member member) {
         this.guideId = member.getIdx();
         this.guideName = member.getName();
@@ -26,5 +34,10 @@ public class GuideResponse {
         this.tourProductTitles = member.getTourHistoriesAsGuide().stream()
                 .map(it -> it.getTourProduct().getTitle())
                 .collect(Collectors.toList());
+        this.guideExperience = member.getGuideExperience();
+        this.languages = member.getLanguages();
+        this.guideIntro = member.getGuideIntro();
+        this.profilePicture = member.getProfilePicture();
+
     }
 }

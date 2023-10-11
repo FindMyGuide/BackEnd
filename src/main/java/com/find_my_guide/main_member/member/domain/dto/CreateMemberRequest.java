@@ -3,6 +3,7 @@ package com.find_my_guide.main_member.member.domain.dto;
 
 import com.find_my_guide.main_member.member.domain.entity.Gender;
 import com.find_my_guide.main_member.member.domain.entity.Member;
+import com.find_my_guide.main_tour_product.tour_product.domain.Languages;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -10,6 +11,7 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 
 import javax.validation.constraints.Email;
 import javax.validation.constraints.Pattern;
+import java.util.List;
 
 @Getter
 @AllArgsConstructor
@@ -31,6 +33,12 @@ public class CreateMemberRequest {
     private String phoneNumber;
     private String nationalCertificationOfGuideYn;
 
+    private String guideProfilePicture;
+    private String guideIntroduction;
+    private Integer guideExperience;
+    private List<Languages> languages;
+
+
     public Member toMember(PasswordEncoder passwordEncoder) {
         return Member.builder()
                 .name(name)
@@ -42,6 +50,10 @@ public class CreateMemberRequest {
                 .birthDate(birthDate)
                 .phoneNumber(phoneNumber)
                 .nationalCertificationOfGuideYn(nationalCertificationOfGuideYn.equalsIgnoreCase("Y"))
+                .profilePicture(guideProfilePicture)
+                .guideIntro(guideIntroduction)
+                .guideExperience(guideExperience)
+                .languages(languages)
                 .build();
     }
 }

@@ -1,16 +1,18 @@
 ###
 // 좋아요 등록
 
-POST http://localhost:8080/tourProduct/like
+POST http://localhost:9000/api/tourProduct/like?tourProductId=2
 Content-Type: application/json
-
-{
-  "memberId": 1,
-  "tourProductId": 1
-}
-
+Authorization:Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiJ4b2RuanM4Mjg3QG5hdmVyLmNvbSIsImV4cCI6MjU4NTk3OTIzMiwiaXNzIjoiZmluZG15Z3VpZGUuY29tIn0.e_ME5X100ZzKuyQXL6W20C3WAl1vICkh8v2ZWY9YU8M
 ###
 // 좋아요 조회
 
 GET http://localhost:8080/tourProducts/1/likes
 Content-Type: application/json
+
+###
+GET http://localhost:9000/api/my-page/like/tour
+Content-Type: application/json
+Authorization:Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiJ4b2RuanM4Mjg3QG5hdmVyLmNvbSIsImV4cCI6MjU4NTk3OTIzMiwiaXNzIjoiZmluZG15Z3VpZGUuY29tIn0.e_ME5X100ZzKuyQXL6W20C3WAl1vICkh8v2ZWY9YU8M
+
+###
