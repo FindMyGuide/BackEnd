@@ -23,7 +23,7 @@ public class CustomMemberRepository {
     @PersistenceContext
     private EntityManager em;
 
-    public List<Member> findGuidesByCriteria(Gender gender, LocalDate birthDate, Languages language, LocalDate date) {
+    public List<Member> findGuidesByCriteria(Gender gender, int age, Languages language, LocalDate date) {
         CriteriaBuilder cb = em.getCriteriaBuilder();
         CriteriaQuery<Member> cq = cb.createQuery(Member.class);
         Root<Member> member = cq.from(Member.class);
@@ -37,12 +37,14 @@ public class CustomMemberRepository {
             predicates.add(cb.equal(member.get("gender"), gender));
         }
 
-        if (birthDate != null) {
-            Expression<Integer> age = cb.diff(
-                    cb.function("YEAR", Integer.class, cb.currentDate()),
-                    cb.function("YEAR", Integer.class, member.get("birthDate"))
-            );
-            predicates.add(cb.equal(age, Period.between(birthDate, LocalDate.now()).getYears()));
+        if (age > 0) {
+            LocalDate currentYearDate = LocalDate.now();
+            LocalDate startDate = currentYearDate.minusYears(age + 1).plusDays(1);
+            LocalDate endDate = currentYearDate.minusYears(age);
+
+            // 여기서 연도만 비교
+            predicates.add(cb.greaterThanOrEqualTo(member.get("birthDate").as(LocalDate.class), startDate));
+            predicates.add(cb.lessThanOrEqualTo(member.get("birthDate").as(LocalDate.class), endDate));
         }
 
         if (language != null) {
@@ -57,6 +59,4 @@ public class CustomMemberRepository {
         TypedQuery<Member> query = em.createQuery(cq);
         return query.getResultList();
     }
-
-
 }

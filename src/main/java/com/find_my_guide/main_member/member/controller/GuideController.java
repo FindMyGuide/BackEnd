@@ -6,6 +6,7 @@ import com.find_my_guide.main_member.member.domain.entity.Gender;
 import com.find_my_guide.main_member.member.service.MemberService;
 import com.find_my_guide.main_tour_product.tour_product.domain.Languages;
 import io.swagger.annotations.Api;
+import io.swagger.models.auth.In;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.format.annotation.DateTimeFormat;
@@ -32,19 +33,23 @@ public class GuideController {
 
 
 
-    @GetMapping("/guides")
+    @GetMapping("/all")
     public ResponseEntity<List<GuideResponse>> findAllGuides() {
         return ResponseEntity.ok(memberService.findAllGuides());
     }
 
-    @GetMapping("/guides/search")
+    @GetMapping("/search")
     public ResponseEntity<List<GuideResponse>> findGuidesByCriteria(
             @RequestParam(required = false) Gender gender,
-            @RequestParam(required = false) @DateTimeFormat(pattern = "yyyy-MM-dd") LocalDate birthDate,
+            @RequestParam(required = false) Integer age,
             @RequestParam(required = false) Languages language,
             @RequestParam(required = false) @DateTimeFormat(pattern = "yyyy-MM-dd") LocalDate date) {
 
-        List<GuideResponse> guides = memberService.findGuideByCriteria(gender, birthDate, language, date);
+        if (age == null || age <= 0) {
+            return ResponseEntity.badRequest().build();
+        }
+
+        List<GuideResponse> guides = memberService.findGuideByCriteria(gender, age, language, date);
         return ResponseEntity.ok(guides);
     }
 

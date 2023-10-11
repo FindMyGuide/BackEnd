@@ -88,12 +88,11 @@ public class MemberService {
     }
 
 
-    public List<GuideResponse> findGuideByCriteria(Gender gender, LocalDate birthDate, Languages language, LocalDate date){
-
-       return customMemberRepository.findGuidesByCriteria(gender,birthDate,language,date)
-               .stream()
-               .map(GuideResponse::new)
-               .collect(Collectors.toList());
+    public List<GuideResponse> findGuideByCriteria(Gender gender, int age, Languages language, LocalDate date) {
+        return customMemberRepository.findGuidesByCriteria(gender, age, language, date)
+                .stream()
+                .map(GuideResponse::new)
+                .collect(Collectors.toList());
     }
 
     public Boolean CheckDuplicated(CheckDuplicatedEmailRequest userDuplicateCheckRequest) {
