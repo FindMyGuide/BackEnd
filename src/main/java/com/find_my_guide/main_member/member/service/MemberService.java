@@ -106,12 +106,12 @@ public class MemberService {
     }
 
 
-    public ReadMemberResponse readMember(String email) {
+    public CreateMemberResponse readMember(String email) {
         Optional<Member> member = findByEmailHere(email);
 
         isExistedEmail(member, email);
 
-        return new ReadMemberResponse(member.get());
+        return new CreateMemberResponse(member.get());
     }
 
     @Transactional
