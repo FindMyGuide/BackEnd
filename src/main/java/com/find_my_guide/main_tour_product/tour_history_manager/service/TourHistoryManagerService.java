@@ -139,11 +139,18 @@ public class TourHistoryManagerService {
 
                     long likes = tourProductLikeRepository.countByTourProduct_TourProductId(tourProductId);
 
+
                     TourProduct tourProduct = tourProductRepository.findById(tourProductId)
                             .orElseThrow(() -> new RuntimeException("관광상품이 없습니다. " + tourProductId));
                     TourProductResponse tourProductResponse = new TourProductResponse(tourProduct);
 
                     tourProductResponse.setLikes(likes);
+
+                    if (0 < likes){
+                        tourProductResponse.setLikeExist(true);
+                    }else {
+                        tourProductResponse.setLikeExist(false);
+                    }
                     return tourProductResponse;
                 })
                 .collect(Collectors.toList());

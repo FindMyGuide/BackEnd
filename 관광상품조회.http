@@ -41,3 +41,6 @@ Content-Type: application/json
 Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiJ4b2RuanM4Mjg3QG5hdmVyLmNvbSIsImV4cCI6MjU4NTk1ODI3NiwiaXNzIjoiZmluZG15Z3VpZGUuY29tIn0.-eEReu9NCJXAKAyNyWbVI47VcntCPwXu9c1_ma7g4UU
 
 
+###
+GET localhost:9000/api/tourProduct/top-10
+Content-Type: application/json
