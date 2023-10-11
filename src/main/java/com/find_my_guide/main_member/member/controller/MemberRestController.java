@@ -37,6 +37,16 @@ public class MemberRestController {
         return ResponseEntity.ok().body("인증 코드가 전송됨 " + request.getEmail());
     }
 
+    @PostMapping("/check-nickname")
+    public ResponseEntity<Boolean> checkDuplicateNickName(@RequestBody CheckDuplicatedNickNameRequest checkDuplicatedNickNameRequest){
+        return ResponseEntity.ok(memberService.isDuplicatedNickName(checkDuplicatedNickNameRequest.getNickName()));
+    }
+
+    @PostMapping("/check-phoneNumber")
+    public ResponseEntity<Boolean> checkDuplicatePhoneNumber(@RequestBody CheckDuplicatedPhoneNumberRequest checkDuplicatedPhoneNumberRequest){
+        return ResponseEntity.ok(memberService.isDuplicatedPhoneNumber(checkDuplicatedPhoneNumberRequest.getPhoneNumber()));
+    }
+
     @PostMapping("/complete-sign-up")
     public ResponseEntity<CreateMemberResponse> completeSignUp(@RequestBody @Valid final MailConfirmDto request) {
         CreateMemberResponse response = memberService.verifyEmailAndCompleteSignUp(request.getEmail(), request.getCode());
@@ -95,6 +105,15 @@ public class MemberRestController {
 
         return ResponseEntity.ok(response);
     }
+
+    @DeleteMapping("/delete-not-certified-email")
+    public ResponseEntity<DeleteMemberResponse> deleteUndefinedEmailMember(String email) {
+
+        DeleteMemberResponse response = memberService.deleteMember(email);
+
+        return ResponseEntity.ok(response);
+    }
+
 
 
     @PostMapping("/initiate-change-password")

@@ -22,6 +22,7 @@ import java.util.List;
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 @Builder
 @Getter
+@Setter
 public class TourProduct extends BaseEntity {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -36,6 +37,9 @@ public class TourProduct extends BaseEntity {
 
     @Embedded
     private HowManyDay howManyDay;
+
+    @OneToMany(mappedBy = "tourProduct", cascade = CascadeType.REMOVE, orphanRemoval = true)
+    private List<Images> images = new ArrayList<>();
 
     @Embedded
     private Price price;

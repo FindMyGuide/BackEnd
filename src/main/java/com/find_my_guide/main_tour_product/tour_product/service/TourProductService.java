@@ -11,9 +11,11 @@ import com.find_my_guide.main_tour_product.location.domain.Location;
 import com.find_my_guide.main_tour_product.location.dto.LocationRequest;
 import com.find_my_guide.main_tour_product.location.repository.LocationRepository;
 import com.find_my_guide.main_tour_product.tour_history_manager.service.TourHistoryManagerService;
+import com.find_my_guide.main_tour_product.tour_product.domain.Images;
 import com.find_my_guide.main_tour_product.tour_product.domain.TourProduct;
 import com.find_my_guide.main_tour_product.tour_product.dto.TourProductRequest;
 import com.find_my_guide.main_tour_product.tour_product.dto.TourProductResponse;
+import com.find_my_guide.main_tour_product.tour_product.repository.ImagesRepository;
 import com.find_my_guide.main_tour_product.tour_product.repository.TourProductRepository;
 import com.find_my_guide.main_tour_product.tour_product_like.repository.TourProductLikeRepository;
 import com.find_my_guide.main_tour_product.tour_product_location.domain.TourProductLocation;
@@ -26,6 +28,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.time.LocalDate;
+import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Comparator;
 import java.util.List;
@@ -52,6 +55,8 @@ public class TourProductService {
 
     private final MemberRepository memberRepository;
 
+    private final ImagesRepository imagesRepository;
+
     @Transactional
     public TourProductResponse registerTourProduct(String email, TourProductRequest tourProductRequest) {
         TourProduct tourProduct = tourProductRequest.toTourProduct();
@@ -64,7 +69,17 @@ public class TourProductService {
 
         tourProduct = tourProductRepository.save(tourProduct);
 
+        List<Images> savedImagesList = new ArrayList<>();
+        List<Images> imagesList = tourProductRequest.getImages();
+        for (Images image : imagesList) {
+            image.setTourProduct(tourProduct);
+            Images savedImage = imagesRepository.save(image);
+            savedImagesList.add(savedImage);
+        }
+
         Member member = findMember(email);
+
+        tourProduct.setImages(savedImagesList);
 
         addTheme(tourProductRequest, tourProduct);
 
@@ -84,6 +99,7 @@ public class TourProductService {
         }
 
         TourProduct save = tourProductRepository.save(tourProduct);
+
 
         tourHistoryManagerService.registerTourProductByGuide(member.getEmail(), save.getTourProductId());
 
@@ -161,6 +177,11 @@ public class TourProductService {
                 .stream()
                 .map(TourProductResponse::new)
                 .collect(Collectors.toList());
+    }
+
+    @Transactional
+    public Images registerImage (Images images){
+        return imagesRepository.save(images);
     }
 
     private TourProduct findById(Long id) {

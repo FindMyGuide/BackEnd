@@ -1,22 +1,40 @@
 //회원등록
-POST http://localhost:9000/api/find-my-guide/member/initiate-sign-up
+POST http://find-my-guide.site:9000/api/find-my-guide/member/initiate-sign-up
 Content-Type: application/json
 
 {
-  "name" : "하하호",
-  "email" : "xodnjs1837@gmail.com",
+  "name" : "신대혁",
+  "email" : "qweqwe123@naver.com",
   "password" : "qpal123!",
-  "nickname" : "qweqwe2",
+  "nickname" : "eogurdk",
   "nationality" : "KR",
   "gender" : "FEMALE",
   "birthDate" : "19950930",
-  "phoneNumber" : "010-1234-8287",
-  "nationalCertificationOfGuideYn" : "Y"
+  "phoneNumber" : "010-2321-8287",
+  "nationalCertificationOfGuideYn" : "Y",
+  "guideProfilePicture": "",
+  "guideIntroduction": "",
+  "guideExperience": "",
+  "languages": ["KOREAN","ENGLISH"]
 }
 
 ###
 
+POST http://localhost:9000/api/find-my-guide/member/check-nickname
+Content-Type: application/json
 
+{
+  "nickName": "seohui"
+}
+
+###
+
+POST http://localhost:9000/api/find-my-guide/member/check-phoneNumber
+Content-Type: application/json
+
+{
+  "phoneNumber": "010-1234-8287"
+}
 
 
 ###
@@ -25,8 +43,8 @@ POST http://localhost:9000/api/find-my-guide/member/complete-sign-up
 Content-Type: application/json
 
 {
-  "email": "xodnjs1837@gmail.com",
-  "code": "0Zj0Uv0D"
+  "email": "tlfem3315@naver.com",
+  "code": "dx26D64d"
 }
 
 ###

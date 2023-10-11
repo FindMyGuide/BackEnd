@@ -1,6 +1,7 @@
 package com.find_my_guide.main_tour_product.tour_product.dto;
 
 import com.find_my_guide.main_tour_product.available_reservation_date.dto.AvailableDateResponse;
+import com.find_my_guide.main_tour_product.tour_product.domain.Images;
 import com.find_my_guide.main_tour_product.tour_product.domain.Languages;
 import com.find_my_guide.main_tour_product.tour_product.domain.TourProduct;
 import com.find_my_guide.main_tour_product.tour_product_location.dto.TourProductLocationResponse;
@@ -37,7 +38,9 @@ public class TourProductResponse {
 
     private List<TourProductThemeResponse> themeResponses;
 
+    private List<String> imageUrls = new ArrayList<>();
 
+    private String bestImage;
     public TourProductResponse(TourProduct tourProduct) {
         this.id = tourProduct.getTourProductId();
         this.title = tourProduct.getTitle().getTitle();
@@ -68,6 +71,12 @@ public class TourProductResponse {
             this.themeResponses = tourProduct.getTourProductThemes().stream()
                     .map(TourProductThemeResponse::new)
                     .collect(Collectors.toList());
+        }
+        if(tourProduct.getImages() != null && !tourProduct.getImages().isEmpty()) {
+            this.imageUrls = tourProduct.getImages().stream()
+                    .map(Images::getImageUrl)
+                    .collect(Collectors.toList());
+            this.bestImage = tourProduct.getImages().get(0).getImageUrl();
         }
     }
 }

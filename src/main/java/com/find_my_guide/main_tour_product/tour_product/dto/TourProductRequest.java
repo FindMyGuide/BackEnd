@@ -30,6 +30,7 @@ public class TourProductRequest {
 
     private List<String> howManyDay = new ArrayList<>();
 
+    private List<Images> images = new ArrayList<>();
 
     private List<LocationRequest> location = new ArrayList<>();  // 변경된 부분
 

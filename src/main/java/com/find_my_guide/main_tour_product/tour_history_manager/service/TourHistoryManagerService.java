@@ -126,6 +126,7 @@ public class TourHistoryManagerService {
 
 
         return top10TourProductIds.stream()
+                .limit(10)
                 .map(tourProductId -> {
 
                     long likes = tourProductLikeRepository.countByTourProduct_TourProductId(tourProductId);
