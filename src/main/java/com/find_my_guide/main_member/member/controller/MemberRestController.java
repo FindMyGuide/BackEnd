@@ -39,7 +39,7 @@ public class MemberRestController {
 
     @PostMapping("/check-nickname")
     public ResponseEntity<Boolean> checkDuplicateNickName(@RequestBody CheckDuplicatedNickNameRequest checkDuplicatedNickNameRequest){
-        return ResponseEntity.ok(memberService.isDuplicatedNickName(checkDuplicatedNickNameRequest.getNickName()));
+        return ResponseEntity.ok(memberService.isDuplicatedNickName(checkDuplicatedNickNameRequest.getNickname()));
     }
 
     @PostMapping("/check-phoneNumber")
