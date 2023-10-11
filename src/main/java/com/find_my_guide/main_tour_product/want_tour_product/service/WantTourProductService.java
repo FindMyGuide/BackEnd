@@ -1,6 +1,7 @@
 package com.find_my_guide.main_tour_product.want_tour_product.service;
 
 import com.find_my_guide.main_member.common.NotFoundException;
+import com.find_my_guide.main_member.member.domain.entity.Gender;
 import com.find_my_guide.main_member.member.domain.entity.Member;
 import com.find_my_guide.main_member.member.repository.MemberRepository;
 import com.find_my_guide.main_tour_product.available_reservation_date.dto.AvailableDateRequest;
@@ -9,6 +10,7 @@ import com.find_my_guide.main_tour_product.common.validation_field.Title;
 import com.find_my_guide.main_tour_product.location.domain.Location;
 import com.find_my_guide.main_tour_product.location.dto.LocationRequest;
 import com.find_my_guide.main_tour_product.location.repository.LocationRepository;
+import com.find_my_guide.main_tour_product.tour_product.domain.Price;
 import com.find_my_guide.main_tour_product.tour_product.domain.TourProduct;
 import com.find_my_guide.main_tour_product.tour_product.dto.TourProductRequest;
 import com.find_my_guide.main_tour_product.tour_product_location.domain.TourProductLocation;
@@ -17,6 +19,7 @@ import com.find_my_guide.main_tour_product.want_reservation_date.domain.WantRese
 import com.find_my_guide.main_tour_product.want_reservation_date.dto.WantReservationDateRequest;
 import com.find_my_guide.main_tour_product.want_reservation_date.service.WantReservationDateService;
 import com.find_my_guide.main_tour_product.want_tour_product.domain.WantTourProduct;
+import com.find_my_guide.main_tour_product.want_tour_product.dto.UpdateWantTourProductRequest;
 import com.find_my_guide.main_tour_product.want_tour_product.dto.WantTourProductRequest;
 import com.find_my_guide.main_tour_product.want_tour_product.dto.WantTourProductResponse;
 import com.find_my_guide.main_tour_product.want_tour_product.repository.WantTourProductRepository;
@@ -102,13 +105,6 @@ public class WantTourProductService {
         return wantTourProductResponse;
     }
 
-    @Transactional
-    public WantTourProductResponse update(Long id, WantTourProductRequest wantTourProductRequest) {
-        WantTourProduct wantTourProduct = findWantTourProductById(id);
-        wantTourProduct.update(new Title(wantTourProductRequest.getTitle()), new Content(wantTourProductRequest.getContent()));
-
-        return new WantTourProductResponse(wantTourProductRepository.save(wantTourProduct));
-    }
 
     @Transactional
     public WantTourProductResponse delete(Long id) {
@@ -127,6 +123,26 @@ public class WantTourProductService {
 
     }
 
+    @Transactional
+    public WantTourProductResponse update(Long wantTourProductId, UpdateWantTourProductRequest request) {
+        WantTourProduct wantTourProduct = wantTourProductRepository.findById(wantTourProductId)
+                .orElseThrow(() -> new IllegalArgumentException("해당 ID를 가진 상품이 없습니다."));
+
+        wantTourProduct.update(
+                request.getTitle(),
+                request.getContent(),
+                request.getPrice(),
+                Gender.valueOf(request.getGender()),
+                request.getTotalPeople(),
+                request.getVehicle()
+        );
+
+
+        return new WantTourProductResponse(wantTourProduct);
+    }
+
+
+
     public List<WantTourProductResponse> showAllWantTourProductList() {
         return wantTourProductRepository.findAll().stream()
                 .map(WantTourProductResponse::new)
@@ -136,6 +152,8 @@ public class WantTourProductService {
     public WantTourProductResponse showWantTourProductList(Long id) {
         return new WantTourProductResponse(findWantTourProductById(id));
     }
+
+
 
     private WantTourProduct findWantTourProductById(Long id) {
         return wantTourProductRepository.findById(id).orElseThrow(() -> new IllegalArgumentException("존재하지 않는 상품입니다."));

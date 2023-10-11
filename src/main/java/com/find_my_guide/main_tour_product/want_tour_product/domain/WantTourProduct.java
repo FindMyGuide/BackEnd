@@ -10,10 +10,9 @@ import com.find_my_guide.main_tour_product.tour_product.domain.Price;
 import com.find_my_guide.main_tour_product.want_reservation_date.domain.WantReservationDate;
 import com.find_my_guide.main_tour_product.want_tour_product_location.domain.WantTourProductLocation;
 import com.find_my_guide.main_tour_product.want_tour_product_theme.domain.WantTourProductTheme;
-import lombok.AllArgsConstructor;
-import lombok.Builder;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
+import lombok.*;
+import org.hibernate.annotations.DynamicInsert;
+import org.hibernate.annotations.DynamicUpdate;
 
 import javax.persistence.*;
 import java.time.LocalDate;
@@ -22,12 +21,15 @@ import java.util.List;
 
 @Entity
 @Getter
-@NoArgsConstructor
+@NoArgsConstructor(access = AccessLevel.PROTECTED)
 @AllArgsConstructor
+@DynamicInsert
+@DynamicUpdate
 @Builder
 public class WantTourProduct extends BaseEntity {
 
-    @Id @GeneratedValue(strategy = GenerationType.AUTO)
+    @Id
+    @GeneratedValue(strategy = GenerationType.AUTO)
     private Long wantTourProductId;
 
     @Embedded
@@ -97,18 +99,35 @@ public class WantTourProduct extends BaseEntity {
         this.member = member;
     }
 
-    public void update(Title title, Content content) {
-       this.title = title;
-       this.content = content;
-   }
+    public void update(String title,
+                       String content,
+                       Long price,
+                       Gender gender,
+                       Integer totalPeople,
+                       Vehicle vehicle) {
+        if (title != null) {
+            this.title = new Title(title);
+        }
+        if (content != null) {
+            this.content = new Content(content);
+        }
+        if (price != null) {
+            this.price = new Price(price);
+        }
+        if (gender != null) {
+            this.gender = gender;
+        }
+        if (totalPeople != null) {
+            this.totalPeople = totalPeople;
+        }
+        if (vehicle != null) {
+            this.vehicle = vehicle;
+        }
+    }
 
     public void setWantTourProductLocations() {
         this.wantTourProductLocations = new ArrayList<>();
     }
-
-
-
-
 
 
 }
