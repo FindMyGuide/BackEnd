@@ -107,7 +107,7 @@ public class MemberRestController {
     }
 
     @DeleteMapping("/delete-not-certified-email")
-    public ResponseEntity<DeleteMemberResponse> deleteUndefinedEmailMember(String email) {
+    public ResponseEntity<DeleteMemberResponse> deleteUndefinedEmailMember(@RequestParam String email) {
 
         DeleteMemberResponse response = memberService.deleteMember(email);
 
