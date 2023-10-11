@@ -80,7 +80,7 @@ Content-Type: application/json
 }
 
 ###
-GET http://localhost:9000/api/find-my-guide/guide/search?age=28
+GET http://find-my-guide.site/api/find-my-guide/guide/search?age=2
 Content-Type: application/json
 
 

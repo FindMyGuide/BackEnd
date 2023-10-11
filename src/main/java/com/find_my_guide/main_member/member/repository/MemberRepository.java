@@ -29,4 +29,6 @@ public interface MemberRepository extends JpaRepository<Member, Long> {
 
     Optional<Member> findByKakaoId(String kakaoId);
     boolean existsByRefreshToken(String refreshToken);
+
+    void deleteByIsEmailVerifiedFalse();
 }

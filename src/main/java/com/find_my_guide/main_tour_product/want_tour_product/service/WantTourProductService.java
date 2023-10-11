@@ -52,20 +52,18 @@ public class WantTourProductService {
 
 
     @Transactional
-    public WantTourProductResponse registerWantTourProduct(String memberId, WantTourProductRequest wantTourProductRequest) {
+    public WantTourProductResponse registerWantTourProduct(String email, WantTourProductRequest wantTourProductRequest) {
         WantTourProduct wantTourProduct = wantTourProductRequest.toWantTourProduct();
 
         if(wantTourProduct.getWantTourProductLocations() == null){
             wantTourProduct.setWantTourProductLocations();
         }
 
-        wantTourProduct = wantTourProductRepository.save(wantTourProduct);
-
-
-
-
-        Member member = memberRepository.findByEmail(memberId)
+        Member member = memberRepository.findByEmail(email)
                 .orElseThrow(() -> new IllegalArgumentException("존재하지 않는 회원입니다."));
+
+        wantTourProduct.setMember(member);
+
 
 
         addWantThemes(wantTourProductRequest,wantTourProduct);

@@ -21,7 +21,7 @@ public class WantTourProductController {
 
     private final WantTourProductService wantTourProductService;
 
-    @PostMapping("/wantTourProduct/register")
+    @PostMapping("/want-tourProduct/register")
     public ResponseEntity<WantTourProductResponse> addWantTourProduct(
             final Authentication authentication,
             @RequestBody WantTourProductRequest wantTourProductRequest) {
@@ -31,7 +31,7 @@ public class WantTourProductController {
         return ResponseEntity.ok(wantTourProductResponse);
     }
 
-    @GetMapping("/wantTourProduct/{wantTourProductId}")
+    @GetMapping("/want-tourProduct/{wantTourProductId}")
     public ResponseEntity<WantTourProductResponse> detailWantTourProduct(
             @Valid @PathVariable Long wantTourProductId
     ) {
@@ -39,7 +39,7 @@ public class WantTourProductController {
         return ResponseEntity.ok(wantTourProductResponse);
     }
 
-    @GetMapping("/wantTourProducts")
+    @GetMapping("/want-tourProducts")
     public ResponseEntity<List<WantTourProductResponse>> AllWantTourProduct() {
         List<WantTourProductResponse> wantTourProductResponses = wantTourProductService.showAllWantTourProductList();
         return ResponseEntity.ok(wantTourProductResponses);

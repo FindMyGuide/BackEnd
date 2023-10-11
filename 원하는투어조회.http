@@ -1,2 +1,2 @@
-GET http://localhost:9000/api/wantTourProducts
+GET http://localhost:9000/api/want-tourProducts
 Content-Type: application/json

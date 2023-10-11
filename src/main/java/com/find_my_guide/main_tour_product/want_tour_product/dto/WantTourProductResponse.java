@@ -32,6 +32,9 @@ public class WantTourProductResponse {
     private Vehicle vehicle;
     private List<WantTourProductLocationResponse> locationResponses ;
 
+    private List<LocalDate> reservationDates;
+
+
     public WantTourProductResponse(WantTourProduct wantTourProduct) {
         this.id = (wantTourProduct.getWantTourProductId() != null) ? wantTourProduct.getWantTourProductId() : 0L;
         this.createAt = (wantTourProduct.getCreatedAt() != null) ? wantTourProduct.getCreatedAt() : LocalDateTime.now();
@@ -42,6 +45,9 @@ public class WantTourProductResponse {
         this.vehicle = (wantTourProduct.getVehicle() != null) ? wantTourProduct.getVehicle() : null;
         this.locationResponses = (wantTourProduct.getWantTourProductLocations() != null) ? wantTourProduct.getWantTourProductLocations().stream()
                 .map(WantTourProductLocationResponse::new)
+                .collect(Collectors.toList()) : Collections.emptyList();
+        this.reservationDates = (wantTourProduct.getWantReservationDates() != null) ? wantTourProduct.getWantReservationDates().stream()
+                .map(wantReservationDate -> wantReservationDate.getDate())
                 .collect(Collectors.toList()) : Collections.emptyList();
     }
 }
