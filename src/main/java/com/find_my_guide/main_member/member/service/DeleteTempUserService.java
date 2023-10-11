@@ -14,7 +14,7 @@ public class DeleteTempUserService {
     private final MemberRepository memberRepository;
 
     @Transactional
-    @Scheduled(fixedRate = 300000)  // 5분마다 실행 (5 * 60 * 1000ms = 300000ms)
+    @Scheduled(fixedRate = 300000)
     public void deleteUnverifiedUsers() {
         memberRepository.deleteByIsEmailVerifiedFalse();
     }
