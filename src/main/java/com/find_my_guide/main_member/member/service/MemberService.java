@@ -87,6 +87,7 @@ public class MemberService {
         return new CreateMemberResponse(tempMember);
     }
 
+
     public List<GuideResponse> findGuideByCriteria(Gender gender, LocalDate birthDate, Languages language, LocalDate date){
 
        return customMemberRepository.findGuidesByCriteria(gender,birthDate,language,date)
@@ -226,6 +227,15 @@ public class MemberService {
                 .findAny().orElseThrow(() -> new NotFoundException("이 가이드는 존재 하지 않습니다."));
 
     }
+
+    public Boolean isDuplicatedNickName(String nickName) {
+        return !memberRepository.findByNickname(nickName).isPresent();
+    }
+
+    public Boolean isDuplicatedPhoneNumber(String phoneNumber) {
+        return !memberRepository.findByPhoneNumber(phoneNumber).isPresent();
+    }
+
 
 
     private Member checkValidMember(FindMemberRequest findMemberRequest) {

@@ -2,6 +2,7 @@ package com.find_my_guide.main_member.common;
 
 import lombok.AllArgsConstructor;
 import lombok.Getter;
+import lombok.Setter;
 
 @AllArgsConstructor
 @Getter

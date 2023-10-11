@@ -80,6 +80,8 @@ public class Member {
     @Column(name = "profile_picture")
     private String profilePicture;
 
+
+
     // 사용 가능 언어
     @ElementCollection(targetClass = Languages.class, fetch = FetchType.LAZY)
     @CollectionTable(name = "member_languages", joinColumns = @JoinColumn(name = "member_id"))
