@@ -7,6 +7,7 @@ import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
+import reactor.util.annotation.Nullable;
 
 import java.math.BigDecimal;
 import java.time.LocalDate;
@@ -23,12 +24,19 @@ public class WantTourProductResponse {
     private Long id;
     private LocalDateTime createAt;
     private String title;
+
     private String content;
+
+    @Nullable
     private BigDecimal price;
 
+    @Nullable
     private int totalPeople;
 
+    @Nullable
     private Vehicle vehicle;
+
+    @Nullable
     private List<WantTourProductLocationResponse> locationResponses ;
 
     public WantTourProductResponse(WantTourProduct wantTourProduct) {
@@ -36,7 +44,9 @@ public class WantTourProductResponse {
         this.createAt = wantTourProduct.getCreatedAt();
         this.price = wantTourProduct.getPrice().getPrice();
         this.title = wantTourProduct.getTitle().getTitle();
-        this.totalPeople = wantTourProduct.getTotalPeople();
+        if (wantTourProduct.getTotalPeople() != null) {
+            this.totalPeople = wantTourProduct.getTotalPeople();
+        }
         this.content = wantTourProduct.getContent().getContent();
         this.vehicle = wantTourProduct.getVehicle();
         this.locationResponses = wantTourProduct.getWantTourProductLocations().stream()
