@@ -11,12 +11,11 @@ import java.util.List;
 
 @RestController
 @RequiredArgsConstructor
-@RequestMapping("/api")
+@RequestMapping("/api/guide-like")
 public class GuideLikeController {
 
     private final GuideLikeService guideLikeService;
 
-    // 1. 가이드 좋아요 추가
     @PostMapping("/{guideId}")
     public ResponseEntity<String> addLike(@PathVariable Long guideId, final org.springframework.security.core.Authentication authentication) {
         String memberEmail = (String) authentication.getPrincipal();
@@ -24,16 +23,14 @@ public class GuideLikeController {
         return ResponseEntity.ok("좋아요가 성공적으로 추가되었습니다.");
     }
 
-    // 2. 가이드 좋아요 취소
-    @DeleteMapping("/{guideId}")
+    @DeleteMapping("/delete/{guideId}")
     public ResponseEntity<String> removeLike(@PathVariable Long guideId, final org.springframework.security.core.Authentication authentication) {
         String memberEmail = (String) authentication.getPrincipal();
         guideLikeService.dislikeGuide(guideId, memberEmail); // GuideLikeService에 unlikeGuide 메서드를 추가해야 합니다.
         return ResponseEntity.ok("좋아요가 성공적으로 취소되었습니다.");
     }
 
-    // 3. 좋아요한 가이드 목록 조회
-    @GetMapping
+    @GetMapping("/guide-list")
     public ResponseEntity<List<GuideResponse>> getLikedGuides(final org.springframework.security.core.Authentication authentication) {
         String memberEmail = (String) authentication.getPrincipal();
         List<GuideResponse> likedGuides = guideLikeService.getLikedGuides(memberEmail);

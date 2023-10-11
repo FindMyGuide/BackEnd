@@ -11,6 +11,7 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.Optional;
 import java.util.stream.Collectors;
 
 @Service
@@ -24,30 +25,25 @@ public class GuideLikeService {
     private final GuideLikeRepository guideLikeRepository;
 
     public Boolean likeGuide(Long guideId, String memberEmail) {
-        try {
-            Member member = memberService.findByEmail(memberEmail);
-            Member guide = memberRepository.findById(guideId).orElseThrow(() -> new NotFoundException("Guide not found"));
 
-            // 좋아요 중복 체크
-            GuideLike existingLike = guideLikeRepository.findByGuideAndMember(guide, member).orElseThrow();
+        Member member = memberService.findByEmail(memberEmail);
+        Member guide = memberRepository.findById(guideId).orElseThrow(() -> new NotFoundException("Guide not found"));
 
-            if (existingLike != null) {
-                throw new IllegalStateException("이미 좋아요 한 가이드입니다.");
-            }
+        Optional<GuideLike> optionalExistingLike = guideLikeRepository.findByGuideAndMember(guide, member);
 
-            GuideLike like = GuideLike.builder()
-                    .guide(guide)
-                    .member(member)
-                    .build();
-
-            guideLikeRepository.save(like);
-
-            return true;
-
-        } catch (NotFoundException e) {
-            e.getErrorCode();
-            return false;
+        if (optionalExistingLike.isPresent()) {
+            throw new IllegalStateException("이미 좋아요 한 가이드입니다.");
         }
+
+        GuideLike like = GuideLike.builder()
+                .guide(guide)
+                .member(member)
+                .build();
+
+        guideLikeRepository.save(like);
+
+        return true;
+
     }
 
 

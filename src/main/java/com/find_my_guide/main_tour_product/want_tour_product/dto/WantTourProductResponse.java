@@ -11,6 +11,7 @@ import lombok.Setter;
 import java.math.BigDecimal;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
+import java.util.Collections;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -26,21 +27,21 @@ public class WantTourProductResponse {
     private String content;
     private BigDecimal price;
 
-    private int totalPeople;
+    private Integer totalPeople;
 
     private Vehicle vehicle;
     private List<WantTourProductLocationResponse> locationResponses ;
 
     public WantTourProductResponse(WantTourProduct wantTourProduct) {
-        this.id = wantTourProduct.getWantTourProductId();
-        this.createAt = wantTourProduct.getCreatedAt();
-        this.price = wantTourProduct.getPrice().getPrice();
-        this.title = wantTourProduct.getTitle().getTitle();
-        this.totalPeople = wantTourProduct.getTotalPeople();
-        this.content = wantTourProduct.getContent().getContent();
-        this.vehicle = wantTourProduct.getVehicle();
-        this.locationResponses = wantTourProduct.getWantTourProductLocations().stream()
+        this.id = (wantTourProduct.getWantTourProductId() != null) ? wantTourProduct.getWantTourProductId() : 0L;
+        this.createAt = (wantTourProduct.getCreatedAt() != null) ? wantTourProduct.getCreatedAt() : LocalDateTime.now();
+        this.price = (wantTourProduct.getPrice() != null && wantTourProduct.getPrice().getPrice() != null) ? wantTourProduct.getPrice().getPrice() : BigDecimal.ZERO;
+        this.title = (wantTourProduct.getTitle() != null && wantTourProduct.getTitle().getTitle() != null) ? wantTourProduct.getTitle().getTitle() : "";
+        this.totalPeople = (wantTourProduct.getTotalPeople() != null) ? wantTourProduct.getTotalPeople() : 0;
+        this.content = (wantTourProduct.getContent() != null && wantTourProduct.getContent().getContent() != null) ? wantTourProduct.getContent().getContent() : "";
+        this.vehicle = (wantTourProduct.getVehicle() != null) ? wantTourProduct.getVehicle() : null;
+        this.locationResponses = (wantTourProduct.getWantTourProductLocations() != null) ? wantTourProduct.getWantTourProductLocations().stream()
                 .map(WantTourProductLocationResponse::new)
-                .collect(Collectors.toList());
+                .collect(Collectors.toList()) : Collections.emptyList();
     }
 }

@@ -37,7 +37,7 @@ Content-Type: application/json
 }
 
 ###
-POST http://localhost:9000/api/find-my-guide/member/delete-not-certified-email
+DELETE http://localhost:9000/api/find-my-guide/member/delete-not-certified-email?email=mko567@naver.com
 Content-Type: application/json
 
 

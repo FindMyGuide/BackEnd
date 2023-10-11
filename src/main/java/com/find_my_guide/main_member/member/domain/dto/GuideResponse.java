@@ -34,10 +34,10 @@ public class GuideResponse {
         this.tourProductTitles = member.getTourHistoriesAsGuide().stream()
                 .map(it -> it.getTourProduct().getTitle())
                 .collect(Collectors.toList());
-        this.guideExperience = member.getGuideExperience();
-        this.languages = member.getLanguages();
-        this.guideIntro = member.getGuideIntro();
-        this.profilePicture = member.getProfilePicture();
+        this.guideExperience = (member.getGuideExperience() != null) ? member.getGuideExperience() : 0;
+        this.languages = (member.getLanguages() != null) ? member.getLanguages() : new ArrayList<>();
+        this.guideIntro = (member.getGuideIntro() != null) ? member.getGuideIntro() : "";
+        this.profilePicture = (member.getProfilePicture() != null) ? member.getProfilePicture() : "";
 
     }
 }
