@@ -123,7 +123,12 @@ public class MemberService {
                 .update(
                         memberRequest.getNickname(),
                         memberRequest.getPhoneNumber(),
-                        memberRequest.getNationalCertificationOfGuideYn());
+                        memberRequest.getNationalCertificationOfGuideYn(),
+                        memberRequest.getGuideExperience(),
+                        memberRequest.getProfilePicture(),
+                        memberRequest.getLanguages(),
+                        memberRequest.getGuideIntro()
+                );
 
         return new UpdateMemberResponse(member.get());
     }

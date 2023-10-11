@@ -2,9 +2,13 @@ package com.find_my_guide.main_member.member.domain.dto;
 
 import javax.validation.constraints.Email;
 import javax.validation.constraints.Pattern;
+
+import com.find_my_guide.main_tour_product.tour_product.domain.Languages;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import org.springframework.lang.Nullable;
+
+import java.util.List;
 
 @Getter
 @AllArgsConstructor
@@ -24,4 +28,17 @@ public class UpdateMemberRequest {
 
     @Nullable
     private String nationalCertificationOfGuideYn;
+
+    @Nullable
+    private Integer guideExperience;
+
+    @Nullable
+    private String profilePicture;
+
+    @Nullable
+    private List<Languages> languages;
+
+    @Nullable
+    private String guideIntro;
+
 }
