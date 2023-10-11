@@ -45,4 +45,9 @@ public class WantTourProductController {
         return ResponseEntity.ok(wantTourProductResponses);
     }
 
+    @GetMapping("/want-tourProduct/login-user")
+    public ResponseEntity<List<WantTourProductResponse>> getAllCurrentUserWantTourProducts(final Authentication authentication) {
+        return ResponseEntity.ok(wantTourProductService.showCurrentUserWantTourProductList((String) authentication.getPrincipal()));
+    }
+
 }
