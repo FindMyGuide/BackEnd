@@ -33,4 +33,9 @@ public class MyPageController {
     public List<TourProductResponse> getLikeTourProducts(final Authentication authentication){
         return tourProductLikeService.findAllLikeTourProduct((String) authentication.getPrincipal());
     }
+
+    @GetMapping("/tour")
+    public List<TourProductResponse> getTourProductsByGuide(final Authentication authentication){
+        return tourHistoryManagerService.findToursByGuideEmail((String) authentication.getPrincipal());
+    }
 }
