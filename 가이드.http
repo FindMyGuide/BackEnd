@@ -1,0 +1,8 @@
+POST http://localhost:9000/api/guide-like/2
+Content-Type: application/json
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiJ4b2RuanM4Mjg3QG5hdmVyLmNvbSIsImV4cCI6MjU4NjAyNTUwMywiaXNzIjoiZmluZG15Z3VpZGUuY29tIn0.G6mm7Jgs87pNaLIQKCOGf182DEK2w1CMKCXiwoQ807E
+
+###
+GET http://localhost:9000/api/guide-like/guide-list
+Content-Type: application/json
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiJ4b2RuanM4Mjg3QG5hdmVyLmNvbSIsImV4cCI6MjU4NjAyNTUwMywiaXNzIjoiZmluZG15Z3VpZGUuY29tIn0.G6mm7Jgs87pNaLIQKCOGf182DEK2w1CMKCXiwoQ807E
