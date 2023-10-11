@@ -23,7 +23,7 @@ public class CustomMemberRepository {
     @PersistenceContext
     private EntityManager em;
 
-    public List<Member> findGuidesByCriteria(Gender gender, int age, Languages language, LocalDate date) {
+    public List<Member> findGuidesByCriteria(Gender gender, int startAge, int endAge, Languages language, LocalDate date) {
         CriteriaBuilder cb = em.getCriteriaBuilder();
         CriteriaQuery<Member> cq = cb.createQuery(Member.class);
         Root<Member> member = cq.from(Member.class);
@@ -37,12 +37,11 @@ public class CustomMemberRepository {
             predicates.add(cb.equal(member.get("gender"), gender));
         }
 
-        if (age > 0) {
+        if (startAge > 0 && endAge > 0) {
             LocalDate currentYearDate = LocalDate.now();
-            LocalDate startDate = currentYearDate.minusYears(age + 1).plusDays(1);
-            LocalDate endDate = currentYearDate.minusYears(age);
+            LocalDate startDate = currentYearDate.minusYears(endAge + 1).plusDays(1);
+            LocalDate endDate = currentYearDate.minusYears(startAge);
 
-            // 여기서 연도만 비교
             predicates.add(cb.greaterThanOrEqualTo(member.get("birthDate").as(LocalDate.class), startDate));
             predicates.add(cb.lessThanOrEqualTo(member.get("birthDate").as(LocalDate.class), endDate));
         }

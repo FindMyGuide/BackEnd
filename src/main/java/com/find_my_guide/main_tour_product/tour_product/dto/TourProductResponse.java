@@ -28,6 +28,8 @@ public class TourProductResponse {
     @Nullable
     private Long likes;
 
+    private boolean isLikeExist;
+
     private List<TourProductLocationResponse> locations;
 
     private List<AvailableDateResponse> availableDates;

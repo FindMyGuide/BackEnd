@@ -88,8 +88,8 @@ public class MemberService {
     }
 
 
-    public List<GuideResponse> findGuideByCriteria(Gender gender, int age, Languages language, LocalDate date) {
-        return customMemberRepository.findGuidesByCriteria(gender, age, language, date)
+    public List<GuideResponse> findGuideByCriteria(Gender gender, int startAge, int endAge, Languages language, LocalDate date) {
+        return customMemberRepository.findGuidesByCriteria(gender, startAge,endAge , language, date)
                 .stream()
                 .map(GuideResponse::new)
                 .collect(Collectors.toList());

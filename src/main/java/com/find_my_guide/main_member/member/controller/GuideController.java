@@ -41,15 +41,24 @@ public class GuideController {
     @GetMapping("/search")
     public ResponseEntity<List<GuideResponse>> findGuidesByCriteria(
             @RequestParam(required = false) Gender gender,
-            @RequestParam(required = false) Integer age,
+            @RequestParam(required = false) String age,
             @RequestParam(required = false) Languages language,
             @RequestParam(required = false) @DateTimeFormat(pattern = "yyyy-MM-dd") LocalDate date) {
 
-        if (age == null || age <= 0) {
+        String[] ageTokens = age.split("-");
+        if (ageTokens.length != 2) {
             return ResponseEntity.badRequest().build();
         }
 
-        List<GuideResponse> guides = memberService.findGuideByCriteria(gender, age, language, date);
+        int startAge, endAge;
+        try {
+            startAge = Integer.parseInt(ageTokens[0].trim());
+            endAge = Integer.parseInt(ageTokens[1].trim());
+        } catch (NumberFormatException e) {
+            return ResponseEntity.badRequest().build();
+        }
+
+        List<GuideResponse> guides = memberService.findGuideByCriteria(gender, startAge, endAge, language, date);
         return ResponseEntity.ok(guides);
     }
 

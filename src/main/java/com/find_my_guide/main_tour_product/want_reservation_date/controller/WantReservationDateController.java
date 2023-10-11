@@ -18,7 +18,7 @@ public class WantReservationDateController {
 
     private final WantReservationDateService wantReservationDateService;
 
-    @PostMapping("/wantTourProduct/registerDate/{wantTourProductId}")
+    @PostMapping("/want-tourProduct/registerDate/{wantTourProductId}")
     public ResponseEntity<WantReservationDateResponse> registerDate(
             @Valid @PathVariable Long wantTourProductId,
             @RequestBody WantReservationDateRequest wantReservationDateRequest
