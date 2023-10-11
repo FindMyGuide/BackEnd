@@ -5,5 +5,5 @@ import lombok.Data;
 @Data
 public class CheckDuplicatedNickNameRequest {
 
-    private String nickName;
+    private String nickname;
 }
