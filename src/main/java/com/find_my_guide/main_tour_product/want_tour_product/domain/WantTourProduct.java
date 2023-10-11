@@ -104,7 +104,6 @@ public class WantTourProduct extends BaseEntity {
 
     public void setWantTourProductLocations() {
         this.wantTourProductLocations = new ArrayList<>();
-
     }
 
 

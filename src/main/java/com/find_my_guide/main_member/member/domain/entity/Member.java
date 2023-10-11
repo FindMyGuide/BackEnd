@@ -119,7 +119,8 @@ public class Member {
         return tourHistoriesAsTourist;
     }
 
-    public void update(String nickname, String phoneNumber, String nationalCertificationOfGuideYn) {
+    public void update(String nickname, String phoneNumber, String nationalCertificationOfGuideYn,
+                       Integer guideExperience, String profilePicture, List<Languages> languages, String guideIntro) {
 
         if (!Objects.isNull(nickname)) {
             this.nickname = nickname;
@@ -131,6 +132,22 @@ public class Member {
 
         if (!Objects.isNull(nationalCertificationOfGuideYn)) {
             this.nationalCertificationOfGuideYn = nationalCertificationOfGuideYn.equalsIgnoreCase("Y");
+        }
+
+        if (!Objects.isNull(guideExperience)) {
+            this.guideExperience = guideExperience;
+        }
+
+        if (!Objects.isNull(profilePicture)) {
+            this.profilePicture = profilePicture;
+        }
+
+        if (languages != null && !languages.isEmpty()) {
+            this.languages = languages;
+        }
+
+        if (!Objects.isNull(guideIntro)) {
+            this.guideIntro = guideIntro;
         }
     }
 

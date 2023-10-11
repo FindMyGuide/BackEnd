@@ -1,5 +1,6 @@
 package com.find_my_guide.main_tour_product.want_tour_product.service;
 
+import com.find_my_guide.main_member.common.NotFoundException;
 import com.find_my_guide.main_member.member.domain.entity.Member;
 import com.find_my_guide.main_member.member.repository.MemberRepository;
 import com.find_my_guide.main_tour_product.available_reservation_date.dto.AvailableDateRequest;
@@ -52,18 +53,20 @@ public class WantTourProductService {
 
 
     @Transactional
-    public WantTourProductResponse registerWantTourProduct(String email, WantTourProductRequest wantTourProductRequest) {
+    public WantTourProductResponse registerWantTourProduct(String memberId, WantTourProductRequest wantTourProductRequest) {
         WantTourProduct wantTourProduct = wantTourProductRequest.toWantTourProduct();
 
         if(wantTourProduct.getWantTourProductLocations() == null){
             wantTourProduct.setWantTourProductLocations();
         }
 
-        Member member = memberRepository.findByEmail(email)
+        wantTourProduct = wantTourProductRepository.save(wantTourProduct);
+
+
+
+
+        Member member = memberRepository.findByEmail(memberId)
                 .orElseThrow(() -> new IllegalArgumentException("존재하지 않는 회원입니다."));
-
-        wantTourProduct.setMember(member);
-
 
 
         addWantThemes(wantTourProductRequest,wantTourProduct);
@@ -82,6 +85,7 @@ public class WantTourProductService {
 
             wantTourProductLocationRepository.save(build);
         }
+        wantTourProduct.setMember(member);
 
         WantTourProduct save = wantTourProductRepository.save(wantTourProduct);
 
@@ -96,19 +100,6 @@ public class WantTourProductService {
         wantTourProductResponse.setLocationResponses(collect);
 
         return wantTourProductResponse;
-
-
-//        wantTourProduct.setMember(member);
-//
-//        wantTourProduct = wantTourProductRepository.save(wantTourProduct);
-//
-//
-//        addLocation(wantTourProductRequest, wantTourProduct);
-//        addWantDates(wantTourProductRequest, wantTourProduct);
-//        addWantThemes(wantTourProductRequest, wantTourProduct);
-//
-//        return new WantTourProductResponse(wantTourProduct);
-
     }
 
     @Transactional
@@ -126,6 +117,16 @@ public class WantTourProductService {
         return new WantTourProductResponse(wantTourProduct);
     }
 
+    public List<WantTourProductResponse> showCurrentUserWantTourProductList(String email){
+        Member member = memberRepository.findByEmail(email).orElseThrow(() -> new NotFoundException());
+
+       return wantTourProductRepository.findAllByMember(member)
+               .stream()
+               .map(WantTourProductResponse::new)
+               .collect(Collectors.toList());
+
+    }
+
     public List<WantTourProductResponse> showAllWantTourProductList() {
         return wantTourProductRepository.findAll().stream()
                 .map(WantTourProductResponse::new)
@@ -140,16 +141,6 @@ public class WantTourProductService {
         return wantTourProductRepository.findById(id).orElseThrow(() -> new IllegalArgumentException("존재하지 않는 상품입니다."));
     }
 
-
-
-
-//    private void addLocation(WantTourProductRequest wantTourProductRequest, WantTourProduct wantTourProduct) {
-//        for (Long locationId : wantTourProductRequest.getLocationIds()) {
-//            WantTourProductLocationRequest wantTourProductLocationRequest =
-//                    new WantTourProductLocationRequest(locationId, wantTourProduct.getWantTourProductId());
-//            wantTourProductLocationService.addLocationToWantTourProduct(wantTourProductLocationRequest);
-//        }
-//    }
 
     private void addWantThemes(WantTourProductRequest wantTourProductRequest, WantTourProduct wantTourProduct) {
         for (Long themeId : wantTourProductRequest.getThemeIds()) {
