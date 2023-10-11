@@ -57,7 +57,7 @@ POST https://find-my-guide.site/api/find-my-guide/member/check-duplicate
 Content-Type: application/json
 
 {
-  "email": "23213123@naver.com"
+  "email": "xodnjs8287@naver.com"
 }
 
 ###

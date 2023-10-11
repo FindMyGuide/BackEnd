@@ -58,9 +58,9 @@ public class MemberRestController {
     public ResponseEntity<?> checkValidate(@RequestBody CheckDuplicatedEmailRequest userDuplicateCheckRequest) {
         boolean duplicated = memberService.CheckDuplicated(userDuplicateCheckRequest);
         if (duplicated) {
-            return ResponseEntity.badRequest().body("checkValidate가 true임다");
+            return ResponseEntity.ok(false);
         }
-        return ResponseEntity.ok(false);
+        return ResponseEntity.ok(true);
     }
 
 
