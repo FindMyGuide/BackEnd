@@ -1,5 +1,6 @@
 package com.find_my_guide.main_tour_product.want_tour_product.controller;
 
+import com.find_my_guide.main_tour_product.want_tour_product.dto.UpdateWantTourProductRequest;
 import com.find_my_guide.main_tour_product.want_tour_product.dto.WantTourProductRequest;
 import com.find_my_guide.main_tour_product.want_tour_product.dto.WantTourProductResponse;
 import com.find_my_guide.main_tour_product.want_tour_product.service.WantTourProductService;
@@ -48,6 +49,12 @@ public class WantTourProductController {
     @GetMapping("/want-tourProduct/login-user")
     public ResponseEntity<List<WantTourProductResponse>> getAllCurrentUserWantTourProducts(final Authentication authentication) {
         return ResponseEntity.ok(wantTourProductService.showCurrentUserWantTourProductList((String) authentication.getPrincipal()));
+    }
+
+    @PutMapping("/want-tourProduct/{id}")
+    public ResponseEntity<WantTourProductResponse> update(@PathVariable Long id, @RequestBody UpdateWantTourProductRequest request) {
+        WantTourProductResponse response = wantTourProductService.update(id,request);
+        return ResponseEntity.ok(response);
     }
 
 }

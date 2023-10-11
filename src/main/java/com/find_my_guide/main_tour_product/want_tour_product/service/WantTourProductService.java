@@ -10,6 +10,8 @@ import com.find_my_guide.main_tour_product.common.validation_field.Title;
 import com.find_my_guide.main_tour_product.location.domain.Location;
 import com.find_my_guide.main_tour_product.location.dto.LocationRequest;
 import com.find_my_guide.main_tour_product.location.repository.LocationRepository;
+import com.find_my_guide.main_tour_product.theme.domain.Theme;
+import com.find_my_guide.main_tour_product.theme.repository.ThemeRepository;
 import com.find_my_guide.main_tour_product.tour_product.domain.Price;
 import com.find_my_guide.main_tour_product.tour_product.domain.TourProduct;
 import com.find_my_guide.main_tour_product.tour_product.dto.TourProductRequest;
@@ -17,6 +19,7 @@ import com.find_my_guide.main_tour_product.tour_product_location.domain.TourProd
 import com.find_my_guide.main_tour_product.tour_product_theme.dto.TourProductThemeRequest;
 import com.find_my_guide.main_tour_product.want_reservation_date.domain.WantReservationDate;
 import com.find_my_guide.main_tour_product.want_reservation_date.dto.WantReservationDateRequest;
+import com.find_my_guide.main_tour_product.want_reservation_date.repository.WantReservationDateRepository;
 import com.find_my_guide.main_tour_product.want_reservation_date.service.WantReservationDateService;
 import com.find_my_guide.main_tour_product.want_tour_product.domain.WantTourProduct;
 import com.find_my_guide.main_tour_product.want_tour_product.dto.UpdateWantTourProductRequest;
@@ -30,6 +33,7 @@ import com.find_my_guide.main_tour_product.want_tour_product_location.repository
 import com.find_my_guide.main_tour_product.want_tour_product_location.service.WantTourProductLocationService;
 import com.find_my_guide.main_tour_product.want_tour_product_theme.domain.WantTourProductTheme;
 import com.find_my_guide.main_tour_product.want_tour_product_theme.dto.WantTourProductThemeRequest;
+import com.find_my_guide.main_tour_product.want_tour_product_theme.repository.WantTourProductThemeRepository;
 import com.find_my_guide.main_tour_product.want_tour_product_theme.service.WantTourProductThemeService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
@@ -50,30 +54,33 @@ public class WantTourProductService {
     private final WantTourProductThemeService wantTourProductThemeService;
     private final WantReservationDateService wantReservationDateService;
 
+    private final WantTourProductThemeRepository wantTourProductThemeRepository;
+
     private final WantTourProductLocationRepository wantTourProductLocationRepository;
 
+    private final WantReservationDateRepository wantReservationDateRepository;
     private final LocationRepository locationRepository;
+
+    private final ThemeRepository themeRepository;
 
 
     @Transactional
     public WantTourProductResponse registerWantTourProduct(String memberId, WantTourProductRequest wantTourProductRequest) {
         WantTourProduct wantTourProduct = wantTourProductRequest.toWantTourProduct();
 
-        if(wantTourProduct.getWantTourProductLocations() == null){
+        if (wantTourProduct.getWantTourProductLocations() == null) {
             wantTourProduct.setWantTourProductLocations();
         }
 
         wantTourProduct = wantTourProductRepository.save(wantTourProduct);
 
 
-
-
         Member member = memberRepository.findByEmail(memberId)
                 .orElseThrow(() -> new IllegalArgumentException("존재하지 않는 회원입니다."));
 
 
-        addWantThemes(wantTourProductRequest,wantTourProduct);
-        addWantDates(wantTourProductRequest,wantTourProduct);
+        addWantThemes(wantTourProductRequest, wantTourProduct);
+        addWantDates(wantTourProductRequest, wantTourProduct);
 
         List<LocationRequest> location = wantTourProductRequest.getLocation();
 
@@ -113,13 +120,13 @@ public class WantTourProductService {
         return new WantTourProductResponse(wantTourProduct);
     }
 
-    public List<WantTourProductResponse> showCurrentUserWantTourProductList(String email){
+    public List<WantTourProductResponse> showCurrentUserWantTourProductList(String email) {
         Member member = memberRepository.findByEmail(email).orElseThrow(() -> new NotFoundException());
 
-       return wantTourProductRepository.findAllByMember(member)
-               .stream()
-               .map(WantTourProductResponse::new)
-               .collect(Collectors.toList());
+        return wantTourProductRepository.findAllByMember(member)
+                .stream()
+                .map(WantTourProductResponse::new)
+                .collect(Collectors.toList());
 
     }
 
@@ -137,10 +144,56 @@ public class WantTourProductService {
                 request.getVehicle()
         );
 
+        // 위치 업데이트 로직
+        List<WantTourProductLocation> existingLocations = wantTourProductLocationRepository.findByWantTourProduct_WantTourProductId(wantTourProductId);
+        wantTourProductLocationRepository.deleteAll(existingLocations);
+
+        for (LocationRequest locationRequest : request.getLocation()) {
+            Location locationEntity = locationRequest.toLocation();
+            Location savedLocation = locationRepository.save(locationEntity);
+
+            WantTourProductLocation build = WantTourProductLocation.builder()
+                    .wantTourProduct(wantTourProduct)
+                    .location(savedLocation)
+                    .build();
+            wantTourProductLocationRepository.save(build);
+        }
+
+        // 테마 업데이트 로직
+        List<WantTourProductTheme> existingThemes = wantTourProductThemeRepository.findByWantTourProduct(wantTourProduct);
+        wantTourProductThemeRepository.deleteAll(existingThemes);
+
+        for (Long themeId : request.getThemeIds()) {
+            Theme theme = themeRepository.findById(themeId).orElseThrow(() -> new IllegalArgumentException("해당 ID를 가진 테마가 없습니다."));
+
+            WantTourProductTheme build = WantTourProductTheme.builder()
+                    .theme(theme)
+                    .wantTourProduct(wantTourProduct)
+                    .build();
+
+
+            wantTourProductThemeRepository.save(build);
+        }
+
+        // 예약일 업데이트 로직
+        WantReservationDate existingDate = wantReservationDateRepository.findByWantTourProductAndId(wantTourProduct, wantTourProductId);
+        if (existingDate != null) {
+            wantReservationDateRepository.delete(existingDate);
+        }
+
+        for (LocalDate wantDate : request.getWantDates()) {
+
+            WantReservationDate build = WantReservationDate.builder()
+                    .wantTourProduct(wantTourProduct)
+                    .date(wantDate)
+                    .build();
+
+
+            wantReservationDateRepository.save(build);
+        }
 
         return new WantTourProductResponse(wantTourProduct);
     }
-
 
 
     public List<WantTourProductResponse> showAllWantTourProductList() {
@@ -152,7 +205,6 @@ public class WantTourProductService {
     public WantTourProductResponse showWantTourProductList(Long id) {
         return new WantTourProductResponse(findWantTourProductById(id));
     }
-
 
 
     private WantTourProduct findWantTourProductById(Long id) {
