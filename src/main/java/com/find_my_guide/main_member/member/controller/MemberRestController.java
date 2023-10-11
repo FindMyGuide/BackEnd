@@ -73,7 +73,7 @@ public class MemberRestController {
     }
 
     @GetMapping("/detail")
-    public ResponseEntity<ReadMemberResponse> read(final Authentication authentication) {
+    public ResponseEntity<CreateMemberResponse> read(final Authentication authentication) {
         return ResponseEntity.ok(memberService.readMember((String) authentication.getPrincipal()));
     }
 
