@@ -92,6 +92,14 @@ public class TourHistoryManagerService {
         }
     }
 
+    public List<TourProductResponse> findToursByGuideEmail(String guideEmail) {
+        Member memberByEmail = findMemberByEmail(guideEmail);
+        List<TourHistoryManager> histories = tourHistoryManagerRepository.findByGuide(memberByEmail);
+        return histories.stream()
+                .map(history -> new TourProductResponse(history.getTourProduct()))
+                .collect(Collectors.toList());
+    }
+
 
 
     public List<TourProductResponse> getCompletedToursForTourist(String touristEmail) {

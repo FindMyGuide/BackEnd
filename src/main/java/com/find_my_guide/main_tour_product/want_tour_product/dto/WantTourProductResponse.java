@@ -7,7 +7,6 @@ import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
-import reactor.util.annotation.Nullable;
 
 import java.math.BigDecimal;
 import java.time.LocalDate;
@@ -28,27 +27,27 @@ public class WantTourProductResponse {
     private String content;
     private BigDecimal price;
 
-    @Nullable
-    private int totalPeople;
+    private Integer totalPeople;
 
-    @Nullable
     private Vehicle vehicle;
-
-    @Nullable
     private List<WantTourProductLocationResponse> locationResponses ;
 
+    private List<LocalDate> reservationDates;
+
+
     public WantTourProductResponse(WantTourProduct wantTourProduct) {
-        this.id = wantTourProduct.getWantTourProductId();
-        this.createAt = wantTourProduct.getCreatedAt();
-        this.price = wantTourProduct.getPrice().getPrice();
-        this.title = wantTourProduct.getTitle().getTitle();
-        if (wantTourProduct.getTotalPeople() != null) {
-            this.totalPeople = wantTourProduct.getTotalPeople();
-        }
-        this.content = wantTourProduct.getContent().getContent();
-        this.vehicle = wantTourProduct.getVehicle();
-        this.locationResponses = wantTourProduct.getWantTourProductLocations().stream()
+        this.id = (wantTourProduct.getWantTourProductId() != null) ? wantTourProduct.getWantTourProductId() : 0L;
+        this.createAt = (wantTourProduct.getCreatedAt() != null) ? wantTourProduct.getCreatedAt() : LocalDateTime.now();
+        this.price = (wantTourProduct.getPrice() != null && wantTourProduct.getPrice().getPrice() != null) ? wantTourProduct.getPrice().getPrice() : BigDecimal.ZERO;
+        this.title = (wantTourProduct.getTitle() != null && wantTourProduct.getTitle().getTitle() != null) ? wantTourProduct.getTitle().getTitle() : "";
+        this.totalPeople = (wantTourProduct.getTotalPeople() != null) ? wantTourProduct.getTotalPeople() : 0;
+        this.content = (wantTourProduct.getContent() != null && wantTourProduct.getContent().getContent() != null) ? wantTourProduct.getContent().getContent() : "";
+        this.vehicle = (wantTourProduct.getVehicle() != null) ? wantTourProduct.getVehicle() : null;
+        this.locationResponses = (wantTourProduct.getWantTourProductLocations() != null) ? wantTourProduct.getWantTourProductLocations().stream()
                 .map(WantTourProductLocationResponse::new)
-                .collect(Collectors.toList());
+                .collect(Collectors.toList()) : Collections.emptyList();
+        this.reservationDates = (wantTourProduct.getWantReservationDates() != null) ? wantTourProduct.getWantReservationDates().stream()
+                .map(wantReservationDate -> wantReservationDate.getDate())
+                .collect(Collectors.toList()) : Collections.emptyList();
     }
 }

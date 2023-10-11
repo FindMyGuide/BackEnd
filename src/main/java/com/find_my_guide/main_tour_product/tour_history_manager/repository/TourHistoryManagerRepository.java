@@ -25,5 +25,8 @@ public interface TourHistoryManagerRepository extends JpaRepository<TourHistoryM
 
     List<TourHistoryManager> findByTourist(Member tourist);
 
+    List<TourHistoryManager> findByGuide(Member guide);
+
+
 
 }

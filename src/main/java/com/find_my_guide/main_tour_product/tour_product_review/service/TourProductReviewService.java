@@ -12,6 +12,8 @@ import com.find_my_guide.main_tour_product.tour_product_review.dto.TourProductRe
 import com.find_my_guide.main_tour_product.tour_product_review.repository.TourProductReviewRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -94,6 +96,18 @@ public class TourProductReviewService {
                 .map(TourProductReviewResponse::new)
                 .collect(Collectors.toList());
     }
+
+
+    public List<TourProductReviewResponse> findLatest10Reviews() {
+
+        Pageable pageable = PageRequest.of(0, 10, Sort.by(Sort.Direction.DESC, "createdAt"));
+        List<TourProductReview> reviews = tourProductReviewRepository.findAll(pageable).getContent();
+
+        return reviews.stream()
+                .map(TourProductReviewResponse::new)
+                .collect(Collectors.toList());
+    }
+
 
 
     private void isMatchTourProductIdReviewId(Long postId, TourProductReview review) {
