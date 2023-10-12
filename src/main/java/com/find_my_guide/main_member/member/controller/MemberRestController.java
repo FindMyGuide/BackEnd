@@ -73,7 +73,7 @@ public class MemberRestController {
         return ResponseEntity.badRequest().body("토큰이 null");
     }
 
-    @PutMapping("/change-password")
+    @PostMapping("/change-password")
     public ResponseEntity<?> changePassword(final Authentication authentication,
                                             @RequestBody MyPageChangePasswordRequest request) {
         try {
@@ -101,7 +101,7 @@ public class MemberRestController {
 
     }
 
-    @PatchMapping("/update")
+    @PostMapping("/update")
     public ResponseEntity<UpdateMemberResponse> update(final Authentication authentication,
                                                        @RequestBody @Valid final UpdateMemberRequest request) {
         UpdateMemberResponse response = memberService.updateMember((String) authentication.getPrincipal(), request);
@@ -138,7 +138,7 @@ public class MemberRestController {
         }
     }
 
-    @PatchMapping("/reset-password")
+    @PostMapping("/reset-password")
     public ResponseEntity<String> resetPassword(@RequestBody ResetPasswordRequest resetPasswordRequest) {
         try {
             memberService.resetPassword(resetPasswordRequest.getCode(), resetPasswordRequest.getNewPassword());
