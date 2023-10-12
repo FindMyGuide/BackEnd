@@ -41,6 +41,8 @@ public class MemberDummyDataTest {
     @Autowired
     private TourProductRepository tourProductRepository;
 
+    private final Random random = new Random();
+
     @Test
     @Transactional
     @Rollback(false)
@@ -64,21 +66,43 @@ public class MemberDummyDataTest {
         }
     }
 
-
+    @Test
+    @Transactional
+    @Rollback(false)
     public void generateTourHistoryManagerDummyData() {
-        List<Member> guides = memberRepository.findAll();
+        List<Member> members = memberRepository.findAll();
         List<TourProduct> tourProducts = tourProductRepository.findAll();
 
-        if (guides.isEmpty() || tourProducts.isEmpty()) {
-            // Logging or throw an exception indicating not enough data to generate dummy data
+        if (members.isEmpty() || tourProducts.isEmpty()) {
             return;
         }
 
-        for (int i = 0; i < 20; i++) {
-            Member randomGuide = guides.get(new Random().nextInt(guides.size()));
-            TourProduct randomTourProduct = tourProducts.get(new Random().nextInt(tourProducts.size()));
+        for (int i = 0; i < 38; i++) {
+            Member randomGuide = getRandomMemberInRange(members, 42, 101);
+            Member randomTourist;
+
+            do {
+                randomTourist = getRandomMemberInRange(members, 42, 101);
+            } while (randomTourist.getIdx().equals(randomGuide.getIdx()));
+
+            TourProduct randomTourProduct = tourProducts.get(random.nextInt(tourProducts.size()));
             TourHistoryManager tourHistoryManager = tourHistoryManagerDummyDataGenerator.generateRandomTourHistoryManager(randomGuide, randomTourProduct);
+            tourHistoryManager.addGuide(randomGuide);
+
+            tourHistoryManager.addTourist(randomTourist);
             tourHistoryManagerRepository.save(tourHistoryManager);
         }
     }
+
+    private Member getRandomMemberInRange(List<Member> members, int lower, int upper) {
+        Member selectedMember;
+        do {
+            selectedMember = members.get(random.nextInt(members.size()));
+        } while (selectedMember.getIdx() < lower || selectedMember.getIdx() > upper);
+        return selectedMember;
+    }
+
 }
+
+//42~101  멤버
+//148~224  투매히

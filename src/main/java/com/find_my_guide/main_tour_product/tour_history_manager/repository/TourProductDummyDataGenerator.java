@@ -28,8 +28,11 @@ public class TourProductDummyDataGenerator {
         Long price = (long) random.nextInt(200) + 100;
         List<Long> themeIds = new ArrayList<>();
         List<LocalDate> availableDates = Arrays.asList(LocalDate.now().plusDays(random.nextInt(10)));
-
         TourProductRequest request = new TourProductRequest(title, content, howManyDay, images, location, languages, price, themeIds, availableDates);
+
+        TourProduct tourProduct = request.toTourProduct();
+
+
 
         return request.toTourProduct();
     }
