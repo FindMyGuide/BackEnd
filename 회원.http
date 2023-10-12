@@ -4,18 +4,18 @@ Content-Type: application/json
 
 {
   "name" : "신대혁",
-  "email" : "qweqwe123@naver.com",
+  "email" : "123qwe@naver.com",
   "password" : "qpal123!",
-  "nickname" : "eogurdk",
+  "nickname" : "eqweqweqwe",
   "nationality" : "KR",
   "gender" : "FEMALE",
   "birthDate" : "19950930",
-  "phoneNumber" : "010-2321-8287",
+  "phoneNumber" : "010-1331-8287",
   "nationalCertificationOfGuideYn" : "Y",
   "guideProfilePicture": "",
   "guideIntroduction": "",
   "guideExperience": "",
-  "languages": ["KOREAN","ENGLISH"]
+  "languages": []
 }
 
 ###

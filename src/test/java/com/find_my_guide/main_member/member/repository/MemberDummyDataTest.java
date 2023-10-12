@@ -13,12 +13,10 @@ import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.annotation.Rollback;
 
 import javax.transaction.Transactional;
-
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;
-
-import static org.junit.jupiter.api.Assertions.*;
+import java.util.stream.Collectors;
 
 @SpringBootTest
 public class MemberDummyDataTest {
@@ -54,6 +52,16 @@ public class MemberDummyDataTest {
         }
 
         memberRepository.saveAll(dummyMembers);
+    }
+
+    @Test
+    @Transactional
+    @Rollback(false)
+    public void setEmail() {
+        List<Member> all = memberRepository.findAll();
+        all.forEach(member -> member.setEmailVerified(true));
+
+        memberRepository.saveAll(all);
     }
 
     @Test
