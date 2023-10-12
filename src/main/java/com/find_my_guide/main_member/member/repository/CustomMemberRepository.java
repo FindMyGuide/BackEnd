@@ -10,6 +10,7 @@ import org.springframework.stereotype.Repository;
 
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
+import javax.persistence.Query;
 import javax.persistence.TypedQuery;
 import javax.persistence.criteria.*;
 import java.time.LocalDate;
@@ -57,5 +58,23 @@ public class CustomMemberRepository {
         cq.where(predicates.toArray(new Predicate[0]));
         TypedQuery<Member> query = em.createQuery(cq);
         return query.getResultList();
+    }
+
+
+
+    @SuppressWarnings("unchecked")
+    public List<Member> findPopularGuidesWithTies() {
+        String sql =
+                "WITH RankedGuides AS (" +
+                        "SELECT guide_id, RANK() OVER (ORDER BY COUNT(guide_id) DESC) as ranking " +
+                        "FROM tour_history_manager " +
+                        "GROUP BY guide_id " +
+                        ") " +
+                        "SELECT m.* FROM member m " +
+                        "INNER JOIN RankedGuides rg on m.member_id = rg.guide_id " +
+                        "WHERE rg.ranking <= 10";
+
+
+        return em.createNativeQuery(sql, Member.class).getResultList();
     }
 }

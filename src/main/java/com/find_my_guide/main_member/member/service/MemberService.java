@@ -226,7 +226,7 @@ public class MemberService {
     }
 
     public List<GuideResponse> getTop10PopularGuides() {
-        return memberRepository.findTop10PopularGuides(PageRequest.of(0, 10))
+        return customMemberRepository.findPopularGuidesWithTies()
                 .stream()
                 .map(GuideResponse::new)
                 .collect(Collectors.toList());

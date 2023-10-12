@@ -24,6 +24,9 @@ public interface MemberRepository extends JpaRepository<Member, Long> {
     @Query("SELECT g.guide FROM TourHistoryManager g GROUP BY g.guide ORDER BY COUNT(g.id) DESC")
     List<Member> findTop10PopularGuides(Pageable pageable);
 
+
+
+
     @Query("SELECT g.guide FROM TourHistoryManager g GROUP BY g.guide")
     List<Member> findAllGuides();
 

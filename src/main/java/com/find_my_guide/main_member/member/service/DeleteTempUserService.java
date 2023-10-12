@@ -13,9 +13,9 @@ public class DeleteTempUserService {
 
     private final MemberRepository memberRepository;
 
-//    @Transactional
-//    @Scheduled(fixedRate = 300000)
-//    public void deleteUnverifiedUsers() {
-//        memberRepository.deleteByIsEmailVerifiedFalse();
-//    }
+    @Transactional
+    @Scheduled(fixedRate = 300000)
+    public void deleteUnverifiedUsers() {
+        memberRepository.deleteByIsEmailVerifiedFalse();
+    }
 }

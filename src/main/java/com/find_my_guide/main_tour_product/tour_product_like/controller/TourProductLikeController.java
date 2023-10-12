@@ -28,7 +28,7 @@ public class TourProductLikeController {
         return ResponseEntity.ok(tourProductLikeService.addLike(tourProductLikeRequest));
     }
 
-    @DeleteMapping("/tourProduct/like")
+    @DeleteMapping("/tourProduct/delete-like")
     public ResponseEntity<Void> removeLike(@RequestParam Long tourProductId, final Authentication authentication){
         String email = (String) authentication.getPrincipal();
 
