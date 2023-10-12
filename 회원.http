@@ -53,7 +53,7 @@ Content-Type: application/json
 
 ###
 
-POST https://find-my-guide.site/api/find-my-guide/member/check-duplicate
+POST http://localhost:9000/api/find-my-guide/member/check-duplicate
 Content-Type: application/json
 
 {
@@ -86,7 +86,7 @@ Content-Type: application/json
 
 ###
 //회원 로그인
-POST https://find-my-guide.site/api/find-my-guide/member/sign-in
+POST http://localhost:9000/api/find-my-guide/member/sign-in
 Content-Type: application/json
 
 {
@@ -139,7 +139,7 @@ Content-Type: application/json
 
 ###
 PUT localhost:9000/api/find-my-guide/member/update
-Authorization:Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiJ4b2RuanM4Mjg3QG5hdmVyLmNvbSIsImV4cCI6MjU4MzExODg4OSwiaXNzIjoiZmluZG15Z3VpZGUuY29tIn0.s7Sdj-qrKop5BpB7TgyKOEqI2V3-T3z6EcLPKXvu4LI
+Authorization:Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiJ4b2RuanM4Mjg3QG5hdmVyLmNvbSIsImV4cCI6MjU4NjEyMzc5MSwiaXNzIjoiZmluZG15Z3VpZGUuY29tIn0.cqCWze5BJ9xYpUCmcbyqQYZ7KRSFqPKGnehhf1-nGik
 Content-Type: application/json
 
 {

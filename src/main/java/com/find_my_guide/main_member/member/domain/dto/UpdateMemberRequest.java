@@ -5,13 +5,13 @@ import javax.validation.constraints.Pattern;
 
 import com.find_my_guide.main_tour_product.tour_product.domain.Languages;
 import lombok.AllArgsConstructor;
+import lombok.Data;
 import lombok.Getter;
 import org.springframework.lang.Nullable;
 
 import java.util.List;
 
-@Getter
-@AllArgsConstructor
+@Data
 public class UpdateMemberRequest {
 
 //    @Pattern(regexp = "^(?=.*[a-zA-Z])(?=.*[!@#$%^*+=-])(?=.*[0-9]).{8,15}$", message = "영문,숫자,특수기호를 포함한 8자리 이상, 15자리 이하이어야 합니다.")

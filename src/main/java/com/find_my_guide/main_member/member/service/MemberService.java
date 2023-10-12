@@ -167,6 +167,21 @@ public class MemberService {
         return null;
     }
 
+    @Transactional
+    public void changePassword(String email, MyPageChangePasswordRequest request){
+
+        Member member = findByEmail(email);
+
+        if (!passwordEncoder.matches(request.getPassword(), member.getPassword())) {
+            throw new RuntimeException("현재 비밀번호가 올바르지 않습니다.");
+        }
+
+        if (!request.getNewPassword().equals(request.getNewPasswordAgain())) {
+            throw new RuntimeException("새로운 비밀번호와 확인 비밀번호가 일치하지 않습니다.");
+        }
+
+        member.setPassword(passwordEncoder.encode(request.getNewPassword()));
+    }
     public FindMemberResponse findMemberEmail(FindMemberRequest findMemberRequest) {
         return new FindMemberResponse(checkValidMember(findMemberRequest));
 
