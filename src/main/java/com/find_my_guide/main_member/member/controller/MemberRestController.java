@@ -101,7 +101,7 @@ public class MemberRestController {
 
     }
 
-    @PutMapping("/update")
+    @PatchMapping("/update")
     public ResponseEntity<UpdateMemberResponse> update(final Authentication authentication,
                                                        @RequestBody @Valid final UpdateMemberRequest request) {
         UpdateMemberResponse response = memberService.updateMember((String) authentication.getPrincipal(), request);
@@ -138,7 +138,7 @@ public class MemberRestController {
         }
     }
 
-    @PostMapping("/reset-password")
+    @PatchMapping("/reset-password")
     public ResponseEntity<String> resetPassword(@RequestBody ResetPasswordRequest resetPasswordRequest) {
         try {
             memberService.resetPassword(resetPasswordRequest.getCode(), resetPasswordRequest.getNewPassword());

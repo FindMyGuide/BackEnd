@@ -91,7 +91,7 @@ Content-Type: application/json
 
 {
   "email" : "xodnjs8287@naver.com",
-  "password": "qpal123!"
+  "password": "qpal123!@"
 
 }
 
@@ -150,3 +150,15 @@ Content-Type: application/json
 ###
 //회원삭제
 DELETE localhost:9000/api/find-my-guide/member/delete
+
+###
+PUT localhost:9000/api/find-my-guide/member/change-password
+Content-Type: application/json
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiJ4b2RuanM4Mjg3QG5hdmVyLmNvbSIsImV4cCI6MjU4NjEyNjY5NiwiaXNzIjoiZmluZG15Z3VpZGUuY29tIn0.yHnwPRt_pT0l2ZtTzTInbBqwp3gqRNrWOa6cXw3YJKg
+
+{
+  "password": "qpal123!",
+  "newPassword": "qpal123!@",
+  "newPasswordAgain": "qpal123!@"
+
+}
