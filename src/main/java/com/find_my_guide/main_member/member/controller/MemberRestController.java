@@ -10,6 +10,7 @@ import io.swagger.annotations.Api;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.format.annotation.DateTimeFormat;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.Authentication;
 import org.springframework.web.bind.annotation.*;
@@ -70,6 +71,17 @@ public class MemberRestController {
         if (token != null)
             return ResponseEntity.ok().body(token);
         return ResponseEntity.badRequest().body("토큰이 null");
+    }
+
+    @PutMapping("/change-password")
+    public ResponseEntity<?> changePassword(final Authentication authentication,
+                                            @RequestBody MyPageChangePasswordRequest request) {
+        try {
+            memberService.changePassword((String)authentication.getPrincipal(), request);
+            return ResponseEntity.ok().build();
+        } catch (RuntimeException e) {
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(e.getMessage());
+        }
     }
 
     @GetMapping("/detail")
