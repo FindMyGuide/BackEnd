@@ -141,10 +141,6 @@ public class TourHistoryManagerService {
         return dates;
     }
 
-
-
-
-
     public List<TourProductResponse> getTop10TourProductsByFrequency() {
         List<Long> top10TourProductIds = tourHistoryManagerRepository.findTop10TourProductIdsByFrequency();
 
