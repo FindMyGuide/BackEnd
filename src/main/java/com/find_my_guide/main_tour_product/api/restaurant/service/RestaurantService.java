@@ -62,7 +62,7 @@ public class RestaurantService {
     }
 
     public List<RestaurantResponse> restaurantResponses(){
-        return restaurantRepository.findAll()
+        return restaurantRepository.findAllRand()
                 .stream()
                 .map(RestaurantResponse::new)
                 .collect(Collectors.toList());
