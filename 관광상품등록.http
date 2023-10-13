@@ -1,6 +1,6 @@
 POST http://localhost:9000/api/tourProduct/register
 Content-Type: application/json
-Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiJ4b2RuanM4Mjg3QG5hdmVyLmNvbSIsImV4cCI6MjU4NjA1NTA0OCwiaXNzIjoiZmluZG15Z3VpZGUuY29tIn0.UA0LgpjvR0IMOxACvlNBqqCkCHqU1qMhlY15Xsgj93E
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiJ4b2RuanM4Mjg3QG5hdmVyLmNvbSIsImV4cCI6MjU4NjE5MTY2MywiaXNzIjoiZmluZG15Z3VpZGUuY29tIn0._iowROEfXjPJOp32toobX7ZLuNMrHLuuig0Xd2-da44
 
 {
 
@@ -8,7 +8,7 @@ Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiJ4b2RuanM4M
   "content": "Tour Description test images",
   "price": 200000,
   "languages" : ["KOREAN"],
-  "howManyDay": ["1","2"],
+  "howManyDay": ["2","3"],
   "location": [
     {
       "title": "해운대 암소갈비",
@@ -20,7 +20,7 @@ Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiJ4b2RuanM4M
     }
   ],
   "themeIds": [1],
-  "availableDates": ["2022-08-01","2022-07-01","2022-07-02"],
+  "availableDates": ["2023-12-01","2023-12-02","2023-12-03"],
   "images": ["image1","image2"]
 
 }
@@ -28,20 +28,18 @@ Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiJ4b2RuanM4M
 
 ###
 //관광상품 예약
-POST http://localhost:9000/api/tourProduct/reserve-tour/3
-Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiJ4b2RuanMxODM3QGdtYWlsLmNvbSIsImV4cCI6MjU4NTk1NzgyOSwiaXNzIjoiZmluZG15Z3VpZGUuY29tIn0.ivIHXcw5dqTFGYfw2DJz40H39lWLhopvKLizTcqyjxM
-
+POST http://localhost:9000/api/tourProduct/reserve-tour/184
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiJ0bGZlbTMzMTVAbmF2ZXIuY29tIiwiZXhwIjoyNTg2MTkxMzU3LCJpc3MiOiJmaW5kbXlndWlkZS5jb20ifQ.FInIxLo5yc37cXbKQuRWkLkXOrKC54-_3OanrFbJQrc
 Content-Type: application/json
 
 {
-  "email": "xodnjs1837@naver.com",
-  "startDate": "2022-08-01",
-  "endDate": "2022-08-01"
+  "email": "tlfem3315@naver.com",
+  "startDate": "2023-12-01",
+  "endDate": "2023-12-03"
 }
 
 
 ###
-
 
 // 테마 등록
 POST http://localhost:9000/api/postTheme

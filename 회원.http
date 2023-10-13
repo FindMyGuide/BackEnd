@@ -66,7 +66,7 @@ POST http://localhost:9000/api/find-my-guide/member/initiate-change-password
 Content-Type: application/json
 
 {
-  "email": "xodnjs8287@naver.com"
+  "email": "tlfem3315@naver.com"
 }
 
 ###
@@ -74,8 +74,8 @@ POST http://localhost:9000/api/find-my-guide/member/reset-password
 Content-Type: application/json
 
 {
-  "code": "bgCr5w0g",
-  "newPassword": "xodnjs783!"
+  "code": "CNbzTxLi",
+  "newPassword": "qpal123!"
 
 }
 

@@ -19,6 +19,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.time.LocalDate;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -122,9 +123,21 @@ public class TourHistoryManagerService {
 
         return histories.stream()
                 .filter(history -> !history.getIsCompleted())
-                .map(history -> new TourProductResponse(history.getTourProduct()))
+                .map(history -> {
+                    List<LocalDate> reservedDates = generateDatesBetween(history.getTourStartDate(), history.getTourEndDate());
+                    return new TourProductResponse(history.getTourProduct(), reservedDates);
+                })
                 .collect(Collectors.toList());
     }
+
+    private List<LocalDate> generateDatesBetween(LocalDate start, LocalDate end) {
+        List<LocalDate> dates = new ArrayList<>();
+        for (LocalDate date = start; !date.isAfter(end); date = date.plusDays(1)) {
+            dates.add(date);
+        }
+        return dates;
+    }
+
 
 
 
