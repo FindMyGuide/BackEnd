@@ -28,8 +28,8 @@ Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiJ4b2RuanM4M
 
 ###
 //관광상품 예약
-POST http://localhost:9000/api/tourProduct/reserve-tour/184
-Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiJ0bGZlbTMzMTVAbmF2ZXIuY29tIiwiZXhwIjoyNTg2MTkxMzU3LCJpc3MiOiJmaW5kbXlndWlkZS5jb20ifQ.FInIxLo5yc37cXbKQuRWkLkXOrKC54-_3OanrFbJQrc
+POST http://localhost:9000/api/tourProduct/reserve-tour/185
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiJ4b2RuanM4Mjg3QG5hdmVyLmNvbSIsImV4cCI6MjU4NjE0Mzk2OSwiaXNzIjoiZmluZG15Z3VpZGUuY29tIn0.bUOHDMYwX32NGJ4IWquW3E64yX1vcuDEo2FiboZ53gM
 Content-Type: application/json
 
 {

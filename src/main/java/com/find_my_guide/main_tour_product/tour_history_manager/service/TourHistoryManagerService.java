@@ -125,7 +125,10 @@ public class TourHistoryManagerService {
                 .filter(history -> !history.getIsCompleted())
                 .map(history -> {
                     List<LocalDate> reservedDates = generateDatesBetween(history.getTourStartDate(), history.getTourEndDate());
-                    return new TourProductResponse(history.getTourProduct(), reservedDates);
+                    TourProductResponse tourProductResponse = new TourProductResponse(history.getTourProduct());
+                    tourProductResponse.setReservedDates(reservedDates);
+
+                    return tourProductResponse;
                 })
                 .collect(Collectors.toList());
     }
