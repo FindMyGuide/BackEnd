@@ -37,7 +37,7 @@ Authorization:Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiJ4b2RuanM4Mj
 //
 GET http://localhost:9000/api/my-page/reservation/upcoming-tours
 Content-Type: application/json
-Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiJ4b2RuanM4Mjg3QG5hdmVyLmNvbSIsImV4cCI6MjU4NjE0NjE5NywiaXNzIjoiZmluZG15Z3VpZGUuY29tIn0.k95kaEpvsEMQy78htT61me6cWXNal9sgIT5FYrza1pY
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiJ4b2RuanM4Mjg3QG5hdmVyLmNvbSIsImV4cCI6MjU4NjE4ODY5OSwiaXNzIjoiZmluZG15Z3VpZGUuY29tIn0.QX1JnMLV3dqfEIPQSve2dd1FRPGRLXsbj6qYdYKHyjM
 
 
 ###
