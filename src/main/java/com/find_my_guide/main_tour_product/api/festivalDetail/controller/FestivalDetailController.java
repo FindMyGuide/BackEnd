@@ -31,9 +31,8 @@ public class FestivalDetailController {
 
     @GetMapping("/festivalDetail/{festival-id}")
     public ResponseEntity<FestivalDetailResponse> festivalDetail(@PathVariable("festival-id") Long id) {
-        FestivalDetailResponse festivalDetailResponse = new FestivalDetailResponse(festivalDetailService.findFestivalDetailById(id));
 
-        return ResponseEntity.ok(festivalDetailResponse);
+        return ResponseEntity.ok(festivalDetailService.getApi(id));
     }
 
 

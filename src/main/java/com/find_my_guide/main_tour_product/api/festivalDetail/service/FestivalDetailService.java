@@ -4,6 +4,7 @@ import com.find_my_guide.main_tour_product.api.festival.domain.Festival;
 import com.find_my_guide.main_tour_product.api.festival.repository.FestivalRepository;
 import com.find_my_guide.main_tour_product.api.festivalDetail.domain.FestivalDetail;
 import com.find_my_guide.main_tour_product.api.festivalDetail.dto.FestivalDetailRequest;
+import com.find_my_guide.main_tour_product.api.festivalDetail.dto.FestivalDetailResponse;
 import com.find_my_guide.main_tour_product.api.festivalDetail.repository.FestivalDetailRepository;
 import lombok.RequiredArgsConstructor;
 import org.json.simple.JSONArray;
@@ -34,13 +35,13 @@ public class FestivalDetailService {
         List<Festival> festivals = festivalRepository.findAll();
         for (Festival festival :
                 festivals) {
-            getApi(String.valueOf(festival.getId()));
+            getApi(festival.getId());
         }
     }
 
     @Transactional
-    public String getApi(String festivalId) {
-        String result;
+    public FestivalDetailResponse getApi(Long festivalId) {
+        String result = null;
 
         try {
             URL url = new URL("https://apis.data.go.kr/B551011/KorService1/detailIntro1?serviceKey=wSM4T5mSUOxzHeEO2Xi1llabPQIFXqpy5CjEWgBGdXJy%2BebCPvBQmHOPYOxcGlZMMew5yeuyfCYa9pyW7Hr0jQ%3D%3D&MobileOS=ETC&MobileApp=AppTest&_type=json&contentId="+
@@ -81,39 +82,20 @@ public class FestivalDetailService {
 
             String content = String.valueOf(content2.get("infotext"));
 
-            if (content.length() > 255) {
-                content = content.substring(0, 255);
-            }
 
+            return save(festivalId, place, playtime, startDate, endDate, expense, content);
 
-            save(id, place, playtime, startDate, endDate, expense, content);
-
-
-            result = "성공적";
-            System.out.println(id + " 저장완!");
         } catch (Exception e) {
-            result = "실패";
+            throw new RuntimeException();
         }
-
-        return result;
     }
 
-    @Transactional
-    public void save(Long id, String place, String playtime, String startDate, String endDate,
+    public FestivalDetailResponse save(Long id, String place, String playtime, String startDate, String endDate,
                      String expense, String content) {
 
         Festival festival = findFestivalById(id);
-        System.out.println(id);
 
-        FestivalDetailRequest festivalDetailRequest = new FestivalDetailRequest(id, place, playtime,
-                startDate, endDate, expense, content);
-        System.out.println(id + "FestivalDetailRequest");
-
-        FestivalDetail festivalDetail = festivalDetailRequest.toFestivalDetail();
-        festivalDetail.setFestival(festival);
-
-
-        festivalDetailRepository.save(festivalDetail);
+        return new FestivalDetailResponse(festival, place, playtime, startDate, endDate, expense, content);
     }
 
     private Festival findFestivalById(Long id) {

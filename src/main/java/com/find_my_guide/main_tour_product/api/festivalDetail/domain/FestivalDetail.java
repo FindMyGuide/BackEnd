@@ -26,6 +26,7 @@ public class FestivalDetail {
     private String startDate;
     private String endDate;
     private String expense;
+    @Column(length = 1000)
     private String content;
 
 
