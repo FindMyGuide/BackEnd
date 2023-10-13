@@ -10,6 +10,7 @@ public interface TourLocationRepository extends JpaRepository<TourLocation, Long
 
     @Query(value = "SELECT * " +
             "FROM tour_location " +
+            "where not image = '' " +
             "order by RAND() limit 100", nativeQuery = true)
     List<TourLocation> findAllRand();
 }

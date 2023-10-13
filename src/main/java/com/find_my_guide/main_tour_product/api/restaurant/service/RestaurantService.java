@@ -1,5 +1,6 @@
 package com.find_my_guide.main_tour_product.api.restaurant.service;
 
+import com.find_my_guide.main_tour_product.api.restaurant.dto.ManyRestaurantResponse;
 import com.find_my_guide.main_tour_product.api.restaurant.dto.RestaurantRequest;
 import com.find_my_guide.main_tour_product.api.restaurant.dto.RestaurantResponse;
 import com.find_my_guide.main_tour_product.api.restaurant.repository.RestaurantRepository;
@@ -61,11 +62,15 @@ public class RestaurantService {
         System.out.println("저장완료");
     }
 
-    public List<RestaurantResponse> restaurantResponses(){
+    public List<ManyRestaurantResponse> restaurantResponses(){
         return restaurantRepository.findAllRand()
                 .stream()
-                .map(RestaurantResponse::new)
+                .map(ManyRestaurantResponse::new)
                 .collect(Collectors.toList());
+    }
+
+    public RestaurantResponse getDetail(Long id) {
+        return new RestaurantResponse(restaurantRepository.findById(id).orElseThrow());
     }
 
     private RestaurantRequest parseRestaurantRequest(JSONObject item) {

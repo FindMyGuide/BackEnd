@@ -10,7 +10,6 @@ import lombok.NoArgsConstructor;
 @Getter
 public class TourLocationDetailResponse {
 
-    private Long id;
     private String infoCenter;
     private String restDate;
     private String useTime;
