@@ -11,6 +11,7 @@ import com.find_my_guide.main_tour_product.location.domain.Location;
 import com.find_my_guide.main_tour_product.location.dto.LocationRequest;
 import com.find_my_guide.main_tour_product.location.dto.LocationResponse;
 import com.find_my_guide.main_tour_product.location.repository.LocationRepository;
+import com.find_my_guide.main_tour_product.s3Test.service.S3Service;
 import com.find_my_guide.main_tour_product.tour_history_manager.service.TourHistoryManagerService;
 import com.find_my_guide.main_tour_product.tour_product.domain.Images;
 import com.find_my_guide.main_tour_product.tour_product.domain.TourProduct;
@@ -29,6 +30,7 @@ import com.find_my_guide.main_tour_product.tour_product_theme.service.TourProduc
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import org.springframework.web.multipart.MultipartFile;
 
 import java.time.LocalDate;
 import java.util.ArrayList;
@@ -60,6 +62,8 @@ public class TourProductService {
 
     private final ImagesRepository imagesRepository;
 
+    private final S3Service s3Service;
+
     @Transactional
     public TourProductResponse registerTourProduct(String email, TourProductRequest tourProductRequest) {
         TourProduct tourProduct = tourProductRequest.toTourProduct();
@@ -72,10 +76,11 @@ public class TourProductService {
         tourProduct = tourProductRepository.save(tourProduct);
 
         List<Images> savedImagesList = new ArrayList<>();
-        List<Images> imagesList = tourProductRequest.getImages();
-        for (Images image : imagesList) {
-            image.setTourProduct(tourProduct);
-            Images savedImage = imagesRepository.save(image);
+        for (MultipartFile image : tourProductRequest.getImages()) {
+            Images images = new Images(s3Service.uploadFile(image));
+
+            images.setTourProduct(tourProduct);
+            Images savedImage = imagesRepository.save(images);
             savedImagesList.add(savedImage);
         }
 

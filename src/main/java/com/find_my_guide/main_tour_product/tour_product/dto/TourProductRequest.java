@@ -8,6 +8,7 @@ import com.find_my_guide.main_tour_product.tour_product.domain.*;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
+import org.springframework.web.multipart.MultipartFile;
 
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Positive;
@@ -30,7 +31,7 @@ public class TourProductRequest {
 
     private List<String> howManyDay = new ArrayList<>();
 
-    private List<Images> images = new ArrayList<>();
+    private List<MultipartFile> images = new ArrayList<>();
 
     private List<LocationRequest> location = new ArrayList<>();  // 변경된 부분
 
