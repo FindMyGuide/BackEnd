@@ -59,10 +59,11 @@ public class TourLocationDetailService {
             JSONObject response = (JSONObject) parser.parse(result);
             JSONObject response1 = (JSONObject) response.get("response");
             JSONObject body2 = (JSONObject) response1.get("body");
-            JSONObject items2 = (JSONObject) body2.get("items");
-            if (items2.get("item").equals("")) {
+            if (body2.get("items").equals("")) {
                 return new TourLocationDetailResponse(tourLocation, infoCenter, restDate, useTime, parking, "");
             }
+            JSONObject items2 = (JSONObject) body2.get("items");
+
             JSONArray item2 = (JSONArray) items2.get("item");
 
             JSONObject content2 = (JSONObject) item2.get(0);
