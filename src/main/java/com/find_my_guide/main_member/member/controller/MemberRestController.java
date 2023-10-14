@@ -14,6 +14,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.Authentication;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MultipartFile;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.validation.Valid;
@@ -78,6 +79,17 @@ public class MemberRestController {
                                             @RequestBody MyPageChangePasswordRequest request) {
         try {
             memberService.changePassword((String)authentication.getPrincipal(), request);
+            return ResponseEntity.ok().build();
+        } catch (RuntimeException e) {
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(e.getMessage());
+        }
+    }
+
+    @PostMapping("/change-profile")
+    public ResponseEntity<?> changeProfile(final Authentication authentication,
+                                           @RequestBody MultipartFile file) {
+        try {
+            memberService.changeProfile((String)authentication.getPrincipal(), file);
             return ResponseEntity.ok().build();
         } catch (RuntimeException e) {
             return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(e.getMessage());

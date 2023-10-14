@@ -1,5 +1,9 @@
 package com.find_my_guide.main_member.member.service;
 
+import com.amazonaws.SdkClientException;
+import com.amazonaws.services.s3.AmazonS3;
+import com.amazonaws.services.s3.model.DeleteObjectRequest;
+import com.amazonaws.services.s3.model.ObjectMetadata;
 import com.find_my_guide.main_member.common.DuplicateException;
 import com.find_my_guide.main_member.common.ErrorCode;
 import com.find_my_guide.main_member.common.NotFoundException;
@@ -18,16 +22,24 @@ import com.find_my_guide.main_tour_product.tour_history_manager.service.TourHist
 import com.find_my_guide.main_tour_product.tour_product.domain.Languages;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.data.domain.PageRequest;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import org.springframework.web.multipart.MultipartFile;
 
+import java.io.IOException;
+import java.net.URLDecoder;
+import java.nio.charset.StandardCharsets;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Optional;
+import java.util.UUID;
 import java.util.stream.Collectors;
 
 @Service
@@ -53,6 +65,11 @@ public class MemberService {
     private final MailService mailService;
 
     private final TourHistoryManagerService tourHistoryManagerService;
+
+    private final AmazonS3 amazonS3Client;
+
+    @Value("${cloud.aws.s3.bucket}")
+    private String bucket;
 
     @Transactional
     public String initiateSignUp(CreateMemberRequest memberRequest) throws Exception {
@@ -182,6 +199,38 @@ public class MemberService {
 
         member.setPassword(passwordEncoder.encode(request.getNewPassword()));
     }
+
+    @Transactional
+    public void changeProfile(String email, MultipartFile file) {
+        try {
+            Member member = memberRepository.findByEmail(email).orElseThrow();
+            if (!member.getProfilePicture().replace("https://findmyguide.s3.amazonaws.com/", "").equals("bamtol.png")){
+                log.info(member.getProfilePicture().replace("https://findmyguide.s3.amazonaws.com/", ""));
+                deleteFile(URLDecoder.decode(member.getProfilePicture().replace("https://findmyguide.s3.amazonaws.com/", ""), StandardCharsets.UTF_8));
+            }
+            String fileName= UUID.randomUUID() + file.getOriginalFilename();
+
+            String fileUrl= "https://" + bucket + ".s3.amazonaws.com/" + fileName;
+            ObjectMetadata metadata = new ObjectMetadata();
+            metadata.setContentType(file.getContentType());
+            metadata.setContentLength(file.getSize());
+            amazonS3Client.putObject(bucket,fileName,file.getInputStream(),metadata);
+            member.setProfile(fileUrl);
+            memberRepository.save(member);
+
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
+
+    public void deleteFile(String fileName) throws IOException {
+        try {
+            amazonS3Client.deleteObject(new DeleteObjectRequest(bucket, fileName));
+        } catch (SdkClientException e) {
+            throw new IOException("Error deleteing file from S3", e);
+        }
+    }
+
     public FindMemberResponse findMemberEmail(FindMemberRequest findMemberRequest) {
         return new FindMemberResponse(checkValidMember(findMemberRequest));
 

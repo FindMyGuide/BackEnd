@@ -1,5 +1,6 @@
 package com.find_my_guide.main_tour_product.api.restaurant.controller;
 
+import com.find_my_guide.main_tour_product.api.restaurant.dto.ManyRestaurantResponse;
 import com.find_my_guide.main_tour_product.api.restaurant.dto.RestaurantResponse;
 import com.find_my_guide.main_tour_product.api.restaurant.service.RestaurantService;
 import io.swagger.annotations.Api;
@@ -7,6 +8,7 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 
@@ -27,8 +29,13 @@ public class RestaurantController {
     }
 
     @GetMapping("/restaurants")
-    public ResponseEntity<List<RestaurantResponse>> restaurants(){
+    public ResponseEntity<List<ManyRestaurantResponse>> restaurants(){
         return ResponseEntity.ok(restaurantService.restaurantResponses());
+    }
+
+    @GetMapping("/restaurant/{restaurant-id}")
+    public ResponseEntity<RestaurantResponse> restaurantDetail(@PathVariable("restaurant-id") Long id){
+        return ResponseEntity.ok(restaurantService.getDetail(id));
     }
 
 }

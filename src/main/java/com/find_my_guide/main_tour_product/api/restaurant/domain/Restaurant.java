@@ -1,10 +1,13 @@
 package com.find_my_guide.main_tour_product.api.restaurant.domain;
 
+import com.find_my_guide.main_tour_product.api.restaurantImage.domain.RestaurantImage;
 import lombok.*;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.Id;
+import javax.persistence.OneToMany;
+import java.util.List;
 
 @Entity
 @Builder
@@ -25,5 +28,10 @@ public class Restaurant {
     private String restaurantLcnc;
     @Column(length = 5000)
     private String introduce;
+
+    @OneToMany(mappedBy = "restaurant")
+    private List<RestaurantImage> restaurantImages;
+
+
 
 }

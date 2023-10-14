@@ -1,9 +1,11 @@
 package com.find_my_guide.main_tour_product.api.tourLocationDetail.service;
 
 import com.find_my_guide.main_tour_product.api.tourLocation.domain.TourLocation;
+import com.find_my_guide.main_tour_product.api.tourLocation.dto.TourLocationResponse;
 import com.find_my_guide.main_tour_product.api.tourLocation.repository.TourLocationRepository;
 import com.find_my_guide.main_tour_product.api.tourLocationDetail.domain.TourLocationDetail;
 import com.find_my_guide.main_tour_product.api.tourLocationDetail.dto.TourLocationDetailRequest;
+import com.find_my_guide.main_tour_product.api.tourLocationDetail.dto.TourLocationDetailResponse;
 import com.find_my_guide.main_tour_product.api.tourLocationDetail.repository.TourLocationDetailRepository;
 import lombok.RequiredArgsConstructor;
 import org.json.simple.JSONArray;
@@ -24,8 +26,9 @@ public class TourLocationDetailService {
     private final TourLocationDetailRepository tourLocationDetailRepository;
     private final TourLocationRepository tourLocationRepository;
 
-    public String getApi(String tourLocationId) {
+    public TourLocationDetailResponse getApi(Long tourLocationId) {
         String result;
+        TourLocation tourLocation = tourLocationRepository.findById(tourLocationId).orElseThrow();
 
         try {
             URL url = new URL("https://apis.data.go.kr/B551011/KorService1/detailIntro1?serviceKey=wSM4T5mSUOxzHeEO2Xi1llabPQIFXqpy5CjEWgBGdXJy%2BebCPvBQmHOPYOxcGlZMMew5yeuyfCYa9pyW7Hr0jQ%3D%3D&MobileOS=ETC&MobileApp=AppTest&_type=json&" +
@@ -56,7 +59,11 @@ public class TourLocationDetailService {
             JSONObject response = (JSONObject) parser.parse(result);
             JSONObject response1 = (JSONObject) response.get("response");
             JSONObject body2 = (JSONObject) response1.get("body");
+            if (body2.get("items").equals("")) {
+                return new TourLocationDetailResponse(tourLocation, infoCenter, restDate, useTime, parking, "");
+            }
             JSONObject items2 = (JSONObject) body2.get("items");
+
             JSONArray item2 = (JSONArray) items2.get("item");
 
             JSONObject content2 = (JSONObject) item2.get(0);
@@ -65,15 +72,11 @@ public class TourLocationDetailService {
 
 
 
-            save(id, infoCenter, restDate, useTime, parking, infoText);
+            return new TourLocationDetailResponse(tourLocation, infoCenter, restDate, useTime, parking, infoText);
 
-
-            result = "성공적";
         } catch (Exception e) {
-            result = "실패";
+            throw new IllegalArgumentException();
         }
-
-        return result;
     }
 
     public void save(Long id, String infoCenter, String restDate, String useDate,
@@ -93,5 +96,9 @@ public class TourLocationDetailService {
 
     public TourLocation findTourLocationById(Long id) {
         return tourLocationRepository.findById(id).orElseThrow(() -> new IllegalArgumentException("존재 하지 않는 TourLocation입니다."));
+    }
+
+    public TourLocationDetailResponse get(Long id) {
+        return new TourLocationDetailResponse(tourLocationDetailRepository.findById(id).orElseThrow());
     }
 }

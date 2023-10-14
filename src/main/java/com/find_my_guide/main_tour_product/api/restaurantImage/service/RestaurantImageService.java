@@ -1,9 +1,12 @@
-package com.find_my_guide.main_tour_product.api.restaurant.service;
+package com.find_my_guide.main_tour_product.api.restaurantImage.service;
 
-import com.find_my_guide.main_tour_product.api.restaurant.dto.ManyRestaurantResponse;
+import com.find_my_guide.main_tour_product.api.restaurant.domain.Restaurant;
 import com.find_my_guide.main_tour_product.api.restaurant.dto.RestaurantRequest;
 import com.find_my_guide.main_tour_product.api.restaurant.dto.RestaurantResponse;
 import com.find_my_guide.main_tour_product.api.restaurant.repository.RestaurantRepository;
+import com.find_my_guide.main_tour_product.api.restaurantImage.dto.RestaurantImageRequest;
+import com.find_my_guide.main_tour_product.api.restaurantImage.dto.RestaurantImageResponse;
+import com.find_my_guide.main_tour_product.api.restaurantImage.repository.RestaurantImageRepository;
 import lombok.RequiredArgsConstructor;
 import org.json.simple.JSONArray;
 import org.json.simple.JSONObject;
@@ -15,13 +18,16 @@ import java.io.BufferedReader;
 import java.io.InputStreamReader;
 import java.net.URL;
 import java.util.List;
+import java.util.Optional;
 import java.util.stream.Collectors;
+
 
 @Service
 @RequiredArgsConstructor
 @Transactional(readOnly = true)
-public class RestaurantService {
+public class RestaurantImageService {
 
+    private final RestaurantImageRepository restaurantImageRepository;
     private final RestaurantRepository restaurantRepository;
 
     @Transactional
@@ -29,7 +35,7 @@ public class RestaurantService {
         String result;
 
         try {
-            URL url = new URL("https://busan-7beach.openapi.redtable.global/api/rstr?serviceKey=tLrTsrUteIbenzAV9bAVR6zv01p69xPrtGdx9pu9Vl4GOey9XJlkXFFCZuNM5Xur");
+            URL url = new URL("https://busan-7beach.openapi.redtable.global/api/food/img?serviceKey=tLrTsrUteIbenzAV9bAVR6zv01p69xPrtGdx9pu9Vl4GOey9XJlkXFFCZuNM5Xur");
             BufferedReader bf = new BufferedReader(new InputStreamReader(url.openStream(), "UTF-8"));
             String response = bf.readLine();
             JSONParser parser = new JSONParser();
@@ -38,8 +44,7 @@ public class RestaurantService {
             JSONArray body = (JSONArray) jsonObject.get("body");
             for (Object o : body) {
                 JSONObject item = (JSONObject) o;
-                RestaurantRequest restaurantRequest = parseRestaurantRequest(item);
-                save(restaurantRequest);
+                parseRestaurantImageRequest(item);
             }
 
             result = "성공적";
@@ -51,45 +56,38 @@ public class RestaurantService {
     }
 
     @Transactional
-    public void save(RestaurantRequest restaurantRequest) {
-        Long id = restaurantRequest.getId();
-        if (restaurantRepository.existsById(id)) {
+    public void save(RestaurantImageRequest restaurantImageRequest) {
+        Long id = restaurantImageRequest.getId();
+        if (restaurantImageRepository.existsById(id)) {
             System.out.println("A restaurant with id " + id + " already exists. Skipping...");
             return;
         }
 
-        restaurantRepository.save(restaurantRequest.toRestaurant());
+        restaurantImageRepository.save(restaurantImageRequest.toRestaurantImage());
         System.out.println("저장완료");
     }
 
-    public List<ManyRestaurantResponse> restaurantResponses(){
-        return restaurantRepository.findAllRand()
+    public List<RestaurantImageResponse> restaurantImageResponses(){
+        return restaurantImageRepository.findAll()
                 .stream()
-                .map(ManyRestaurantResponse::new)
+                .map(RestaurantImageResponse::new)
                 .collect(Collectors.toList());
     }
 
-    public RestaurantResponse getDetail(Long id) {
-        return new RestaurantResponse(restaurantRepository.findById(id).orElseThrow());
-    }
+    private void parseRestaurantImageRequest(JSONObject item) {
+        Long id = Long.parseLong(getValueOrEmpty(item, "MENU_ID"));
+        String imageUrl = getValueOrEmpty(item, "FOOD_IMG_URL");
+        Long restaurantId = Long.parseLong(getValueOrEmpty(item, "RSTR_ID"));
 
-    private RestaurantRequest parseRestaurantRequest(JSONObject item) {
-        Long id = Long.parseLong(getValueOrEmpty(item, "RSTR_ID"));
-        String title = getValueOrEmpty(item, "RSTR_NM");
-        String address = getValueOrEmpty(item, "RSTR_RDNMADR");
-        String mapx = getValueOrEmpty(item, "RSTR_LA");
-        String mapy = getValueOrEmpty(item, "RSTR_LO");
-        String telNo = getValueOrEmpty(item, "RSTR_TELNO");
-        String restaurantCode = getValueOrEmpty(item, "BSNS_STATM_BZCND_NM");
-        String restaurantLcnc = getValueOrEmpty(item, "BSNS_LCNC_NM");
-        String introduce = getValueOrEmpty(item, "RSTR_INTRCN_CONT");
-
-        return new RestaurantRequest(id, title, address, mapx, mapy, telNo,
-                restaurantCode, restaurantLcnc, introduce);
+        Optional<Restaurant> restaurant = restaurantRepository.findById(restaurantId);
+        if (restaurant.isEmpty()) {
+            return;
+        }
+        RestaurantImageRequest restaurantImageRequest = new RestaurantImageRequest(id, imageUrl, restaurant.get());
+        save(restaurantImageRequest);
     }
 
     private String getValueOrEmpty(JSONObject jsonObject, String key) {
         return jsonObject.get(key) != null ? jsonObject.get(key).toString() : "";
     }
-
 }

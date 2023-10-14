@@ -13,14 +13,13 @@ public class FestivalResponse {
     private Long id;
     private String title;
     private String image;
-    private String mapx;
-    private String mapy;
+    private Boolean progress;
 
-    public FestivalResponse(Festival festival) {
+    public FestivalResponse(Festival festival, Boolean progress) {
         this.id = festival.getId();
         this.title = festival.getTitle();
         this.image = festival.getImage();
-        this.mapx = festival.getMapx();
-        this.mapy = festival.getMapx();
+        this.progress = progress;
     }
+
 }

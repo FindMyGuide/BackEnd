@@ -4,6 +4,7 @@ import com.find_my_guide.main_tour_product.api.festival.domain.Festival;
 import com.find_my_guide.main_tour_product.api.festival.repository.FestivalRepository;
 import com.find_my_guide.main_tour_product.api.festivalDetail.domain.FestivalDetail;
 import com.find_my_guide.main_tour_product.api.festivalDetail.dto.FestivalDetailRequest;
+import com.find_my_guide.main_tour_product.api.festivalDetail.dto.FestivalDetailResponse;
 import com.find_my_guide.main_tour_product.api.festivalDetail.repository.FestivalDetailRepository;
 import lombok.RequiredArgsConstructor;
 import org.json.simple.JSONArray;
@@ -15,6 +16,11 @@ import org.springframework.transaction.annotation.Transactional;
 import java.io.BufferedReader;
 import java.io.InputStreamReader;
 import java.net.URL;
+import java.time.LocalDate;
+import java.time.Month;
+import java.time.MonthDay;
+import java.time.Year;
+import java.util.List;
 
 @Service
 @RequiredArgsConstructor
@@ -25,8 +31,17 @@ public class FestivalDetailService {
     private final FestivalRepository festivalRepository;
 
     @Transactional
-    public String getApi(String festivalId) {
-        String result;
+    public void allGetApi() {
+        List<Festival> festivals = festivalRepository.findAll();
+        for (Festival festival :
+                festivals) {
+            getApi(festival.getId());
+        }
+    }
+
+    @Transactional
+    public FestivalDetailResponse getApi(Long festivalId) {
+        String result = null;
 
         try {
             URL url = new URL("https://apis.data.go.kr/B551011/KorService1/detailIntro1?serviceKey=wSM4T5mSUOxzHeEO2Xi1llabPQIFXqpy5CjEWgBGdXJy%2BebCPvBQmHOPYOxcGlZMMew5yeuyfCYa9pyW7Hr0jQ%3D%3D&MobileOS=ETC&MobileApp=AppTest&_type=json&contentId="+
@@ -43,11 +58,12 @@ public class FestivalDetailService {
 
             JSONObject contents = (JSONObject) item.get(0);
 
-            Long id = (Long) contents.get("contentId");
-            String place = contents.get("eventplace").toString();
-            String playtime = contents.get("playtime").toString();
-            String startDate = contents.get("eventstartdate").toString();
-            String expense = contents.get("usetimefestival").toString();
+            Long id = Long.valueOf(festivalId);
+            String place = String.valueOf(contents.get("eventplace"));
+            String playtime = String.valueOf(contents.get("playtime"));
+            String startDate = String.valueOf(contents.get("eventstartdate"));
+            String endDate = String.valueOf(contents.get("eventenddate"));
+            String expense = String.valueOf(contents.get("usetimefestival"));
 
             url = new URL("https://apis.data.go.kr/B551011/KorService1/detailInfo1?serviceKey=wSM4T5mSUOxzHeEO2Xi1llabPQIFXqpy5CjEWgBGdXJy%2BebCPvBQmHOPYOxcGlZMMew5yeuyfCYa9pyW7Hr0jQ%3D%3D&" +
                     "MobileOS=ETC&MobileApp=AppTest&_type=json&contentId=" + festivalId +
@@ -64,36 +80,48 @@ public class FestivalDetailService {
 
             JSONObject content2 = (JSONObject) item2.get(0);
 
-            String content = content2.get("infotext").toString();
+            String content = String.valueOf(content2.get("infotext"));
 
 
-            save(id, place, playtime, startDate, expense, content);
+            return save(festivalId, place, playtime, startDate, endDate, expense, content);
 
-
-            result = "성공적";
         } catch (Exception e) {
-            result = "실패";
+            throw new RuntimeException();
         }
-
-        return result;
     }
 
-    @Transactional
-    public void save(Long id, String place, String playtime, String startDate,
+    public FestivalDetailResponse save(Long id, String place, String playtime, String startDate, String endDate,
                      String expense, String content) {
 
         Festival festival = findFestivalById(id);
 
-        FestivalDetailRequest festivalDetailRequest = new FestivalDetailRequest(place, playtime,
-                startDate, expense, content);
-
-        FestivalDetail festivalDetail = festivalDetailRequest.toFestivalDetail();
-        festivalDetail.setFestival(festival);
-
-        festivalDetailRepository.save(festivalDetail);
+        return new FestivalDetailResponse(festival, place, playtime, startDate, endDate, expense, content);
     }
 
     private Festival findFestivalById(Long id) {
         return festivalRepository.findById(id).orElseThrow(() -> new IllegalArgumentException("존재 하지 않는 Festival입니다."));
+    }
+
+    public Boolean checkFestivalEnd(Long id) {
+        FestivalDetail festivalDetail = festivalDetailRepository.findById(id).orElseThrow(() ->
+                new IllegalArgumentException("존재하지 않습니다."));
+        LocalDate date = Year.of(Integer.parseInt(festivalDetail.getEndDate().substring(0, 4)))
+                .atMonth(Integer.parseInt(festivalDetail.getEndDate().substring(4, 6)))
+                .atDay(Integer.parseInt(festivalDetail.getEndDate().substring(6, 8)));
+        return !date.isBefore(LocalDate.now());
+    }
+
+    public Boolean checkProgress(Long id) {
+        FestivalDetail festivalDetail = festivalDetailRepository.findById(id).orElseThrow(() ->
+                new IllegalArgumentException("존재하지 않습니다."));
+        LocalDate date = Year.of(Integer.parseInt(festivalDetail.getStartDate().substring(0, 4)))
+                .atMonth(Integer.parseInt(festivalDetail.getStartDate().substring(4, 6)))
+                .atDay(Integer.parseInt(festivalDetail.getStartDate().substring(6, 8)));
+        return date.isBefore(LocalDate.now());
+    }
+
+    public FestivalDetail findFestivalDetailById(Long id) {
+        return festivalDetailRepository.findById(id).orElseThrow(() ->
+                new IllegalArgumentException("존재하지 않습니다."));
     }
 }

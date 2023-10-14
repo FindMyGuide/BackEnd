@@ -173,6 +173,10 @@ public class Member {
         this.email = email;
     }
 
+    public void setProfile(String profile) {
+        this.profilePicture = profile;
+    }
+
     public void updateRefreshToken(String refreshToken) {
         this.refreshToken = refreshToken;
     }

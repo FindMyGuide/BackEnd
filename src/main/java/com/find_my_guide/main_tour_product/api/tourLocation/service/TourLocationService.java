@@ -1,7 +1,10 @@
 package com.find_my_guide.main_tour_product.api.tourLocation.service;
 
+import com.find_my_guide.main_tour_product.api.tourLocation.domain.TourLocation;
 import com.find_my_guide.main_tour_product.api.tourLocation.dto.TourLocationRequest;
+import com.find_my_guide.main_tour_product.api.tourLocation.dto.TourLocationResponse;
 import com.find_my_guide.main_tour_product.api.tourLocation.repository.TourLocationRepository;
+import com.find_my_guide.main_tour_product.tour_product.dto.TourProductResponse;
 import lombok.RequiredArgsConstructor;
 import org.json.simple.JSONArray;
 import org.json.simple.JSONObject;
@@ -12,6 +15,10 @@ import org.springframework.transaction.annotation.Transactional;
 import java.io.BufferedReader;
 import java.io.InputStreamReader;
 import java.net.URL;
+import java.util.ArrayList;
+import java.util.Collection;
+import java.util.List;
+import java.util.stream.Collectors;
 
 @Service
 @RequiredArgsConstructor
@@ -19,6 +26,13 @@ import java.net.URL;
 public class TourLocationService {
 
     private  final TourLocationRepository tourLocationRepository;
+
+
+    public List<TourLocation> random100() {
+//        return tourLocationRepository.findAllRandom().stream()
+//                .map(TourLocationResponse::new).collect(Collectors.toList());
+        return tourLocationRepository.findAllRand();
+    }
 
     @Transactional
     public String getApi() {
