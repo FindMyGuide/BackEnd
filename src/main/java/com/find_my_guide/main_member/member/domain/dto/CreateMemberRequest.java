@@ -50,7 +50,7 @@ public class CreateMemberRequest {
                 .birthDate(birthDate)
                 .phoneNumber(phoneNumber)
                 .nationalCertificationOfGuideYn(nationalCertificationOfGuideYn.equalsIgnoreCase("Y"))
-                .profilePicture(guideProfilePicture)
+                .profilePicture("https://findmyguide.s3.amazonaws.com/bamtol.png")
                 .guideIntro(guideIntroduction)
                 .guideExperience(guideExperience)
                 .languages(languages)
