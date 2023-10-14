@@ -8,7 +8,6 @@ import io.swagger.annotations.Api;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.Authentication;
-import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
@@ -40,6 +39,20 @@ public class WantTourProductController {
         return ResponseEntity.ok(wantTourProductResponse);
     }
 
+
+    @DeleteMapping("/want-tourProduct/delete/{wantTourProductId}")
+    public ResponseEntity<String> deleteWantTourProduct(@PathVariable Long wantTourProductId,
+                                                        final Authentication authentication) {
+        try {
+
+            wantTourProductService.delete((String) authentication.getPrincipal(), wantTourProductId);
+            return ResponseEntity.ok("성공적으로 삭제 됐습니다.");
+        } catch (IllegalArgumentException e) {
+            return ResponseEntity.badRequest().body(e.getMessage());
+        }
+    }
+
+
     @GetMapping("/want-tourProducts")
     public ResponseEntity<List<WantTourProductResponse>> AllWantTourProduct() {
         List<WantTourProductResponse> wantTourProductResponses = wantTourProductService.showAllWantTourProductList();
@@ -53,7 +66,7 @@ public class WantTourProductController {
 
     @PutMapping("/want-tourProduct/{id}")
     public ResponseEntity<WantTourProductResponse> update(@PathVariable Long id, @RequestBody UpdateWantTourProductRequest request) {
-        WantTourProductResponse response = wantTourProductService.update(id,request);
+        WantTourProductResponse response = wantTourProductService.update(id, request);
         return ResponseEntity.ok(response);
     }
 

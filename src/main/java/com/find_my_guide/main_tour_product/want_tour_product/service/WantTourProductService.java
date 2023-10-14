@@ -123,10 +123,17 @@ public class WantTourProductService {
 
 
     @Transactional
-    public WantTourProductResponse delete(Long id) {
+    public void delete(String email, Long id) {
         WantTourProduct wantTourProduct = findWantTourProductById(id);
+
+        if (wantTourProduct.getMember().getEmail()!= email ){
+            throw new IllegalArgumentException("당신이 만든 상품이 아닙니다.");
+        }
+
+        if (wantTourProduct.getReserved()==Boolean.TRUE){
+            throw new IllegalArgumentException("예약된 원해요 상품이라 삭제할 수 없습니다. ");
+        }
         wantTourProductRepository.delete(wantTourProduct);
-        return new WantTourProductResponse(wantTourProduct);
     }
 
     public List<WantTourProductResponse> showCurrentUserWantTourProductList(String email) {
