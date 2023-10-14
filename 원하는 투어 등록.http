@@ -6,17 +6,14 @@ Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiJ0bGZlbTMzM
   "title" : "원하는투어2323",
   "content": "원하는투어1111",
   "price" : 100000112,
-  "gender": "MALE",
   "vehicle": "CAR",
   "totalPeople": 2,
   "location": [
     {
-      "title": "해운대 암소갈비",
-      "coordinates": [12.2131, 14.3213]
+      "title": "해운대 암소갈비"
     },
     {
-      "title": "맛있는 음식점2",
-      "coordinates": [12.5, 12.123]
+      "title": "맛있는 음식점2"
     }
   ],
   "themeIds": [1,2],

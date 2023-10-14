@@ -19,6 +19,11 @@ public interface TourProductRepository extends JpaRepository<TourProduct, Long> 
     List<TourProduct> findByThemeTitleContaining(@Param("titleValue") String titleValue);
 
 
+    @Query("SELECT tp FROM TourProduct tp WHERE tp.title.title LIKE :titleValue")
+    List<TourProduct> findByTitleContaining(@Param("titleValue") String titleValue);
+
+
+
 
 
 }

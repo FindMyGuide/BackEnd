@@ -9,12 +9,15 @@ import com.find_my_guide.main_tour_product.common.validation_field.Content;
 import com.find_my_guide.main_tour_product.common.validation_field.Title;
 import com.find_my_guide.main_tour_product.location.domain.Location;
 import com.find_my_guide.main_tour_product.location.dto.LocationRequest;
+import com.find_my_guide.main_tour_product.location.dto.LocationResponse;
 import com.find_my_guide.main_tour_product.location.repository.LocationRepository;
 import com.find_my_guide.main_tour_product.tour_history_manager.service.TourHistoryManagerService;
 import com.find_my_guide.main_tour_product.tour_product.domain.Images;
 import com.find_my_guide.main_tour_product.tour_product.domain.TourProduct;
+import com.find_my_guide.main_tour_product.tour_product.dto.SearchResponse;
 import com.find_my_guide.main_tour_product.tour_product.dto.TourProductRequest;
 import com.find_my_guide.main_tour_product.tour_product.dto.TourProductResponse;
+import com.find_my_guide.main_tour_product.tour_product.dto.TourProductSearchResponse;
 import com.find_my_guide.main_tour_product.tour_product.repository.ImagesRepository;
 import com.find_my_guide.main_tour_product.tour_product.repository.TourProductRepository;
 import com.find_my_guide.main_tour_product.tour_product_like.repository.TourProductLikeRepository;
@@ -64,7 +67,6 @@ public class TourProductService {
         if (tourProduct.getTourProductLocations() == null) {
             tourProduct.setTourProductLocations();
         }
-
 
 
         tourProduct = tourProductRepository.save(tourProduct);
@@ -157,7 +159,7 @@ public class TourProductService {
     }
 
 
-    public List<TourProductLocationResponse> findByTourProductId(Long id){
+    public List<TourProductLocationResponse> findByTourProductId(Long id) {
         return tourProductLocationRepository.findByTourProduct_TourProductId(id)
                 .stream()
                 .map(TourProductLocationResponse::new)
@@ -179,15 +181,32 @@ public class TourProductService {
                 .collect(Collectors.toList());
     }
 
-    public List<TourProductResponse> findAllProductsByTheme(String theme){
+    public List<TourProductResponse> findAllProductsByTheme(String theme) {
         return tourProductRepository.findByThemeTitleContaining(theme)
                 .stream()
                 .map(TourProductResponse::new)
                 .collect(Collectors.toList());
     }
 
+    public SearchResponse search(String keyword) {
+        List<TourProduct> tourProducts = tourProductRepository.findByTitleContaining("%" + keyword + "%");
+
+        List<Location> locations = locationRepository.findByTitleContaining("%" + keyword + "%");
+
+        List<TourProductSearchResponse> tourProductSearchResponses = tourProducts.stream()
+                .map(TourProductSearchResponse::new)
+                .collect(Collectors.toList());
+
+        List<LocationResponse> locationResponses = locations.stream()
+                .map(LocationResponse::new)
+                .collect(Collectors.toList());
+
+        return new SearchResponse(tourProductSearchResponses, locationResponses);
+    }
+
+
     @Transactional
-    public Images registerImage (Images images){
+    public Images registerImage(Images images) {
         return imagesRepository.save(images);
     }
 

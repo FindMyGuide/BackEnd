@@ -1,5 +1,6 @@
 package com.find_my_guide.main_tour_product.tour_product.controller;
 
+import com.find_my_guide.main_tour_product.tour_product.dto.SearchResponse;
 import com.find_my_guide.main_tour_product.tour_product.dto.TourProductResponse;
 import com.find_my_guide.main_tour_product.tour_product.service.TourProductService;
 import io.swagger.annotations.Api;
@@ -30,6 +31,12 @@ public class TourProductSearchController {
     @GetMapping("/search-theme")
     public ResponseEntity<List<TourProductResponse>> searchByTheme(@RequestParam String title){
         return ResponseEntity.ok(tourProductService.findAllProductsByTheme(title));
+    }
+
+    @GetMapping("/search-keyword")
+    public ResponseEntity<SearchResponse> search(@RequestParam String keyword) {
+        SearchResponse response = tourProductService.search(keyword);
+        return ResponseEntity.ok(response);
     }
 
 }

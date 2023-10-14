@@ -4,6 +4,7 @@ import com.find_my_guide.main_member.member.domain.entity.Gender;
 import com.find_my_guide.main_tour_product.common.validation_field.Content;
 import com.find_my_guide.main_tour_product.common.validation_field.Title;
 import com.find_my_guide.main_tour_product.location.dto.LocationRequest;
+import com.find_my_guide.main_tour_product.location.dto.WantTourLocationRequest;
 import com.find_my_guide.main_tour_product.tour_product.domain.Price;
 import com.find_my_guide.main_tour_product.want_tour_product.domain.Vehicle;
 import com.find_my_guide.main_tour_product.want_tour_product.domain.WantTourProduct;
@@ -35,13 +36,11 @@ public class WantTourProductRequest {
     @Positive(message = "가격은 0보다 커야 합니다.")
     private Long price;
 
-    private String gender;
-
     private int totalPeople;
 
     private Vehicle vehicle;
 
-    private List<LocationRequest> location = new ArrayList<>();
+    private List<WantTourLocationRequest> location = new ArrayList<>();
 
     private List<Long> themeIds = new ArrayList<>();
 
@@ -55,7 +54,6 @@ public class WantTourProductRequest {
                 .content(new Content(this.content))
                 .totalPeople(this.totalPeople)
                 .price(new Price(this.price))
-                .gender(Gender.valueOf(this.gender))
                 .reserved(false)
                 .vehicle(vehicle)
                 .build();

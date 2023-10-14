@@ -6,3 +6,7 @@ Content-Type: application/json
 GET http://localhost:9000/api/want-tourProduct/login-user
 Content-Type: application/json
 Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiJ4b2RuanM4Mjg3QG5hdmVyLmNvbSIsImV4cCI6MjU4NjA1OTIzMywiaXNzIjoiZmluZG15Z3VpZGUuY29tIn0.wcAZDFcI-vt7g1wXwetPDYzazYtsSOuZjFCwfLTYfO4
+
+###
+GET http://localhost:9000/api/tourProducts/search-keyword?keyword=해운대
+Content-Type: application/json
