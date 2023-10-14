@@ -2,6 +2,7 @@ package com.find_my_guide.main_member.member.service;
 
 import com.amazonaws.SdkClientException;
 import com.amazonaws.services.s3.AmazonS3;
+import com.amazonaws.services.s3.model.DeleteObjectRequest;
 import com.amazonaws.services.s3.model.ObjectMetadata;
 import com.find_my_guide.main_member.common.DuplicateException;
 import com.find_my_guide.main_member.common.ErrorCode;
@@ -31,6 +32,8 @@ import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.io.IOException;
+import java.net.URLDecoder;
+import java.nio.charset.StandardCharsets;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.HashMap;
@@ -201,9 +204,9 @@ public class MemberService {
     public void changeProfile(String email, MultipartFile file) {
         try {
             Member member = memberRepository.findByEmail(email).orElseThrow();
-            if (!member.getProfilePicture().substring(37).equals("bamtol.png")){
-                log.info(member.getProfilePicture().substring(37));
-                deleteFile(member.getProfilePicture().substring(37));
+            if (!member.getProfilePicture().replace("https://findmyguide.s3.amazonaws.com/", "").equals("bamtol.png")){
+                log.info(member.getProfilePicture().replace("https://findmyguide.s3.amazonaws.com/", ""));
+                deleteFile(URLDecoder.decode(member.getProfilePicture().replace("https://findmyguide.s3.amazonaws.com/", ""), StandardCharsets.UTF_8));
             }
             String fileName= UUID.randomUUID() + file.getOriginalFilename();
 
@@ -222,7 +225,7 @@ public class MemberService {
 
     public void deleteFile(String fileName) throws IOException {
         try {
-            amazonS3Client.deleteObject(bucket, fileName);
+            amazonS3Client.deleteObject(new DeleteObjectRequest(bucket, fileName));
         } catch (SdkClientException e) {
             throw new IOException("Error deleteing file from S3", e);
         }
