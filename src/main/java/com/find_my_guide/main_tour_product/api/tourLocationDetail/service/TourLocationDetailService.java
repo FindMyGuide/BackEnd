@@ -28,7 +28,7 @@ public class TourLocationDetailService {
 
     public TourLocationDetailResponse getApi(Long tourLocationId) {
         String result;
-        TourLocationDetailResponse tourLocationDetailResponse = null;
+        TourLocation tourLocation = tourLocationRepository.findById(tourLocationId).orElseThrow();
 
         try {
             URL url = new URL("https://apis.data.go.kr/B551011/KorService1/detailIntro1?serviceKey=wSM4T5mSUOxzHeEO2Xi1llabPQIFXqpy5CjEWgBGdXJy%2BebCPvBQmHOPYOxcGlZMMew5yeuyfCYa9pyW7Hr0jQ%3D%3D&MobileOS=ETC&MobileApp=AppTest&_type=json&" +
@@ -61,7 +61,7 @@ public class TourLocationDetailService {
             JSONObject body2 = (JSONObject) response1.get("body");
             JSONObject items2 = (JSONObject) body2.get("items");
             if (items2.get("item").equals("")) {
-                return new TourLocationDetailResponse(infoCenter, restDate, useTime, parking, "");
+                return new TourLocationDetailResponse(tourLocation, infoCenter, restDate, useTime, parking, "");
             }
             JSONArray item2 = (JSONArray) items2.get("item");
 
@@ -71,13 +71,11 @@ public class TourLocationDetailService {
 
 
 
-            tourLocationDetailResponse = new TourLocationDetailResponse(infoCenter, restDate, useTime, parking, infoText);
+            return new TourLocationDetailResponse(tourLocation, infoCenter, restDate, useTime, parking, infoText);
 
         } catch (Exception e) {
             throw new IllegalArgumentException();
         }
-
-        return tourLocationDetailResponse;
     }
 
     public void save(Long id, String infoCenter, String restDate, String useDate,
