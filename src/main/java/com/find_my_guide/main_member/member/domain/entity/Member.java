@@ -104,6 +104,8 @@ public class Member {
     @OneToMany(mappedBy = "guide")
     private List<GuideLike> likedByMembers = new ArrayList<>();
 
+    private String guideCertification;
+
     @OneToMany(mappedBy = "guide")
     private List<TourHistoryManager> tourHistoriesAsGuide = new ArrayList<>();
 
@@ -149,6 +151,11 @@ public class Member {
         if (!Objects.isNull(guideIntro)) {
             this.guideIntro = guideIntro;
         }
+    }
+
+    public void addGuideCertification(String guideCertification, List<Languages> languages){
+        this.guideCertification = guideCertification;
+        this.languages = languages;
     }
 
     public void setEmailVerified(Boolean trueOrFalse){

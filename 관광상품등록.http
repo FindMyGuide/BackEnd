@@ -1,6 +1,6 @@
 POST http://localhost:9000/api/tourProduct/register
 Content-Type: application/json
-Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiJ4b2RuanM4Mjg3QG5hdmVyLmNvbSIsImV4cCI6MjU4NjE5MTY2MywiaXNzIjoiZmluZG15Z3VpZGUuY29tIn0._iowROEfXjPJOp32toobX7ZLuNMrHLuuig0Xd2-da44
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiJ4b2RuanM4Mjg3QG5hdmVyLmNvbSIsImV4cCI6MjU4NjMwNTE5MCwiaXNzIjoiZmluZG15Z3VpZGUuY29tIn0.KaisOmDfq4yHVts0QqOG3bDmHv3BoezFONGIsQZ4pTc
 
 {
 
@@ -20,7 +20,7 @@ Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiJ4b2RuanM4M
     }
   ],
   "themeIds": [1],
-  "availableDates": ["2023-12-01","2023-12-02","2023-12-03"],
+  "availableDates": ["2022-12-01","2022-12-02","2022-12-03"],
   "images": ["image1","image2"]
 
 }
@@ -28,15 +28,22 @@ Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiJ4b2RuanM4M
 
 ###
 //관광상품 예약
-POST http://localhost:9000/api/tourProduct/reserve-tour/185
-Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiJ4b2RuanM4Mjg3QG5hdmVyLmNvbSIsImV4cCI6MjU4NjE0Mzk2OSwiaXNzIjoiZmluZG15Z3VpZGUuY29tIn0.bUOHDMYwX32NGJ4IWquW3E64yX1vcuDEo2FiboZ53gM
+POST http://localhost:9000/api/tourProduct/reserve-tour/186
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiJ0bGZlbTMzMTVAbmF2ZXIuY29tIiwiZXhwIjoyNTg2MzA1MjI1LCJpc3MiOiJmaW5kbXlndWlkZS5jb20ifQ.7LaK08C2asEi0R7vxs7RTnprvO-H-qKCV7_22Xo81hg
 Content-Type: application/json
 
 {
   "email": "tlfem3315@naver.com",
-  "startDate": "2023-12-01",
-  "endDate": "2023-12-03"
+  "startDate": "2022-12-01",
+  "endDate": "2022-12-03"
 }
+
+###
+//관광상품 예약
+POST http://localhost:9000/api/tourProduct/reserve-tour/by-guide/512
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiJ0bGZlbTMzMTVAbmF2ZXIuY29tIiwiZXhwIjoyNTg2MzIzNzkzLCJpc3MiOiJmaW5kbXlndWlkZS5jb20ifQ.ctF2CnS1mNnlURJuOl2ss494D7PmOOxZWDraS98wwGQ
+Content-Type: application/json
+
 
 
 ###
@@ -46,7 +53,7 @@ POST http://localhost:9000/api/postTheme
 Content-Type: application/json
 
 {
-  "themeTitle": "애견동반"
+  "themeTitle": "사진"
 }
 
 ###

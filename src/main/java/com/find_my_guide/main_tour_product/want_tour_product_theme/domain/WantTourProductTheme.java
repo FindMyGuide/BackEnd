@@ -30,7 +30,7 @@ public class WantTourProductTheme {
         this.wantTourProduct = wantTourProduct;
     }
 
-    public void saveTheme(WantTourProduct wantTourProduct){
-        this.wantTourProduct = wantTourProduct;
+    public void saveTheme(Theme theme){
+        this.theme = theme;
     }
 }

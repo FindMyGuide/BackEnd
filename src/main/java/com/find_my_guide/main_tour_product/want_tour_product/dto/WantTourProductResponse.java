@@ -1,8 +1,10 @@
 package com.find_my_guide.main_tour_product.want_tour_product.dto;
 
+import com.find_my_guide.main_tour_product.theme.domain.Theme;
 import com.find_my_guide.main_tour_product.want_tour_product.domain.Vehicle;
 import com.find_my_guide.main_tour_product.want_tour_product.domain.WantTourProduct;
 import com.find_my_guide.main_tour_product.want_tour_product_location.dto.WantTourProductLocationResponse;
+import com.find_my_guide.main_tour_product.want_tour_product_theme.domain.WantTourProductTheme;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -11,6 +13,7 @@ import lombok.Setter;
 import java.math.BigDecimal;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
+import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 import java.util.stream.Collectors;
@@ -30,9 +33,13 @@ public class WantTourProductResponse {
     private Integer totalPeople;
 
     private Vehicle vehicle;
+
+    private List<String> themes = new ArrayList<>();
     private List<WantTourProductLocationResponse> locationResponses ;
 
     private List<LocalDate> reservationDates;
+
+    private Boolean isReserved;
 
 
     public WantTourProductResponse(WantTourProduct wantTourProduct) {
@@ -49,5 +56,16 @@ public class WantTourProductResponse {
         this.reservationDates = (wantTourProduct.getWantReservationDates() != null) ? wantTourProduct.getWantReservationDates().stream()
                 .map(wantReservationDate -> wantReservationDate.getDate())
                 .collect(Collectors.toList()) : Collections.emptyList();
+
+        if (wantTourProduct.getWantTourProductThemes() != null) {
+            this.themes = wantTourProduct.getWantTourProductThemes().stream()
+                    .map(wantTourProductTheme -> wantTourProductTheme.getTheme().getTitle().getTitle())
+                    .collect(Collectors.toList());
+        } else {
+            this.themes = Collections.emptyList();
+        }
+
+        this.isReserved = wantTourProduct.getReserved();
+
     }
 }

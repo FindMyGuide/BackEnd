@@ -1,16 +1,17 @@
 package com.find_my_guide.main_member.member.controller;
 
 
+import com.find_my_guide.main_member.member.domain.dto.GuideCertificationRegisterRequest;
 import com.find_my_guide.main_member.member.domain.dto.GuideResponse;
 import com.find_my_guide.main_member.member.domain.entity.Gender;
 import com.find_my_guide.main_member.member.service.MemberService;
 import com.find_my_guide.main_tour_product.tour_product.domain.Languages;
 import io.swagger.annotations.Api;
-import io.swagger.models.auth.In;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.core.Authentication;
 import org.springframework.web.bind.annotation.*;
 
 import java.time.LocalDate;
@@ -25,12 +26,20 @@ public class GuideController {
 
     private final MemberService memberService;
 
+    @PostMapping("/register-guide-certification")
+    public ResponseEntity<GuideResponse> registerGuideCertification(
+            final Authentication authentication,
+            @RequestBody GuideCertificationRegisterRequest registerRequest
+    ) {
+
+        return ResponseEntity.ok(memberService.registerGuideCertification((String) authentication.getPrincipal(), registerRequest));
+
+    }
 
     @GetMapping("/popular-guide")
     public ResponseEntity<List<GuideResponse>> getTop10PopularGuides() {
         return ResponseEntity.ok(memberService.getTop10PopularGuides());
     }
-
 
 
     @GetMapping("/all")

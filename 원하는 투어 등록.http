@@ -1,11 +1,11 @@
 POST localhost:9000/api/want-tourProduct/register
 Content-Type: application/json
-Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiJ4b2RuanM4Mjg3QG5hdmVyLmNvbSIsImV4cCI6MjU4NjA1OTIzMywiaXNzIjoiZmluZG15Z3VpZGUuY29tIn0.wcAZDFcI-vt7g1wXwetPDYzazYtsSOuZjFCwfLTYfO4
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiJ0bGZlbTMzMTVAbmF2ZXIuY29tIiwiZXhwIjoyNTg2MzA0NzEyLCJpc3MiOiJmaW5kbXlndWlkZS5jb20ifQ.GBUme6o8EquojLp17O3tg4TPlDDGfbmyy6xshRHZiXs
 
 {
-  "title" : "원하는투어",
-  "content": "원하는투어2",
-  "price" : 10000,
+  "title" : "원하는투어2323",
+  "content": "원하는투어1111",
+  "price" : 100000112,
   "gender": "MALE",
   "vehicle": "CAR",
   "totalPeople": 2,
@@ -19,8 +19,8 @@ Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiJ4b2RuanM4M
       "coordinates": [12.5, 12.123]
     }
   ],
-  "themeIds": [1],
-  "wantDates" : ["2023-08-01", "2023-08-02", "2023-08-03"]
+  "themeIds": [1,2],
+  "wantDates" : ["2027-08-01", "2027-08-02", "2027-08-03"]
 }
 
 

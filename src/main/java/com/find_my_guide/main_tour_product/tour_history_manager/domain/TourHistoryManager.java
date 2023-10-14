@@ -3,6 +3,7 @@ package com.find_my_guide.main_tour_product.tour_history_manager.domain;
 import com.find_my_guide.main_member.member.domain.entity.Member;
 import com.find_my_guide.main_tour_product.common.domain.BaseEntity;
 import com.find_my_guide.main_tour_product.tour_product.domain.TourProduct;
+import com.find_my_guide.main_tour_product.want_tour_product.domain.WantTourProduct;
 import lombok.*;
 
 import javax.persistence.*;
@@ -27,12 +28,13 @@ public class TourHistoryManager extends BaseEntity {
     @ManyToOne
     @JoinColumn(name = "guide_id")
     private Member guide;  // 가이드
-
-
-
     @ManyToOne
     @JoinColumn(name = "tour_product_id")
     private TourProduct tourProduct;
+
+    @ManyToOne
+    @JoinColumn(name = "want_tour_product_id")
+    private WantTourProduct wantTourProduct;
 
     private boolean isCompleted;
 
@@ -45,6 +47,13 @@ public class TourHistoryManager extends BaseEntity {
         this.tourProduct = tourProduct;
         if (!this.tourProduct.getTourHistoryManagers().contains(this)) {
             this.tourProduct.getTourHistoryManagers().add(this);
+        }
+    }
+
+    public void addWantTourProduct(WantTourProduct wantTourProduct) {
+        this.wantTourProduct = wantTourProduct;
+        if (!this.wantTourProduct.getTourHistoryManagers().contains(this)) {
+            this.wantTourProduct.getTourHistoryManagers().add(this);
         }
     }
 

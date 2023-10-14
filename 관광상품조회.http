@@ -19,6 +19,12 @@ GET http://localhost:9000/api/tourProducts/search?title=해운대 암소갈비
 Content-Type: application/json
 
 ###
+// 특정장소 포함으로 조회
+GET http://localhost:9000/api/tourProducts/search-containing?title=암소갈비
+Content-Type: application/json
+
+
+###
 //top10 관광상품 조회
 GET http://localhost:9000/api/tourProduct/top-10
 Content-Type: application/json

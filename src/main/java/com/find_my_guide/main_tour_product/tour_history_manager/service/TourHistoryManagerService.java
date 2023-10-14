@@ -12,8 +12,10 @@ import com.find_my_guide.main_tour_product.tour_history_manager.repository.TourH
 import com.find_my_guide.main_tour_product.tour_product.domain.TourProduct;
 import com.find_my_guide.main_tour_product.tour_product.dto.TourProductResponse;
 import com.find_my_guide.main_tour_product.tour_product.repository.TourProductRepository;
-import com.find_my_guide.main_tour_product.tour_product.service.TourProductService;
 import com.find_my_guide.main_tour_product.tour_product_like.repository.TourProductLikeRepository;
+import com.find_my_guide.main_tour_product.want_reservation_date.domain.WantReservationDate;
+import com.find_my_guide.main_tour_product.want_tour_product.domain.WantTourProduct;
+import com.find_my_guide.main_tour_product.want_tour_product.repository.WantTourProductRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -30,7 +32,9 @@ public class TourHistoryManagerService {
 
     private final TourProductRepository tourProductRepository;
     private final TourHistoryManagerRepository tourHistoryManagerRepository;
-    private final AvailableDateRepository availableDateRepository; // 추가
+    private final AvailableDateRepository availableDateRepository;
+
+    private final WantTourProductRepository wantTourProductRepository;
     private final TourProductLikeRepository tourProductLikeRepository;
     private final MemberRepository memberRepository;
 
@@ -49,6 +53,60 @@ public class TourHistoryManagerService {
         tourHistoryManager.addGuide(guide);
 
         return new TourHistoryManagerResponse(tourHistoryManagerRepository.save(tourHistoryManager));
+    }
+
+
+    @Transactional
+    public TourHistoryManagerResponse registerWantTourHistoryByGuide(String guideEmail, Long wantTourProductId) {
+        WantTourProduct wantTourProduct = getWantTourProduct(wantTourProductId);
+        Member guide = findMemberByEmail(guideEmail);
+
+        TourHistoryManager byWantTourProduct = tourHistoryManagerRepository.findByWantTourProduct(wantTourProduct);
+
+        byWantTourProduct.addGuide(guide);
+
+        wantTourProduct.setReserved();
+
+        wantTourProductRepository.save(wantTourProduct);
+
+
+        return new TourHistoryManagerResponse(tourHistoryManagerRepository.save(byWantTourProduct));
+    }
+
+    @Transactional
+    public TourHistoryManagerResponse registerTourProductByTourist(String touristEmail, Long wantTourProductId) {
+        WantTourProduct wantTourProduct = getWantTourProduct(wantTourProductId);
+
+        Member tourist = findMemberByEmail(touristEmail);
+
+        List<WantReservationDate> reservationDatesList = wantTourProduct.getWantReservationDates();
+        if (reservationDatesList == null || reservationDatesList.isEmpty()) {
+            throw new IllegalStateException("예약 날짜가 존재하지 않습니다.");
+        }
+
+        List<LocalDate> dates = reservationDatesList.stream().map(WantReservationDate::getDate).collect(Collectors.toList());
+
+        LocalDate tourStartDate = dates.stream().min(LocalDate::compareTo).orElseThrow(); // 가장 빠른 날짜
+        LocalDate tourEndDate = dates.stream().max(LocalDate::compareTo).orElseThrow();   // 가장 늦은 날짜
+
+        TourHistoryManager tourHistoryManager = TourHistoryManager.builder()
+                .tourist(tourist)
+                .wantTourProduct(wantTourProduct)
+                .tourStartDate(tourStartDate)
+                .tourEndDate(tourEndDate)
+                .isCompleted(false)
+                .build();
+
+        tourHistoryManager.addWantTourProduct(wantTourProduct);
+        tourHistoryManager.addTourist(tourist);
+
+        return new TourHistoryManagerResponse(tourHistoryManagerRepository.save(tourHistoryManager));
+    }
+
+    private WantTourProduct getWantTourProduct(Long wantTourProductId) {
+        WantTourProduct wantTourProduct = wantTourProductRepository.findById(wantTourProductId).orElseThrow(() ->
+                new NotFoundException("존재하지 않는 원해요 상품"));
+        return wantTourProduct;
     }
 
 
@@ -100,7 +158,6 @@ public class TourHistoryManagerService {
                 .map(history -> new TourProductResponse(history.getTourProduct()))
                 .collect(Collectors.toList());
     }
-
 
 
     public List<TourProductResponse> getCompletedToursForTourist(String touristEmail) {
@@ -158,9 +215,9 @@ public class TourHistoryManagerService {
 
                     tourProductResponse.setLikes(likes);
 
-                    if (0 < likes){
+                    if (0 < likes) {
                         tourProductResponse.setLikeExist(true);
-                    }else {
+                    } else {
                         tourProductResponse.setLikeExist(false);
                     }
                     return tourProductResponse;

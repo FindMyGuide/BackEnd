@@ -11,8 +11,8 @@ GET http://localhost:8080/tourProducts/1/likes
 Content-Type: application/json
 
 ###
-GET http://localhost:9000/api/my-page/like/tour
+GET https://find-my-guide.site/api/my-page/like/tour
 Content-Type: application/json
-Authorization:Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiJ4b2RuanM4Mjg3QG5hdmVyLmNvbSIsImV4cCI6MjU4NTk3OTIzMiwiaXNzIjoiZmluZG15Z3VpZGUuY29tIn0.e_ME5X100ZzKuyQXL6W20C3WAl1vICkh8v2ZWY9YU8M
+Authorization:Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiJ0bGZlbTMzMTVAbmF2ZXIuY29tIiwiZXhwIjoyNTg2MzA0NzEyLCJpc3MiOiJmaW5kbXlndWlkZS5jb20ifQ.GBUme6o8EquojLp17O3tg4TPlDDGfbmyy6xshRHZiXs
 
 ###

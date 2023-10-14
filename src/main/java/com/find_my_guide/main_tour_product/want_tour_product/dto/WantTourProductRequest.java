@@ -43,9 +43,9 @@ public class WantTourProductRequest {
 
     private List<LocationRequest> location = new ArrayList<>();
 
-    private List<Long> themeIds; // 각 테마의 ID를 포함하는 리스트
+    private List<Long> themeIds = new ArrayList<>();
 
-    private List<LocalDate> wantDates; // 사용 가능한 날짜를 포함하는 리스트
+    private List<LocalDate> wantDates = new ArrayList<>();
 
 
     public WantTourProduct toWantTourProduct() {
@@ -56,6 +56,7 @@ public class WantTourProductRequest {
                 .totalPeople(this.totalPeople)
                 .price(new Price(this.price))
                 .gender(Gender.valueOf(this.gender))
+                .reserved(false)
                 .vehicle(vehicle)
                 .build();
     }

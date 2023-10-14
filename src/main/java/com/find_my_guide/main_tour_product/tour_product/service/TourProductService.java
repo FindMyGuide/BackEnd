@@ -172,6 +172,13 @@ public class TourProductService {
                 .collect(Collectors.toList());
     }
 
+    public List<TourProductResponse> getTourProductsContainingLocationTitle(String title) {
+        return tourProductLocationRepository.findTourProductsByContainingLocationTitle(title)
+                .stream()
+                .map(TourProductResponse::new)
+                .collect(Collectors.toList());
+    }
+
     public List<TourProductResponse> findAllProductsByTheme(String theme){
         return tourProductRepository.findByThemeTitleContaining(theme)
                 .stream()

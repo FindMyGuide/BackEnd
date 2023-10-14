@@ -6,6 +6,7 @@ import com.find_my_guide.main_tour_product.available_reservation_date.domain.Ava
 import com.find_my_guide.main_tour_product.common.domain.BaseEntity;
 import com.find_my_guide.main_tour_product.common.validation_field.Content;
 import com.find_my_guide.main_tour_product.common.validation_field.Title;
+import com.find_my_guide.main_tour_product.tour_history_manager.domain.TourHistoryManager;
 import com.find_my_guide.main_tour_product.tour_product.domain.Price;
 import com.find_my_guide.main_tour_product.want_reservation_date.domain.WantReservationDate;
 import com.find_my_guide.main_tour_product.want_tour_product_location.domain.WantTourProductLocation;
@@ -49,17 +50,21 @@ public class WantTourProduct extends BaseEntity {
 
     private Integer totalPeople;
 
+    private Boolean reserved;
+
     @ManyToOne
     @JoinColumn(name = "member_id")
     private Member member;
 
-    @OneToMany(mappedBy = "wantTourProduct")
+    @OneToMany(mappedBy = "wantTourProduct", cascade = CascadeType.REMOVE, orphanRemoval = true)
+    private List<TourHistoryManager> tourHistoryManagers = new ArrayList<>();
+
+    @OneToMany(mappedBy = "wantTourProduct", cascade = CascadeType.REMOVE, orphanRemoval = true)
     private List<WantTourProductLocation> wantTourProductLocations = new ArrayList<>();
 
-    @OneToMany(mappedBy = "wantTourProduct")
+    @OneToMany(mappedBy = "wantTourProduct", cascade = CascadeType.REMOVE, orphanRemoval = true)
     private List<WantReservationDate> wantReservationDates = new ArrayList<>();
-
-    @OneToMany(mappedBy = "wantTourProduct")
+    @OneToMany(mappedBy = "wantTourProduct", cascade = CascadeType.REMOVE, orphanRemoval = true)
     private List<WantTourProductTheme> wantTourProductThemes = new ArrayList<>();
 
     @Builder
@@ -76,6 +81,9 @@ public class WantTourProduct extends BaseEntity {
         this.wantTourProductThemes = new ArrayList<>();
     }
 
+    public void setReserved(){
+        this.reserved = true;
+    }
 
     public void setWantReservationDates(List<WantReservationDate> wantReservationDates) {
         this.wantReservationDates = wantReservationDates;
@@ -93,6 +101,14 @@ public class WantTourProduct extends BaseEntity {
             return new ArrayList<>();
         }
         return this.wantTourProductLocations;
+    }
+
+
+    public List<TourHistoryManager> getTourHistoryManagers() {
+        if (this.tourHistoryManagers == null) {
+            this.tourHistoryManagers = new ArrayList<>();
+        }
+        return this.tourHistoryManagers;
     }
 
     public void setMember(Member member) {
