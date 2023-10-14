@@ -12,6 +12,7 @@ import com.find_my_guide.main_tour_product.location.dto.LocationRequest;
 import com.find_my_guide.main_tour_product.location.repository.LocationRepository;
 import com.find_my_guide.main_tour_product.theme.domain.Theme;
 import com.find_my_guide.main_tour_product.theme.repository.ThemeRepository;
+import com.find_my_guide.main_tour_product.tour_history_manager.service.TourHistoryManagerService;
 import com.find_my_guide.main_tour_product.tour_product.domain.Price;
 import com.find_my_guide.main_tour_product.tour_product.domain.TourProduct;
 import com.find_my_guide.main_tour_product.tour_product.dto.TourProductRequest;
@@ -36,6 +37,7 @@ import com.find_my_guide.main_tour_product.want_tour_product_theme.dto.WantTourP
 import com.find_my_guide.main_tour_product.want_tour_product_theme.repository.WantTourProductThemeRepository;
 import com.find_my_guide.main_tour_product.want_tour_product_theme.service.WantTourProductThemeService;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -44,6 +46,7 @@ import java.util.List;
 import java.util.stream.Collectors;
 
 @Service
+@Slf4j
 @Transactional(readOnly = true)
 @RequiredArgsConstructor
 public class WantTourProductService {
@@ -53,16 +56,15 @@ public class WantTourProductService {
     private final MemberRepository memberRepository;
     private final WantTourProductThemeService wantTourProductThemeService;
     private final WantReservationDateService wantReservationDateService;
-
     private final WantTourProductThemeRepository wantTourProductThemeRepository;
 
+    private final TourHistoryManagerService tourHistoryManagerService;
     private final WantTourProductLocationRepository wantTourProductLocationRepository;
 
     private final WantReservationDateRepository wantReservationDateRepository;
     private final LocationRepository locationRepository;
 
     private final ThemeRepository themeRepository;
-
 
     @Transactional
     public WantTourProductResponse registerWantTourProduct(String memberId, WantTourProductRequest wantTourProductRequest) {
@@ -99,6 +101,9 @@ public class WantTourProductService {
 
         WantTourProduct save = wantTourProductRepository.save(wantTourProduct);
 
+
+        tourHistoryManagerService.registerTourProductByTourist(memberId, save.getWantTourProductId());
+
         WantTourProductResponse wantTourProductResponse = new WantTourProductResponse(save);
 
 
@@ -107,7 +112,11 @@ public class WantTourProductService {
                 .map(WantTourProductLocationResponse::new)
                 .collect(Collectors.toList());
 
+
         wantTourProductResponse.setLocationResponses(collect);
+
+
+
 
         return wantTourProductResponse;
     }
@@ -129,6 +138,7 @@ public class WantTourProductService {
                 .collect(Collectors.toList());
 
     }
+
 
     @Transactional
     public WantTourProductResponse update(Long wantTourProductId, UpdateWantTourProductRequest request) {

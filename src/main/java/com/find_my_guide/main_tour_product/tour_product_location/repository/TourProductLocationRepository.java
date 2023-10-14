@@ -15,4 +15,13 @@ public interface TourProductLocationRepository extends JpaRepository<TourProduct
 
         @Query("SELECT tpl.tourProduct FROM TourProductLocation tpl WHERE tpl.location.title = :title")
         List<TourProduct> findTourProductsByLocationTitle(@Param("title") Title title);
+
+        @Query("SELECT tpl.tourProduct FROM TourProductLocation tpl WHERE tpl.location.title.title LIKE CONCAT('%', :titleValue, '%')")
+        List<TourProduct> findTourProductsByContainingLocationTitle(@Param("titleValue") String titleValue);
+
+
 }
+
+
+
+

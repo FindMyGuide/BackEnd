@@ -1,6 +1,7 @@
 package com.find_my_guide.main_tour_product.tour_product.controller;
 
 import com.find_my_guide.main_tour_product.available_reservation_date.service.AvailableService;
+import com.find_my_guide.main_tour_product.tour_product.domain.TourProduct;
 import com.find_my_guide.main_tour_product.tour_product.service.TourProductService;
 import com.find_my_guide.main_tour_product.tour_product.dto.TourProductRequest;
 import com.find_my_guide.main_tour_product.tour_product.dto.TourProductResponse;
@@ -62,6 +63,12 @@ public class TourProductController {
     public ResponseEntity<List<TourProductResponse>> findByLocation(@RequestParam String title){
         return ResponseEntity.ok(tourProductService.getTourProductsByLocationTitle(title));
     }
+
+    @GetMapping("/tourProducts/search-containing")
+    public ResponseEntity<List<TourProductResponse>> findByContainingLocation(@RequestParam String title){
+        return ResponseEntity.ok(tourProductService.getTourProductsContainingLocationTitle(title));
+    }
+
 
 
 }

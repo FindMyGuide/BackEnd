@@ -5,6 +5,7 @@ import lombok.*;
 
 import javax.persistence.*;
 import java.time.LocalDate;
+import java.util.ArrayList;
 
 @Entity
 @AllArgsConstructor
@@ -25,6 +26,8 @@ public class WantReservationDate {
 
     public void addWantDate(WantTourProduct wantTourProduct) {
         this.wantTourProduct = wantTourProduct;
-
-    }
+        if (this.wantTourProduct.getWantReservationDates() == null) {
+            this.wantTourProduct.setWantReservationDates(new ArrayList<>());
+        }
+        this.wantTourProduct.getWantReservationDates().add(this);    }
 }

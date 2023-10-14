@@ -22,6 +22,7 @@ public class GuideResponse {
     private List<Languages> languages;
     private String guideIntro;
 
+    private String guideCertification;
     private String profilePicture;
 
 
@@ -38,6 +39,6 @@ public class GuideResponse {
         this.languages = (member.getLanguages() != null) ? member.getLanguages() : new ArrayList<>();
         this.guideIntro = (member.getGuideIntro() != null) ? member.getGuideIntro() : "";
         this.profilePicture = (member.getProfilePicture() != null) ? member.getProfilePicture() : "";
-
+        this.guideCertification = member.getGuideCertification();
     }
 }

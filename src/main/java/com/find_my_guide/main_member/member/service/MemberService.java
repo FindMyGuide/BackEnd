@@ -225,6 +225,16 @@ public class MemberService {
         passwordResetTokenRepository.delete(passwordResetToken);
     }
 
+    public GuideResponse registerGuideCertification(String email, GuideCertificationRegisterRequest guideCertificationRegisterRequest){
+        Member member = findByEmail(email);
+
+        member.addGuideCertification(guideCertificationRegisterRequest.getGuideCertification(),guideCertificationRegisterRequest.getLanguages());
+
+        Member save = memberRepository.save(member);
+
+        return new GuideResponse(save);
+    }
+
     public List<GuideResponse> getTop10PopularGuides() {
         return customMemberRepository.findPopularGuidesWithTies()
                 .stream()
