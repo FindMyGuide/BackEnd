@@ -205,7 +205,6 @@ public class MemberService {
         try {
             Member member = memberRepository.findByEmail(email).orElseThrow();
             if (!member.getProfilePicture().replace("https://findmyguide.s3.amazonaws.com/", "").equals("bamtol.png")){
-                log.info(member.getProfilePicture().replace("https://findmyguide.s3.amazonaws.com/", ""));
                 deleteFile(URLDecoder.decode(member.getProfilePicture().replace("https://findmyguide.s3.amazonaws.com/", ""), StandardCharsets.UTF_8));
             }
             String fileName= UUID.randomUUID() + file.getOriginalFilename();

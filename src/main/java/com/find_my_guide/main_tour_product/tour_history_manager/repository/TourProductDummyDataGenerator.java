@@ -6,6 +6,7 @@ import com.find_my_guide.main_tour_product.tour_product.domain.Languages;
 import com.find_my_guide.main_tour_product.tour_product.domain.TourProduct;
 import com.find_my_guide.main_tour_product.tour_product.dto.TourProductRequest;
 import org.springframework.stereotype.Component;
+import org.springframework.web.multipart.MultipartFile;
 
 import java.time.LocalDate;
 import java.util.ArrayList;
@@ -22,7 +23,7 @@ public class TourProductDummyDataGenerator {
         String title = "Tour" + random.nextInt(100);
         String content = "This is a content for tour: " + title;
         List<String> howManyDay = Arrays.asList("1박", "2일");
-        List<Images> images = new ArrayList<>();
+        List<MultipartFile> images = new ArrayList<>();
         List<LocationRequest> location = new ArrayList<>();
         List<Languages> languages = Arrays.asList(Languages.values());
         Long price = (long) random.nextInt(200) + 100;
