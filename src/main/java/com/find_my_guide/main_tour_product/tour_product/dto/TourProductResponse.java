@@ -89,6 +89,9 @@ public class TourProductResponse {
 
 
     public TourProductResponse(TourProduct tourProduct) {
+        if (tourProduct == null) {
+            return;
+        }
         this.id = tourProduct.getTourProductId();
         this.title = tourProduct.getTitle().getTitle();
         this.content = tourProduct.getContent().getContent();
