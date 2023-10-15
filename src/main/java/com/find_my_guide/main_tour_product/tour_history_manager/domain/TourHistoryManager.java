@@ -87,9 +87,10 @@ public class TourHistoryManager extends BaseEntity {
         return this.isCompleted;
     }
     public void updateCompletionStatus() {
-        if (!isCompleted && tourEndDate.isBefore(LocalDate.now())) {
+        if (tourEndDate != null && !isCompleted && tourEndDate.isBefore(LocalDate.now())) {
             isCompleted = true;
         }
     }
+
 
 }

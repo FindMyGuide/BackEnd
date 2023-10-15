@@ -192,11 +192,15 @@ public class TourHistoryManagerService {
 
     private List<LocalDate> generateDatesBetween(LocalDate start, LocalDate end) {
         List<LocalDate> dates = new ArrayList<>();
+        if (start == null || end == null) {
+            return dates;
+        }
         for (LocalDate date = start; !date.isAfter(end); date = date.plusDays(1)) {
             dates.add(date);
         }
         return dates;
     }
+
 
     public List<TourProductResponse> getTop10TourProductsByFrequency() {
         List<Long> top10TourProductIds = tourHistoryManagerRepository.findTop10TourProductIdsByFrequency();
