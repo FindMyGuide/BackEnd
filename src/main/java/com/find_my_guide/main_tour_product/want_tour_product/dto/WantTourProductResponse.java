@@ -70,7 +70,9 @@ public class WantTourProductResponse {
 
         this.isReserved = wantTourProduct.getReserved();
 
-        this.memberInfoResponse = new MemberInfoResponse(wantTourProduct.getMember());
+        if (wantTourProduct.getMember() != null) {
+            this.memberInfoResponse = new MemberInfoResponse(wantTourProduct.getMember());
+        }
 
     }
 }
