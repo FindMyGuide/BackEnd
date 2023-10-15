@@ -35,7 +35,7 @@ public class TourProductRequest {
 
     private List<LocationRequest> location = new ArrayList<>();  // 변경된 부분
 
-    private List<Languages> languages = new ArrayList<>();
+    private List<String> languages = new ArrayList<>();  // 타입 변경
 
 
 
@@ -49,12 +49,16 @@ public class TourProductRequest {
     private List<LocalDate> availableDates;
 
     public TourProduct toTourProduct() {
+        List<Languages> convertedLanguages = languages.stream()
+                .map(Languages::fromString)
+                .collect(Collectors.toList());
+
         return TourProduct.builder()
                 .title(new Title(title))
-                .howManyDay(new HowManyDay(howManyDay.get(0),howManyDay.get(1)))
+                .howManyDay(new HowManyDay(howManyDay.get(0), howManyDay.get(1)))
                 .content(new Content(content))
                 .price(new Price(price))
-                .languages(this.languages)
+                .languages(convertedLanguages)
                 .build();
     }
 

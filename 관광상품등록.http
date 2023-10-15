@@ -7,7 +7,7 @@ Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiJ4b2RuanM4M
   "title": "해운대 돌아다니자",
   "content": "Tour Description test images",
   "price": 200000,
-  "languages" : ["KOREAN"],
+  "languages" : ["영어","포르투갈어"],
   "howManyDay": ["2","3"],
   "location": [
     {
@@ -20,9 +20,7 @@ Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiJ4b2RuanM4M
     }
   ],
   "themeIds": [1],
-  "availableDates": ["2022-12-01","2022-12-02","2022-12-03"],
-  "images": ["image1","image2"]
-
+  "availableDates": ["2022-12-01","2022-12-02","2022-12-03"]
 }
 
 
