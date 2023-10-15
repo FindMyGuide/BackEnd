@@ -20,6 +20,8 @@ public interface TourProductLocationRepository extends JpaRepository<TourProduct
         List<TourProduct> findTourProductsByContainingLocationTitle(@Param("titleValue") String titleValue);
 
 
+
+
 }
 
 

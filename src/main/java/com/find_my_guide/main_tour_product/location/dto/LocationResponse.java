@@ -17,8 +17,15 @@ public class LocationResponse {
     private BigDecimal mapY;
 
     public LocationResponse(Location location) {
-        this.title = location.getTitle().getTitle();
-        this.mapX = location.getCoordinates().getMapX();
-        this.mapY = location.getCoordinates().getMapY();
+        if (location != null) {
+            if (location.getTitle() != null) {
+                this.title = location.getTitle().getTitle();
+            }
+            if (location.getCoordinates() != null) {
+                this.mapX = location.getCoordinates().getMapX();
+                this.mapY = location.getCoordinates().getMapY();
+            }
+        }
     }
+
 }

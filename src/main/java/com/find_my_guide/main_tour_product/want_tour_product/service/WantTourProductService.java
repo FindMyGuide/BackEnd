@@ -9,6 +9,7 @@ import com.find_my_guide.main_tour_product.common.validation_field.Content;
 import com.find_my_guide.main_tour_product.common.validation_field.Title;
 import com.find_my_guide.main_tour_product.location.domain.Location;
 import com.find_my_guide.main_tour_product.location.dto.LocationRequest;
+import com.find_my_guide.main_tour_product.location.dto.WantTourLocationRequest;
 import com.find_my_guide.main_tour_product.location.repository.LocationRepository;
 import com.find_my_guide.main_tour_product.theme.domain.Theme;
 import com.find_my_guide.main_tour_product.theme.repository.ThemeRepository;
@@ -84,9 +85,9 @@ public class WantTourProductService {
         addWantThemes(wantTourProductRequest, wantTourProduct);
         addWantDates(wantTourProductRequest, wantTourProduct);
 
-        List<LocationRequest> location = wantTourProductRequest.getLocation();
+        List<WantTourLocationRequest> location = wantTourProductRequest.getLocation();
 
-        for (LocationRequest locationRequest : location) {
+        for (WantTourLocationRequest locationRequest : location) {
             Location locationEntity = locationRequest.toLocation();
             Location savedLocation = locationRepository.save(locationEntity);
 

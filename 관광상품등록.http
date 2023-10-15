@@ -4,7 +4,7 @@ Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiJ4b2RuanM4M
 
 {
 
-  "title": "Tour images test",
+  "title": "해운대 돌아다니자",
   "content": "Tour Description test images",
   "price": 200000,
   "languages" : ["KOREAN"],
