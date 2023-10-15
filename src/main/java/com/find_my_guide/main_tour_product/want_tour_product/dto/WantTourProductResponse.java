@@ -1,5 +1,6 @@
 package com.find_my_guide.main_tour_product.want_tour_product.dto;
 
+import com.find_my_guide.main_member.member.domain.dto.MemberInfoResponse;
 import com.find_my_guide.main_tour_product.theme.domain.Theme;
 import com.find_my_guide.main_tour_product.want_tour_product.domain.Vehicle;
 import com.find_my_guide.main_tour_product.want_tour_product.domain.WantTourProduct;
@@ -41,6 +42,8 @@ public class WantTourProductResponse {
 
     private Boolean isReserved;
 
+    private MemberInfoResponse memberInfoResponse;
+
 
     public WantTourProductResponse(WantTourProduct wantTourProduct) {
         this.id = (wantTourProduct.getWantTourProductId() != null) ? wantTourProduct.getWantTourProductId() : 0L;
@@ -66,6 +69,8 @@ public class WantTourProductResponse {
         }
 
         this.isReserved = wantTourProduct.getReserved();
+
+        this.memberInfoResponse = new MemberInfoResponse(wantTourProduct.getMember());
 
     }
 }

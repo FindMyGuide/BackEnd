@@ -1,0 +1,28 @@
+## AWS
+#  cloud.aws.region.static=us-east-1
+#  cloud.aws.region.auto=false
+#  cloud.aws.stack.auto=false
+#  cloud.aws.s3.bucket=findmyguide
+#  cloud.aws.credentials.access-key=AKIAUCKK3H2UUOZJGTFO
+#  cloud.aws.credentials.secret-key=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
+#  logging.level.com.amazonaws.util.EC2MetadataUtils=error
+
+cloud:
+  aws:
+    region:
+      static: ap-northeast-2
+      auto: false
+    stack:
+      auto: false
+    s3:
+      bucket: findmyguide
+    credentials:
+      access-key: AKIAUCKK3H2UUOZJGTFO
+      secret-key: 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
+
+logging:
+  level:
+    com:
+      amazonaws:
+        util:
+          EC2MetadataUtils: error
