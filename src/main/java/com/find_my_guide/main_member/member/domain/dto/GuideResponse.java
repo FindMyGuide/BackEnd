@@ -39,6 +39,6 @@ public class GuideResponse {
         this.languages = (member.getLanguages() != null) ? member.getLanguages() : new ArrayList<>();
         this.guideIntro = (member.getGuideIntro() != null) ? member.getGuideIntro() : "";
         this.profilePicture = (member.getProfilePicture() != null) ? member.getProfilePicture() : "";
-        this.guideCertification = member.getGuideCertification();
+        this.guideCertification = (member.getGuideCertification() != null) ? member.getGuideCertification() : "";
     }
 }
