@@ -180,7 +180,10 @@ public class TourHistoryManagerService {
         List<TourHistoryManager> histories = tourHistoryManagerRepository.findByTourist(tourist);
 
         return histories.stream()
-                .filter(history -> history.getIsCompleted() == false && history.getTourEndDate().isAfter(LocalDate.now()))
+                .filter(history -> history != null &&
+                        Boolean.FALSE.equals(history.getIsCompleted()) &&
+                        history.getTourEndDate() != null &&
+                        history.getTourEndDate().isAfter(LocalDate.now()))
                 .map(history -> {
                     List<LocalDate> reservedDates = generateDatesBetween(history.getTourStartDate(), history.getTourEndDate());
                     TourProductResponse tourProductResponse = new TourProductResponse(history.getTourProduct());
@@ -190,6 +193,7 @@ public class TourHistoryManagerService {
                 })
                 .collect(Collectors.toList());
     }
+
 
     private List<LocalDate> generateDatesBetween(LocalDate start, LocalDate end) {
         List<LocalDate> dates = new ArrayList<>();

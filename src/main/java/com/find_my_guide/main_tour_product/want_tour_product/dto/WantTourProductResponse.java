@@ -33,7 +33,7 @@ public class WantTourProductResponse {
 
     private Integer totalPeople;
 
-    private Vehicle vehicle;
+    private String vehicle;
 
     private List<String> themes = new ArrayList<>();
     private List<WantTourProductLocationResponse> locationResponses ;
@@ -52,7 +52,7 @@ public class WantTourProductResponse {
         this.title = (wantTourProduct.getTitle() != null && wantTourProduct.getTitle().getTitle() != null) ? wantTourProduct.getTitle().getTitle() : "";
         this.totalPeople = (wantTourProduct.getTotalPeople() != null) ? wantTourProduct.getTotalPeople() : 0;
         this.content = (wantTourProduct.getContent() != null && wantTourProduct.getContent().getContent() != null) ? wantTourProduct.getContent().getContent() : "";
-        this.vehicle = (wantTourProduct.getVehicle() != null) ? wantTourProduct.getVehicle() : null;
+        this.vehicle = (wantTourProduct.getVehicle() != null) ? wantTourProduct.getVehicle().getKorean() : null;
         this.locationResponses = (wantTourProduct.getWantTourProductLocations() != null) ? wantTourProduct.getWantTourProductLocations().stream()
                 .map(WantTourProductLocationResponse::new)
                 .collect(Collectors.toList()) : Collections.emptyList();

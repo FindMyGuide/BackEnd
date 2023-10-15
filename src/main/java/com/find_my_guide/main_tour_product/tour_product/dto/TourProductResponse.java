@@ -1,6 +1,8 @@
 package com.find_my_guide.main_tour_product.tour_product.dto;
 
 import com.find_my_guide.main_tour_product.available_reservation_date.dto.AvailableDateResponse;
+import com.find_my_guide.main_tour_product.common.validation_field.Content;
+import com.find_my_guide.main_tour_product.common.validation_field.Title;
 import com.find_my_guide.main_tour_product.tour_product.domain.Images;
 import com.find_my_guide.main_tour_product.tour_product.domain.Languages;
 import com.find_my_guide.main_tour_product.tour_product.domain.TourProduct;
@@ -12,7 +14,9 @@ import reactor.util.annotation.Nullable;
 import java.math.BigDecimal;
 import java.time.LocalDate;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
+import java.util.Optional;
 import java.util.stream.Collectors;
 
 @Data
@@ -47,88 +51,47 @@ public class TourProductResponse {
 
     private String bestImage;
 
-    public TourProductResponse(TourProduct tourProduct, List<LocalDate> reservedDates) {
-        this.id = tourProduct.getTourProductId();
-        this.title = tourProduct.getTitle().getTitle();
-        this.content = tourProduct.getContent().getContent();
-        this.reservedDates = reservedDates;
-        this.locations = tourProduct.getTourProductLocations().
-                stream().map(TourProductLocationResponse::new)
-                .collect(Collectors.toList());
-
-        if (tourProduct.getHowManyDay() != null) {
-            if (tourProduct.getHowManyDay().getNight() != null) {
-                this.howManyDay.add(tourProduct.getHowManyDay().getNight());
-            }
-            if (tourProduct.getHowManyDay().getDay() != null) {
-                this.howManyDay.add(tourProduct.getHowManyDay().getDay());
-            }
-        }
-
-        this.languages = tourProduct.getLanguages();
-
-        this.price = BigDecimal.valueOf(tourProduct.getPrice().getPrice().longValue());
-
-        if (tourProduct.getAvailableDates() != null) {
-            this.availableDates = tourProduct.getAvailableDates().stream()
-                    .map(AvailableDateResponse::new)
-                    .collect(Collectors.toList());
-        }
-        if (tourProduct.getTourProductThemes() != null) {
-            this.themeResponses = tourProduct.getTourProductThemes().stream()
-                    .map(TourProductThemeResponse::new)
-                    .collect(Collectors.toList());
-        }
-        if (tourProduct.getImages() != null && !tourProduct.getImages().isEmpty()) {
-            this.imageUrls = tourProduct.getImages().stream()
-                    .map(Images::getImageUrl)
-                    .collect(Collectors.toList());
-            this.bestImage = tourProduct.getImages().get(0).getImageUrl();
-        }
-    }
-
-
     public TourProductResponse(TourProduct tourProduct) {
         if (tourProduct == null) {
             return;
         }
+
         this.id = tourProduct.getTourProductId();
-        this.title = tourProduct.getTitle().getTitle();
-        this.content = tourProduct.getContent().getContent();
-
-
-        this.locations = tourProduct.getTourProductLocations().
-                stream().map(TourProductLocationResponse::new)
+        this.title = Optional.ofNullable(tourProduct.getTitle()).map(Title::getTitle).orElse(null);
+        this.content = Optional.ofNullable(tourProduct.getContent()).map(Content::getContent).orElse(null);
+        this.locations = Optional.ofNullable(tourProduct.getTourProductLocations())
+                .orElse(Collections.emptyList())
+                .stream()
+                .map(TourProductLocationResponse::new)
                 .collect(Collectors.toList());
 
-        if (tourProduct.getHowManyDay() != null) {
-            if (tourProduct.getHowManyDay().getNight() != null) {
-                this.howManyDay.add(tourProduct.getHowManyDay().getNight());
-            }
-            if (tourProduct.getHowManyDay().getDay() != null) {
-                this.howManyDay.add(tourProduct.getHowManyDay().getDay());
-            }
-        }
+        Optional.ofNullable(tourProduct.getHowManyDay()).ifPresent(h -> {
+            this.howManyDay.add(h.getNight());
+            this.howManyDay.add(h.getDay());
+        });
 
-        this.languages = tourProduct.getLanguages();
+        this.languages = Optional.ofNullable(tourProduct.getLanguages()).orElse(Collections.emptyList());
+        this.price = Optional.ofNullable(tourProduct.getPrice()).map(p -> BigDecimal.valueOf(p.getPrice().longValue())).orElse(BigDecimal.ZERO);
+        this.availableDates = Optional.ofNullable(tourProduct.getAvailableDates())
+                .orElse(Collections.emptyList())
+                .stream()
+                .map(AvailableDateResponse::new)
+                .collect(Collectors.toList());
 
-        this.price = BigDecimal.valueOf(tourProduct.getPrice().getPrice().longValue());
+        this.themeResponses = Optional.ofNullable(tourProduct.getTourProductThemes())
+                .orElse(Collections.emptyList())
+                .stream()
+                .map(TourProductThemeResponse::new)
+                .collect(Collectors.toList());
 
-        if (tourProduct.getAvailableDates() != null) {
-            this.availableDates = tourProduct.getAvailableDates().stream()
-                    .map(AvailableDateResponse::new)
-                    .collect(Collectors.toList());
-        }
-        if (tourProduct.getTourProductThemes() != null) {
-            this.themeResponses = tourProduct.getTourProductThemes().stream()
-                    .map(TourProductThemeResponse::new)
-                    .collect(Collectors.toList());
-        }
-        if (tourProduct.getImages() != null && !tourProduct.getImages().isEmpty()) {
-            this.imageUrls = tourProduct.getImages().stream()
-                    .map(Images::getImageUrl)
-                    .collect(Collectors.toList());
-            this.bestImage = tourProduct.getImages().get(0).getImageUrl();
+        List<String> images = Optional.ofNullable(tourProduct.getImages()).orElse(Collections.emptyList())
+                .stream()
+                .map(Images::getImageUrl)
+                .collect(Collectors.toList());
+
+        if (!images.isEmpty()) {
+            this.imageUrls = images;
+            this.bestImage = images.get(0);
         }
     }
 }

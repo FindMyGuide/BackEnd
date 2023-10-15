@@ -21,6 +21,7 @@ public class TourHistoryManagerGuideRequest {
     public TourHistoryManager toTourHistoryManager(Member guide, TourProduct tourProduct) {
         return TourHistoryManager.builder()
                 .tourProduct(tourProduct)
+                .guide(guide)
                 .tourStartDate(tourStartDate)
                 .tourEndDate(tourEndDate)
                 .build();

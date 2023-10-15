@@ -6,7 +6,7 @@ Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiJ0bGZlbTMzM
   "title" : "원하는투어2323",
   "content": "원하는투어1111",
   "price" : 100000112,
-  "vehicle": "CAR",
+  "vehicle": "대중교통",
   "totalPeople": 2,
   "location": [
     {
@@ -23,16 +23,11 @@ Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiJ0bGZlbTMzM
 
 ###
 
-POST localhost:8080/location
-Content-Type: application/json
-
-{
-  "title": "해운대",
-  "mapX": 12.212,
-  "mapY": 213.123
-}
 
 ###
 GET localhost:8080/wantTourProduct/20
 Content-Type: application/json
 
+###
+DELETE localhost:9000/api/want-tourProduct/delete/595
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiJ0bGZlbTMzMTVAbmF2ZXIuY29tIiwiZXhwIjoyNTg2Mzk5NTA5LCJpc3MiOiJmaW5kbXlndWlkZS5jb20ifQ.aLpzIQ-3E5JvXYf1G6AcwXe_ndHqVW9PosQKYsfNz_o

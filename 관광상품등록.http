@@ -51,7 +51,7 @@ POST http://localhost:9000/api/postTheme
 Content-Type: application/json
 
 {
-  "themeTitle": "맛집여행"
+  "themeTitle": "기타"
 }
 
 ###

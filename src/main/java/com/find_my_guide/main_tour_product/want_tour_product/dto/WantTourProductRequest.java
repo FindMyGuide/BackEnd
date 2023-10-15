@@ -38,7 +38,7 @@ public class WantTourProductRequest {
 
     private int totalPeople;
 
-    private Vehicle vehicle;
+    private String vehicle;
 
     private List<WantTourLocationRequest> location = new ArrayList<>();
 
@@ -55,7 +55,7 @@ public class WantTourProductRequest {
                 .totalPeople(this.totalPeople)
                 .price(new Price(this.price))
                 .reserved(false)
-                .vehicle(vehicle)
+                .vehicle(Vehicle.fromString(this.vehicle))
                 .build();
     }
 }
