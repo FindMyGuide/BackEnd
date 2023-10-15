@@ -1,21 +1,21 @@
 POST http://localhost:9000/api/tourProduct/register
 Content-Type: application/json
-Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiJ4b2RuanM4Mjg3QG5hdmVyLmNvbSIsImV4cCI6MjU4NjMwNTE5MCwiaXNzIjoiZmluZG15Z3VpZGUuY29tIn0.KaisOmDfq4yHVts0QqOG3bDmHv3BoezFONGIsQZ4pTc
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiJ0bGZlbTMzMTVAbmF2ZXIuY29tIiwiZXhwIjoyNTg2MzkyNzk0LCJpc3MiOiJmaW5kbXlndWlkZS5jb20ifQ.Q-5RYWDpiDImCvKtJ7etS6zzxCGArs9Smn3XtXMjtIo
 
 {
 
-  "title": "해운대 돌아다니자",
-  "content": "Tour Description test images",
+  "title": "바쿠쌉꿀빠",
+  "content": "잠이 깔끼하게 오는 투어",
   "price": 200000,
   "languages" : ["영어","포르투갈어"],
   "howManyDay": ["2","3"],
   "location": [
     {
-      "title": "해운대 암소갈비",
+      "title": "우리집",
       "coordinates": [12.2131, 14.3213]
     },
     {
-      "title": "맛있는 음식점2",
+      "title": "우리집2",
       "coordinates": [12.5, 12.123]
     }
   ],
