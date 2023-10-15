@@ -17,6 +17,7 @@ import com.find_my_guide.main_tour_product.want_reservation_date.domain.WantRese
 import com.find_my_guide.main_tour_product.want_tour_product.domain.WantTourProduct;
 import com.find_my_guide.main_tour_product.want_tour_product.repository.WantTourProductRepository;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -28,6 +29,7 @@ import java.util.stream.Collectors;
 @Service
 @Transactional(readOnly = true)
 @RequiredArgsConstructor
+@Slf4j
 public class TourHistoryManagerService {
 
     private final TourProductRepository tourProductRepository;
@@ -164,7 +166,8 @@ public class TourHistoryManagerService {
         Member tourist = findMemberByEmail(touristEmail);
         List<TourHistoryManager> histories = tourHistoryManagerRepository.findByTourist(tourist);
 
-        histories.forEach(TourHistoryManager::updateCompletionStatus);
+        log.info("{}",histories.get(0).getIsCompleted());
+        log.info("{}",histories.get(0).getTourEndDate());
 
         return histories.stream()
                 .filter(TourHistoryManager::getIsCompleted)
@@ -176,10 +179,8 @@ public class TourHistoryManagerService {
         Member tourist = findMemberByEmail(touristEmail);
         List<TourHistoryManager> histories = tourHistoryManagerRepository.findByTourist(tourist);
 
-        histories.forEach(TourHistoryManager::updateCompletionStatus);
-
         return histories.stream()
-                .filter(history -> !history.getIsCompleted())
+                .filter(history -> history.getIsCompleted() == false && history.getTourEndDate().isAfter(LocalDate.now()))
                 .map(history -> {
                     List<LocalDate> reservedDates = generateDatesBetween(history.getTourStartDate(), history.getTourEndDate());
                     TourProductResponse tourProductResponse = new TourProductResponse(history.getTourProduct());

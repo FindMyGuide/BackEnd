@@ -10,7 +10,7 @@ Content-Type: application/json
 
 
 ###
-GET localhost:9000/api/tour-product-review/all/6
+GET localhost:9000/api/tour-product-review/all
 Content-Type: application/json
 
 ###

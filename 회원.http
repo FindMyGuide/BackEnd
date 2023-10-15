@@ -96,6 +96,18 @@ Content-Type: application/json
 }
 
 ###
+//회원 로그인
+POST http://localhost:9000/api/find-my-guide/member/sign-in
+Content-Type: application/json
+
+{
+  "email" : "tlfem3315@naver.com",
+  "password": "qpal123!"
+
+}
+
+
+###
 POST http://localhost:9000/api/find-my-guide/member/find-email
 Content-Type: application/json
 

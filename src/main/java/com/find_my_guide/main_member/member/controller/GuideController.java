@@ -5,7 +5,11 @@ import com.find_my_guide.main_member.member.domain.dto.GuideCertificationRegiste
 import com.find_my_guide.main_member.member.domain.dto.GuideResponse;
 import com.find_my_guide.main_member.member.domain.entity.Gender;
 import com.find_my_guide.main_member.member.service.MemberService;
+import com.find_my_guide.main_tour_product.tour_history_manager.service.TourHistoryManagerService;
 import com.find_my_guide.main_tour_product.tour_product.domain.Languages;
+import com.find_my_guide.main_tour_product.tour_product_review.domain.TourProductReview;
+import com.find_my_guide.main_tour_product.tour_product_review.dto.TourProductReviewResponse;
+import com.find_my_guide.main_tour_product.tour_product_review.service.TourProductReviewService;
 import io.swagger.annotations.Api;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -26,6 +30,8 @@ public class GuideController {
 
     private final MemberService memberService;
 
+    private final TourProductReviewService tourProductReviewService;
+
     @PostMapping("/register-guide-certification")
     public ResponseEntity<GuideResponse> registerGuideCertification(
             final Authentication authentication,
@@ -35,6 +41,14 @@ public class GuideController {
         return ResponseEntity.ok(memberService.registerGuideCertification((String) authentication.getPrincipal(), registerRequest));
 
     }
+
+    @GetMapping("/reviews/{guideId}")
+    public ResponseEntity<List<TourProductReviewResponse>> findAllReviewsByGuideId(
+            @PathVariable Long guideId
+    ){
+        return ResponseEntity.ok(tourProductReviewService.findAllByGuideId(guideId));
+    }
+
 
     @GetMapping("/popular-guide")
     public ResponseEntity<List<GuideResponse>> getTop10PopularGuides() {

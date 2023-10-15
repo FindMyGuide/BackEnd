@@ -52,6 +52,13 @@ public class TourProductReviewService {
         return new TourProductReviewResponse(tourProductReviewRepository.save(tourProductReview));
     }
 
+    public List<TourProductReviewResponse> findAllByGuideId(Long guideId){
+        return tourProductReviewRepository.findAllByGuideId(guideId)
+                .stream()
+                .map(TourProductReviewResponse::new)
+                .collect(Collectors.toList());
+    }
+
 
     @Transactional
     public TourProductReviewResponse update(Long postId, Long reviewId, TourProductReviewRequest tourProductReviewRequest) {
