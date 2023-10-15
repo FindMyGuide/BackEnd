@@ -196,17 +196,12 @@ public class TourProductService {
     public SearchResponse search(String keyword) {
         List<TourProduct> tourProducts = tourProductRepository.findByTitleContaining("%" + keyword + "%");
 
-        List<Location> locations = locationRepository.findByTitleContaining("%" + keyword + "%");
-
         List<TourProductSearchResponse> tourProductSearchResponses = tourProducts.stream()
                 .map(TourProductSearchResponse::new)
                 .collect(Collectors.toList());
 
-        List<LocationResponse> locationResponses = locations.stream()
-                .map(LocationResponse::new)
-                .collect(Collectors.toList());
 
-        return new SearchResponse(tourProductSearchResponses, locationResponses);
+        return new SearchResponse(tourProductSearchResponses);
     }
 
 

@@ -9,11 +9,9 @@ import java.util.List;
 public class SearchResponse {
 
     private List<TourProductSearchResponse> tourProductResponses;
-    private List<LocationResponse> locationResponses;
 
-    public SearchResponse(List<TourProductSearchResponse> tourProducts, List<LocationResponse> locations) {
+    public SearchResponse(List<TourProductSearchResponse> tourProducts) {
         this.tourProductResponses = tourProducts;
-        this.locationResponses = locations;
     }
 
 }

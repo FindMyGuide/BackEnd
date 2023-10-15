@@ -46,6 +46,7 @@ public class WantTourProduct extends BaseEntity {
     private Content content;
 
     @Enumerated(EnumType.STRING)
+    @Convert(converter = VehicleConverter.class)
     private Vehicle vehicle;
 
     private Integer totalPeople;
@@ -81,7 +82,7 @@ public class WantTourProduct extends BaseEntity {
         this.wantTourProductThemes = new ArrayList<>();
     }
 
-    public void setReserved(){
+    public void setReserved() {
         this.reserved = true;
     }
 
