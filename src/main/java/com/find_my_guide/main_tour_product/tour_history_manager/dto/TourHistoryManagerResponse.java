@@ -1,6 +1,7 @@
 package com.find_my_guide.main_tour_product.tour_history_manager.dto;
 
 import com.find_my_guide.main_tour_product.tour_history_manager.domain.TourHistoryManager;
+import com.find_my_guide.main_tour_product.tour_product.domain.Images;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -8,6 +9,8 @@ import lombok.Setter;
 import reactor.util.annotation.Nullable;
 
 import java.time.format.DateTimeFormatter;
+import java.util.*;
+import java.util.stream.Collectors;
 
 @NoArgsConstructor
 @AllArgsConstructor
@@ -19,6 +22,7 @@ public class TourHistoryManagerResponse {
     private Long touristId;  // 여행객의 ID
     private Long tourProductId;
 
+    private List<String> images = new ArrayList<>();
     @Nullable
     private String tourStartDate;
 
@@ -26,6 +30,10 @@ public class TourHistoryManagerResponse {
     private String tourEndDate;
     @Nullable
     private boolean isCompleted;
+
+    private String tourTitle;
+
+    private String touristEmail;
 
     public TourHistoryManagerResponse(TourHistoryManager tourHistoryManager) {
         if (tourHistoryManager == null) {
@@ -35,6 +43,21 @@ public class TourHistoryManagerResponse {
             this.tourHistoryManagerId = tourHistoryManager.getId();
         }
 
+        if (tourHistoryManager.getTourProduct() != null){
+            this.tourTitle = tourHistoryManager.getTourProduct().getTitle().getTitle();
+        }
+
+        if (tourHistoryManager.getTourist() != null){
+            this.touristEmail = tourHistoryManager.getTourist().getEmail();
+        }
+
+
+        if (tourHistoryManager.getTourProduct()!= null ){
+            this.images = Optional.ofNullable(tourHistoryManager.getTourProduct().getImages()).orElse(Collections.emptyList())
+                    .stream()
+                    .map(Images::getImageUrl)
+                    .collect(Collectors.toList());
+        }
         if (tourHistoryManager.getGuide() != null) {
             this.guideId = tourHistoryManager.getGuide().getIdx();
         }
