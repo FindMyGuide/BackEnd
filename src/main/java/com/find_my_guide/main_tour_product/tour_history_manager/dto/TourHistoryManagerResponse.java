@@ -14,6 +14,7 @@ import java.time.format.DateTimeFormatter;
 @Setter
 @Getter
 public class TourHistoryManagerResponse {
+    private Long tourHistoryManagerId;
     private Long guideId;
     private Long touristId;  // 여행객의 ID
     private Long tourProductId;
@@ -29,6 +30,9 @@ public class TourHistoryManagerResponse {
     public TourHistoryManagerResponse(TourHistoryManager tourHistoryManager) {
         if (tourHistoryManager == null) {
             throw new IllegalArgumentException("TourHistoryManager must not be null");
+        }
+        if (tourHistoryManager.getId() != null) {
+            this.tourHistoryManagerId = tourHistoryManager.getId();
         }
 
         if (tourHistoryManager.getGuide() != null) {
