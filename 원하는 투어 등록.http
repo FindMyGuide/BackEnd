@@ -23,7 +23,13 @@ Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiJ0bGZlbTMzM
 
 ###
 
+POST localhost:9000/api/want-tourProduct/update/673
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiJ0bGZlbTMzMTVAbmF2ZXIuY29tIiwiZXhwIjoyNTg2NDU0OTgzLCJpc3MiOiJmaW5kbXlndWlkZS5jb20ifQ.hCueEsoWgCPswS9KCio4NLzJbzrjF9MSixkUXkCFxxg
+Content-Type: application/json
 
+{
+  "price": 500
+}
 ###
 GET localhost:8080/wantTourProduct/20
 Content-Type: application/json
@@ -31,3 +37,5 @@ Content-Type: application/json
 ###
 DELETE localhost:9000/api/want-tourProduct/delete/595
 Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiJ0bGZlbTMzMTVAbmF2ZXIuY29tIiwiZXhwIjoyNTg2Mzk5NTA5LCJpc3MiOiJmaW5kbXlndWlkZS5jb20ifQ.aLpzIQ-3E5JvXYf1G6AcwXe_ndHqVW9PosQKYsfNz_o
+
+###

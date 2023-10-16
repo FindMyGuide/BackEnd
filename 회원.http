@@ -2,6 +2,7 @@
 POST http://find-my-guide.site:9000/api/find-my-guide/member/initiate-sign-up
 Content-Type: application/json
 
+
 {
   "name" : "신대혁",
   "email" : "123qwe@naver.com",
@@ -22,6 +23,7 @@ Content-Type: application/json
 
 POST https://find-my-guide.site/api/find-my-guide/member/check-nickname
 Content-Type: application/json
+
 
 {
   "nickName": "qweqwe"
@@ -45,6 +47,7 @@ Content-Type: application/json
 
 POST http://localhost:9000/api/find-my-guide/member/complete-sign-up
 Content-Type: application/json
+
 
 {
   "email": "tlfem3315@naver.com",
@@ -73,6 +76,7 @@ Content-Type: application/json
 POST http://localhost:9000/api/find-my-guide/member/reset-password
 Content-Type: application/json
 
+
 {
   "code": "CNbzTxLi",
   "newPassword": "qpal123!"
@@ -89,8 +93,9 @@ Content-Type: application/json
 POST https://find-my-guide.site/api/find-my-guide/member/sign-in
 Content-Type: application/json
 
+
 {
-  "email" : "tlfem3315@naver.com",
+  "email" : "xodnjs8287@naver.com",
   "password": "qpal123!"
 
 }
@@ -99,6 +104,7 @@ Content-Type: application/json
 //회원 로그인
 POST http://localhost:9000/api/find-my-guide/member/sign-in
 Content-Type: application/json
+
 
 {
   "email" : "tlfem3315@naver.com",
@@ -111,6 +117,8 @@ Content-Type: application/json
 POST http://localhost:9000/api/find-my-guide/member/find-email
 Content-Type: application/json
 
+
+
 {
   "name" : "신머혁",
   "phoneNumber" : "010-4092-5645"
@@ -120,6 +128,7 @@ Content-Type: application/json
 POST http://localhost:9000/api/find-my-guide/guide/register-guide-certification
 Content-Type: application/json
 Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiJ4b2RuanM4Mjg3QG5hdmVyLmNvbSIsImV4cCI6MjU4NjI4ODY1MSwiaXNzIjoiZmluZG15Z3VpZGUuY29tIn0.MdMf3_iTYx617MNuQMt2ugLx8vUAZeGgg6bm6fAihUA
+
 
 {
   "guideCertification": "Guide1",
@@ -151,21 +160,20 @@ GET localhost:9000/api/find-my-guide/member/guides
 Content-Type: application/json
 
 
-
-
 //회원수정
 //비밀번호, 닉네임, 휴대폰번호, 자격증여부 필드만 변경가능
 //변경할 필드만 입력하면 됨
 
 ###
-PATCH localhost:9000/api/find-my-guide/member/update
-Authorization:Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiJ4b2RuanM4Mjg3QG5hdmVyLmNvbSIsImV4cCI6MjU4NjEzMDU3OCwiaXNzIjoiZmluZG15Z3VpZGUuY29tIn0.0GBD0bFbJKubvNyg_SIIxsT_fcTRPFOy9tDhG_dYaDY
+POST localhost:9000/api/find-my-guide/member/update
+Authorization:Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiJ4b2RuanM4Mjg3QG5hdmVyLmNvbSIsImV4cCI6MjU4NjQ2NzI1NCwiaXNzIjoiZmluZG15Z3VpZGUuY29tIn0.F01JoAQIuL8MdwmcGwVzTAtIiL5mB5KIBcvC0kze5tc
 Content-Type: application/json
 
+
 {
-  "nickname" : "지금수정함",
-  "phoneNumber" : "010-4321-1234"
+  "nationalCertificationOfGuideYn" : "N"
 }
+
 
 ###
 //회원삭제

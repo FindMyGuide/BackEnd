@@ -23,6 +23,7 @@ import com.find_my_guide.main_tour_product.want_reservation_date.domain.WantRese
 import com.find_my_guide.main_tour_product.want_reservation_date.dto.WantReservationDateRequest;
 import com.find_my_guide.main_tour_product.want_reservation_date.repository.WantReservationDateRepository;
 import com.find_my_guide.main_tour_product.want_reservation_date.service.WantReservationDateService;
+import com.find_my_guide.main_tour_product.want_tour_product.domain.Vehicle;
 import com.find_my_guide.main_tour_product.want_tour_product.domain.WantTourProduct;
 import com.find_my_guide.main_tour_product.want_tour_product.dto.UpdateWantTourProductRequest;
 import com.find_my_guide.main_tour_product.want_tour_product.dto.WantTourProductRequest;
@@ -154,61 +155,70 @@ public class WantTourProductService {
         WantTourProduct wantTourProduct = wantTourProductRepository.findById(wantTourProductId)
                 .orElseThrow(() -> new IllegalArgumentException("해당 ID를 가진 상품이 없습니다."));
 
+        Gender gender = null;
+        if (request.getGender() != null && !request.getGender().isEmpty()) {
+            gender = Gender.valueOf(request.getGender());
+        }
+
+        Vehicle vehicle = null;
+        if (request.getVehicle() != null && !request.getVehicle().isEmpty()) {
+            vehicle = Vehicle.valueOf(request.getVehicle());
+        }
         wantTourProduct.update(
                 request.getTitle(),
                 request.getContent(),
                 request.getPrice(),
-                Gender.valueOf(request.getGender()),
+                gender,
                 request.getTotalPeople(),
-                request.getVehicle()
+                vehicle
         );
 
         // 위치 업데이트 로직
         List<WantTourProductLocation> existingLocations = wantTourProductLocationRepository.findByWantTourProduct_WantTourProductId(wantTourProductId);
         wantTourProductLocationRepository.deleteAll(existingLocations);
 
-        for (LocationRequest locationRequest : request.getLocation()) {
-            Location locationEntity = locationRequest.toLocation();
-            Location savedLocation = locationRepository.save(locationEntity);
+        if(request.getLocation() != null) {
+            for (LocationRequest locationRequest : request.getLocation()) {
+                Location locationEntity = locationRequest.toLocation();
+                Location savedLocation = locationRepository.save(locationEntity);
 
-            WantTourProductLocation build = WantTourProductLocation.builder()
-                    .wantTourProduct(wantTourProduct)
-                    .location(savedLocation)
-                    .build();
-            wantTourProductLocationRepository.save(build);
+                WantTourProductLocation build = WantTourProductLocation.builder()
+                        .wantTourProduct(wantTourProduct)
+                        .location(savedLocation)
+                        .build();
+                wantTourProductLocationRepository.save(build);
+            }
         }
 
-        // 테마 업데이트 로직
+// 테마 업데이트 로직
         List<WantTourProductTheme> existingThemes = wantTourProductThemeRepository.findByWantTourProduct(wantTourProduct);
         wantTourProductThemeRepository.deleteAll(existingThemes);
 
-        for (Long themeId : request.getThemeIds()) {
-            Theme theme = themeRepository.findById(themeId).orElseThrow(() -> new IllegalArgumentException("해당 ID를 가진 테마가 없습니다."));
-
-            WantTourProductTheme build = WantTourProductTheme.builder()
-                    .theme(theme)
-                    .wantTourProduct(wantTourProduct)
-                    .build();
-
-
-            wantTourProductThemeRepository.save(build);
+        if(request.getThemeIds() != null) {
+            for (Long themeId : request.getThemeIds()) {
+                Theme theme = themeRepository.findById(themeId).orElseThrow(() -> new IllegalArgumentException("해당 ID를 가진 테마가 없습니다."));
+                WantTourProductTheme build = WantTourProductTheme.builder()
+                        .theme(theme)
+                        .wantTourProduct(wantTourProduct)
+                        .build();
+                wantTourProductThemeRepository.save(build);
+            }
         }
 
-        // 예약일 업데이트 로직
+// 예약일 업데이트 로직
         WantReservationDate existingDate = wantReservationDateRepository.findByWantTourProductAndId(wantTourProduct, wantTourProductId);
         if (existingDate != null) {
             wantReservationDateRepository.delete(existingDate);
         }
 
-        for (LocalDate wantDate : request.getWantDates()) {
-
-            WantReservationDate build = WantReservationDate.builder()
-                    .wantTourProduct(wantTourProduct)
-                    .date(wantDate)
-                    .build();
-
-
-            wantReservationDateRepository.save(build);
+        if(request.getWantDates() != null) {
+            for (LocalDate wantDate : request.getWantDates()) {
+                WantReservationDate build = WantReservationDate.builder()
+                        .wantTourProduct(wantTourProduct)
+                        .date(wantDate)
+                        .build();
+                wantReservationDateRepository.save(build);
+            }
         }
 
         return new WantTourProductResponse(wantTourProduct);

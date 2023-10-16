@@ -44,7 +44,10 @@ Authorization:Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiJ4b2RuanM4Mj
 GET http://localhost:9000/api/my-page/reservation/upcoming-tours
 Content-Type: application/json
 Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiJ0bGZlbTMzMTVAbmF2ZXIuY29tIiwiZXhwIjoyNTg2MTkxMzU3LCJpc3MiOiJmaW5kbXlndWlkZS5jb20ifQ.FInIxLo5yc37cXbKQuRWkLkXOrKC54-_3OanrFbJQrc
-
+###
+GET localhost:9000/api/tourProduct/all-reserved-tour/by-guide
+Content-Type: application/json
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiJ0bGZlbTMzMTVAbmF2ZXIuY29tIiwiZXhwIjoyNTg2NDc4Nzc2LCJpc3MiOiJmaW5kbXlndWlkZS5jb20ifQ.I4oty67AawZhRQqHn0bF0QxjAEzulQLzivGuTYAuC-Q
 
 
 ###
