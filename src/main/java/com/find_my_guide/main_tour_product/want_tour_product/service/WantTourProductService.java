@@ -45,6 +45,7 @@ import org.springframework.transaction.annotation.Transactional;
 
 import java.time.LocalDate;
 import java.util.List;
+import java.util.Objects;
 import java.util.stream.Collectors;
 
 @Service
@@ -128,7 +129,7 @@ public class WantTourProductService {
     public void delete(String email, Long id) {
         WantTourProduct wantTourProduct = findWantTourProductById(id);
 
-        if (wantTourProduct.getMember().getEmail()!= email ){
+        if (!Objects.equals(wantTourProduct.getMember().getEmail(), email)){
             throw new IllegalArgumentException("당신이 만든 상품이 아닙니다.");
         }
 

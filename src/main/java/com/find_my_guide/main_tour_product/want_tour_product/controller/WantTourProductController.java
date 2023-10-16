@@ -1,6 +1,7 @@
 package com.find_my_guide.main_tour_product.want_tour_product.controller;
 
 import com.find_my_guide.main_tour_product.want_tour_product.dto.UpdateWantTourProductRequest;
+import com.find_my_guide.main_tour_product.want_tour_product.dto.WantTourProductIdRequest;
 import com.find_my_guide.main_tour_product.want_tour_product.dto.WantTourProductRequest;
 import com.find_my_guide.main_tour_product.want_tour_product.dto.WantTourProductResponse;
 import com.find_my_guide.main_tour_product.want_tour_product.service.WantTourProductService;
@@ -40,12 +41,12 @@ public class WantTourProductController {
     }
 
 
-    @DeleteMapping("/want-tourProduct/delete/{wantTourProductId}")
-    public ResponseEntity<String> deleteWantTourProduct(@PathVariable Long wantTourProductId,
+    @DeleteMapping("/want-tourProduct/delete")
+    public ResponseEntity<String> deleteWantTourProduct(@RequestBody WantTourProductIdRequest wantTourProductIdRequest,
                                                         final Authentication authentication) {
         try {
 
-            wantTourProductService.delete((String) authentication.getPrincipal(), wantTourProductId);
+            wantTourProductService.delete((String) authentication.getPrincipal(), wantTourProductIdRequest.getWantTourProductId());
             return ResponseEntity.ok("성공적으로 삭제 됐습니다.");
         } catch (IllegalArgumentException e) {
             return ResponseEntity.badRequest().body(e.getMessage());
