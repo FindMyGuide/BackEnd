@@ -42,10 +42,7 @@ POST http://localhost:9000/api/tourProduct/reserve-tour/by-guide/512
 Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiJ0bGZlbTMzMTVAbmF2ZXIuY29tIiwiZXhwIjoyNTg2MzIzNzkzLCJpc3MiOiJmaW5kbXlndWlkZS5jb20ifQ.ctF2CnS1mNnlURJuOl2ss494D7PmOOxZWDraS98wwGQ
 Content-Type: application/json
 
-
-
 ###
-
 // 테마 등록
 POST http://localhost:9000/api/postTheme
 Content-Type: application/json

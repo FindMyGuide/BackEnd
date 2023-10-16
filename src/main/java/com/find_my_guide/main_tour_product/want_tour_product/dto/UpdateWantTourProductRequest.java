@@ -3,6 +3,7 @@ package com.find_my_guide.main_tour_product.want_tour_product.dto;
 import com.find_my_guide.main_tour_product.location.dto.LocationRequest;
 import com.find_my_guide.main_tour_product.want_tour_product.domain.Vehicle;
 import lombok.Data;
+import reactor.util.annotation.Nullable;
 
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Positive;
@@ -21,11 +22,12 @@ public class UpdateWantTourProductRequest {
     @Positive(message = "가격은 0보다 커야 합니다.")
     private Long price;
 
+    @Nullable
     private String gender;
 
     private int totalPeople;
 
-    private Vehicle vehicle;
+    private String vehicle;
 
     private List<LocationRequest> location = new ArrayList<>();
 

@@ -30,6 +30,8 @@ public class WantTourProductResponse {
     private String content;
     private BigDecimal price;
 
+    private String gender;
+
     private Integer totalPeople;
 
     private String vehicle;
@@ -47,6 +49,7 @@ public class WantTourProductResponse {
         this.createAt = (wantTourProduct.getCreatedAt() != null) ? wantTourProduct.getCreatedAt() : LocalDateTime.now();
         this.price = (wantTourProduct.getPrice() != null && wantTourProduct.getPrice().getPrice() != null) ? wantTourProduct.getPrice().getPrice() : BigDecimal.ZERO;
         this.title = (wantTourProduct.getTitle() != null && wantTourProduct.getTitle().getTitle() != null) ? wantTourProduct.getTitle().getTitle() : "";
+        this.gender = (wantTourProduct.getGender() != null) ? wantTourProduct.getGender().getEnGender() :null;
         this.totalPeople = (wantTourProduct.getTotalPeople() != null) ? wantTourProduct.getTotalPeople() : 0;
         this.content = (wantTourProduct.getContent() != null && wantTourProduct.getContent().getContent() != null) ? wantTourProduct.getContent().getContent() : "";
         this.vehicle = (wantTourProduct.getVehicle() != null) ? wantTourProduct.getVehicle().getKorean() : null;
