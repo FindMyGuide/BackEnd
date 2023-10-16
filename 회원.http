@@ -95,7 +95,7 @@ Content-Type: application/json
 
 
 {
-  "email" : "tlfem3315@naver.com",
+  "email" : "xodnjs8287@naver.com",
   "password": "qpal123!"
 
 }
@@ -165,14 +165,13 @@ Content-Type: application/json
 //변경할 필드만 입력하면 됨
 
 ###
-PATCH localhost:9000/api/find-my-guide/member/update
-Authorization:Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiJ4b2RuanM4Mjg3QG5hdmVyLmNvbSIsImV4cCI6MjU4NjEzMDU3OCwiaXNzIjoiZmluZG15Z3VpZGUuY29tIn0.0GBD0bFbJKubvNyg_SIIxsT_fcTRPFOy9tDhG_dYaDY
+POST localhost:9000/api/find-my-guide/member/update
+Authorization:Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiJ4b2RuanM4Mjg3QG5hdmVyLmNvbSIsImV4cCI6MjU4NjQ2NzI1NCwiaXNzIjoiZmluZG15Z3VpZGUuY29tIn0.F01JoAQIuL8MdwmcGwVzTAtIiL5mB5KIBcvC0kze5tc
 Content-Type: application/json
 
 
 {
-  "nickname" : "지금수정함",
-  "phoneNumber" : "010-4321-1234"
+  "nationalCertificationOfGuideYn" : "N"
 }
 
 

@@ -21,6 +21,8 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import javax.persistence.EntityManager;
+import javax.persistence.PersistenceContext;
 import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
@@ -31,6 +33,9 @@ import java.util.stream.Collectors;
 @RequiredArgsConstructor
 @Slf4j
 public class TourHistoryManagerService {
+    @PersistenceContext
+    private EntityManager entityManager;
+
 
     private final TourProductRepository tourProductRepository;
     private final TourHistoryManagerRepository tourHistoryManagerRepository;
@@ -105,6 +110,28 @@ public class TourHistoryManagerService {
         return new TourHistoryManagerResponse(tourHistoryManagerRepository.save(tourHistoryManager));
     }
 
+    @Transactional
+    public void cancelReservation(String guideEmail, Long tourHistoryManagerId) {
+
+        findMemberByEmail(guideEmail);
+
+        TourHistoryManager tourHistoryManager = tourHistoryManagerRepository.findById(tourHistoryManagerId)
+                .orElseThrow(() -> new IllegalArgumentException("존재하지 않는 예약내역"));
+
+        log.info("{}", tourHistoryManager.getTourEndDate());
+        tourHistoryManagerRepository.delete(tourHistoryManager);
+    }
+
+    public List<TourHistoryManagerResponse> findAllReservedTourProductByGuide(String email){
+
+        Member memberByEmail = findMemberByEmail(email);
+
+        return tourHistoryManagerRepository.findReservationsByGuideId(memberByEmail.getIdx())
+                .stream()
+                .map(TourHistoryManagerResponse::new)
+                .collect(Collectors.toList());
+    }
+
     private WantTourProduct getWantTourProduct(Long wantTourProductId) {
         WantTourProduct wantTourProduct = wantTourProductRepository.findById(wantTourProductId).orElseThrow(() ->
                 new NotFoundException("존재하지 않는 원해요 상품"));
@@ -166,8 +193,8 @@ public class TourHistoryManagerService {
         Member tourist = findMemberByEmail(touristEmail);
         List<TourHistoryManager> histories = tourHistoryManagerRepository.findByTourist(tourist);
 
-        log.info("{}",histories.get(0).getIsCompleted());
-        log.info("{}",histories.get(0).getTourEndDate());
+        log.info("{}", histories.get(0).getIsCompleted());
+        log.info("{}", histories.get(0).getTourEndDate());
 
         return histories.stream()
                 .filter(TourHistoryManager::getIsCompleted)

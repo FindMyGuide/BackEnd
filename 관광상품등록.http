@@ -4,7 +4,7 @@ Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiJ0bGZlbTMzM
 
 {
 
-  "title": "바쿠쌉꿀빠",
+  "title": "잠이 깔끼",
   "content": "잠이 깔끼하게 오는 투어",
   "price": 200000,
   "languages" : ["영어","포르투갈어"],
@@ -20,18 +20,18 @@ Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiJ0bGZlbTMzM
     }
   ],
   "themeIds": [1],
-  "availableDates": ["2022-12-01","2022-12-02","2022-12-03"]
+  "availableDates": ["2032-12-01","2032-12-02","2023-12-03"]
 }
 
 
 ###
 //관광상품 예약
-POST http://localhost:9000/api/tourProduct/reserve-tour/186
-Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiJ0bGZlbTMzMTVAbmF2ZXIuY29tIiwiZXhwIjoyNTg2MzA1MjI1LCJpc3MiOiJmaW5kbXlndWlkZS5jb20ifQ.7LaK08C2asEi0R7vxs7RTnprvO-H-qKCV7_22Xo81hg
+POST http://localhost:9000/api/tourProduct/reserve-tour/197
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiJ4b2RuanM4Mjg3QG5hdmVyLmNvbSIsImV4cCI6MjU4NjQ2NzI1NCwiaXNzIjoiZmluZG15Z3VpZGUuY29tIn0.F01JoAQIuL8MdwmcGwVzTAtIiL5mB5KIBcvC0kze5tc
 Content-Type: application/json
 
 {
-  "email": "tlfem3315@naver.com",
+  "email": "xodnjs8287@naver.com",
   "startDate": "2022-12-01",
   "endDate": "2022-12-03"
 }
@@ -40,6 +40,11 @@ Content-Type: application/json
 //관광상품 예약
 POST http://localhost:9000/api/tourProduct/reserve-tour/by-guide/512
 Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiJ0bGZlbTMzMTVAbmF2ZXIuY29tIiwiZXhwIjoyNTg2MzIzNzkzLCJpc3MiOiJmaW5kbXlndWlkZS5jb20ifQ.ctF2CnS1mNnlURJuOl2ss494D7PmOOxZWDraS98wwGQ
+Content-Type: application/json
+
+###
+//예약된 투어 삭제
+DELETE http://localhost:9000/api/tourProduct/delete-reserved-tour/689
 Content-Type: application/json
 
 ###
