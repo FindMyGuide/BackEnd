@@ -30,6 +30,11 @@ GET http://localhost:9000/api/tourProduct/top-10
 Content-Type: application/json
 
 ###
+// 가이드가 예약한 원해요 투어 조회
+GET http://localhost:9000/api/tourProduct/all-reserved-wantTour/by-guide
+Content-Type:application/json
+Authorization:  Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiJ0bGZlbTMzMTVAbmF2ZXIuY29tIiwiZXhwIjoyNTg2NDc4Nzc2LCJpc3MiOiJmaW5kbXlndWlkZS5jb20ifQ.I4oty67AawZhRQqHn0bF0QxjAEzulQLzivGuTYAuC-Q
+###
 //테마별 조회
 GET http://find-my-guide.site/api/tourProducts/search-theme?title=애견동반
 Content-Type: application/json

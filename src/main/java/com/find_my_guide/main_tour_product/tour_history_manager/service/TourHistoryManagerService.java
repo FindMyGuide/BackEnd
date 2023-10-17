@@ -8,6 +8,7 @@ import com.find_my_guide.main_tour_product.available_reservation_date.repository
 import com.find_my_guide.main_tour_product.tour_history_manager.domain.TourHistoryManager;
 import com.find_my_guide.main_tour_product.tour_history_manager.dto.TourHistoryManagerResponse;
 import com.find_my_guide.main_tour_product.tour_history_manager.dto.TourHistoryTouristRequest;
+import com.find_my_guide.main_tour_product.tour_history_manager.dto.WantTourHistoryManagerResponse;
 import com.find_my_guide.main_tour_product.tour_history_manager.repository.TourHistoryManagerRepository;
 import com.find_my_guide.main_tour_product.tour_product.domain.TourProduct;
 import com.find_my_guide.main_tour_product.tour_product.dto.TourProductResponse;
@@ -118,7 +119,6 @@ public class TourHistoryManagerService {
         TourHistoryManager tourHistoryManager = tourHistoryManagerRepository.findById(tourHistoryManagerId)
                 .orElseThrow(() -> new IllegalArgumentException("존재하지 않는 예약내역"));
 
-        log.info("{}", tourHistoryManager.getTourEndDate());
         tourHistoryManagerRepository.delete(tourHistoryManager);
     }
 
@@ -129,6 +129,15 @@ public class TourHistoryManagerService {
         return tourHistoryManagerRepository.findReservationsByGuideId(memberByEmail.getIdx())
                 .stream()
                 .map(TourHistoryManagerResponse::new)
+                .collect(Collectors.toList());
+    }
+
+    public List<WantTourHistoryManagerResponse> findAllReservedWantTourProductByGuide(String email){
+        Member memberByEmail = findMemberByEmail(email);
+
+        return tourHistoryManagerRepository.findWantTourReservationsByGuideId(memberByEmail.getIdx())
+                .stream()
+                .map(WantTourHistoryManagerResponse::new)
                 .collect(Collectors.toList());
     }
 

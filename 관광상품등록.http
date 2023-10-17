@@ -38,14 +38,15 @@ Content-Type: application/json
 
 ###
 //관광상품 예약
-POST http://localhost:9000/api/tourProduct/reserve-tour/by-guide/512
+POST http://localhost:9000/api/tourProduct/reserve-tour/by-guide/673
 Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiJ0bGZlbTMzMTVAbmF2ZXIuY29tIiwiZXhwIjoyNTg2MzIzNzkzLCJpc3MiOiJmaW5kbXlndWlkZS5jb20ifQ.ctF2CnS1mNnlURJuOl2ss494D7PmOOxZWDraS98wwGQ
 Content-Type: application/json
 
 ###
 //예약된 투어 삭제
-DELETE http://localhost:9000/api/tourProduct/delete-reserved-tour/689
+POST http://localhost:9000/api/tourProduct/delete-reserved-tour/57
 Content-Type: application/json
+Authorization:
 
 ###
 // 테마 등록

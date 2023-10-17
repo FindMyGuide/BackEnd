@@ -20,6 +20,10 @@ public interface TourHistoryManagerRepository extends JpaRepository<TourHistoryM
     @Query("SELECT thm FROM TourHistoryManager thm WHERE thm.guide.idx = :guideId AND thm.tourStartDate IS NOT NULL AND thm.tourEndDate IS NOT NULL AND thm.isCompleted = false")
     List<TourHistoryManager> findReservationsByGuideId(@Param("guideId") Long guideId);
 
+    @Query("SELECT thm FROM TourHistoryManager thm WHERE thm.guide.idx = :guideId AND thm.wantTourProduct IS NOT NULL AND thm.isCompleted = false")
+    List<TourHistoryManager> findWantTourReservationsByGuideId(@Param("guideId") Long guideId);
+
+
 
     List<TourHistoryManager> findByTourStartDateAndTourEndDateAndTourProduct_TourProductId(LocalDate startDate, LocalDate endDate, Long tourProductId);
 

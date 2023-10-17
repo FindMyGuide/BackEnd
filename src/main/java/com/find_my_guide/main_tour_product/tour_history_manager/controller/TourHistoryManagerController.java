@@ -3,6 +3,7 @@ package com.find_my_guide.main_tour_product.tour_history_manager.controller;
 import com.amazonaws.Response;
 import com.find_my_guide.main_tour_product.tour_history_manager.dto.TourHistoryManagerResponse;
 import com.find_my_guide.main_tour_product.tour_history_manager.dto.TourHistoryTouristRequest;
+import com.find_my_guide.main_tour_product.tour_history_manager.dto.WantTourHistoryManagerResponse;
 import com.find_my_guide.main_tour_product.tour_history_manager.service.TourHistoryManagerService;
 import com.find_my_guide.main_tour_product.tour_product.dto.TourProductResponse;
 import io.swagger.annotations.Api;
@@ -52,11 +53,19 @@ public class TourHistoryManagerController {
         return ResponseEntity.ok(tourHistoryManagerService.findAllReservedTourProductByGuide((String) authentication.getPrincipal()));
 
     }
+    @GetMapping("/all-reserved-wantTour/by-guide")
+    public ResponseEntity<List<WantTourHistoryManagerResponse>> allReservedWantTourProducts(
+            final Authentication authentication
+    ){
+        return ResponseEntity.ok(tourHistoryManagerService.findAllReservedWantTourProductByGuide((String)authentication.getPrincipal() ));
+    }
+
 
     @GetMapping("/top-10")
     public ResponseEntity<List<TourProductResponse>> top10() {
         return ResponseEntity.ok(tourHistoryManagerService.getTop10TourProductsByFrequency());
     }
+
 
     @PostMapping("/delete-reserved-tour/{tourHistoryManagerId}")
     public ResponseEntity<?> deleteReservedTour(
