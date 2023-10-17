@@ -42,7 +42,7 @@ public class WantTourHistoryManagerResponse {
             this.tourHistoryManagerId = tourHistoryManager.getId();
         }
 
-        if (tourHistoryManager.getTourProduct() != null){
+        if (tourHistoryManager.getWantTourProduct() != null){
             this.wantTourTitle = tourHistoryManager.getWantTourProduct().getTitle().getTitle();
         }
 
