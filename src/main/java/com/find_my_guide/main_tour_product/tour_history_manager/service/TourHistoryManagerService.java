@@ -202,8 +202,6 @@ public class TourHistoryManagerService {
         Member tourist = findMemberByEmail(touristEmail);
         List<TourHistoryManager> histories = tourHistoryManagerRepository.findByTourist(tourist);
 
-        log.info("{}", histories.get(0).getIsCompleted());
-        log.info("{}", histories.get(0).getTourEndDate());
 
         return histories.stream()
                 .filter(TourHistoryManager::getIsCompleted)

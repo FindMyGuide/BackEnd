@@ -28,6 +28,8 @@ public class Location {
     @Embedded
     private Title title;
 
+    private String date;
+
     @Embedded
     private Coordinates coordinates;
 
