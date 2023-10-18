@@ -286,10 +286,22 @@ public class MemberService {
     }
 
     public List<GuideResponse> getTop10PopularGuides() {
-        return customMemberRepository.findPopularGuidesWithTies()
+
+        List<GuideResponse> guideResponses = customMemberRepository.findPopularGuidesWithTies()
                 .stream()
                 .map(GuideResponse::new)
                 .collect(Collectors.toList());
+
+        for (GuideResponse guideResponse : guideResponses) {
+            Member guide = memberRepository.findById(guideResponse.getGuideId())
+                    .orElseThrow(() -> new NotFoundException("가이드를 찾을 수 없습니다."));
+            List<TourProductResponse> tourProductResponses = guide.getTourHistoriesAsGuide().stream()
+                    .map(TourHistoryManager::getTourProduct)
+                    .map(TourProductResponse::new)
+                    .collect(Collectors.toList());
+            guideResponse.setTourProductResponses(tourProductResponses);
+        }
+        return guideResponses;
     }
 
     public List<GuideResponse> findAllGuides() {
