@@ -156,9 +156,6 @@ public class WantTourProductService {
                 .orElseThrow(() -> new IllegalArgumentException("해당 ID를 가진 상품이 없습니다."));
 
         Gender gender = null;
-        if (request.getGender() != null && !request.getGender().isEmpty()) {
-            gender = Gender.valueOf(request.getGender());
-        }
 
         Vehicle vehicle = null;
         if (request.getVehicle() != null && !request.getVehicle().isEmpty()) {
@@ -177,17 +174,19 @@ public class WantTourProductService {
         List<WantTourProductLocation> existingLocations = wantTourProductLocationRepository.findByWantTourProduct_WantTourProductId(wantTourProductId);
         wantTourProductLocationRepository.deleteAll(existingLocations);
 
-        if(request.getLocation() != null) {
-            for (LocationRequest locationRequest : request.getLocation()) {
-                Location locationEntity = locationRequest.toLocation();
-                Location savedLocation = locationRepository.save(locationEntity);
 
-                WantTourProductLocation build = WantTourProductLocation.builder()
-                        .wantTourProduct(wantTourProduct)
-                        .location(savedLocation)
-                        .build();
-                wantTourProductLocationRepository.save(build);
-            }
+        List<WantTourLocationRequest> location = request.getLocation();
+
+        for (WantTourLocationRequest locationRequest : location) {
+            Location locationEntity = locationRequest.toLocation();
+            Location savedLocation = locationRepository.save(locationEntity);
+
+            WantTourProductLocation build = WantTourProductLocation.builder()
+                    .wantTourProduct(wantTourProduct)
+                    .location(savedLocation)
+                    .build();
+
+            wantTourProductLocationRepository.save(build);
         }
 
 // 테마 업데이트 로직

@@ -18,8 +18,10 @@ import com.find_my_guide.main_member.member.repository.CustomMemberRepository;
 import com.find_my_guide.main_member.member.repository.MemberRepository;
 import com.find_my_guide.main_member.temp_token.domain.PasswordResetToken;
 import com.find_my_guide.main_member.temp_token.repository.PasswordResetTokenRepository;
+import com.find_my_guide.main_tour_product.tour_history_manager.domain.TourHistoryManager;
 import com.find_my_guide.main_tour_product.tour_history_manager.service.TourHistoryManagerService;
 import com.find_my_guide.main_tour_product.tour_product.domain.Languages;
+import com.find_my_guide.main_tour_product.tour_product.dto.TourProductResponse;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Value;
@@ -292,18 +294,24 @@ public class MemberService {
 
     public List<GuideResponse> findAllGuides() {
         return memberRepository.findAllGuides()
-                .stream()
+                                  .stream()
                 .map(GuideResponse::new)
                 .collect(Collectors.toList());
     }
 
-    public GuideResponse guideDetail(Long guideId){
-        return memberRepository.findAllGuides()
-                .stream().filter(it -> it.getIdx()==guideId)
-                .map(GuideResponse::new)
-                .findAny().orElseThrow(() -> new NotFoundException("이 가이드는 존재 하지 않습니다."));
+    public GuideDetailResponse guideDetail(Long guideId) {
+        Member member = memberRepository.findById(guideId)
+                .orElseThrow(() -> new NotFoundException("이 가이드는 존재 하지 않습니다."));
 
+        List<TourProductResponse> tourProductResponses = member.getTourHistoriesAsGuide()
+                .stream()
+                .map(TourHistoryManager::getTourProduct)
+                .map(TourProductResponse::new)  // 각 TourProduct 객체를 TourProductResponse로 변환
+                .collect(Collectors.toList());
+
+        return new GuideDetailResponse(member,tourProductResponses);
     }
+
 
     public Boolean isDuplicatedNickName(String nickName) {
         return !memberRepository.findByNickname(nickName).isPresent();
