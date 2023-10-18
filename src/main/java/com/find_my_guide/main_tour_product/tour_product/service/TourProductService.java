@@ -76,7 +76,11 @@ public class TourProductService {
         tourProduct = tourProductRepository.save(tourProduct);
 
         List<Images> savedImagesList = new ArrayList<>();
+
         for (MultipartFile image : files) {
+            if (image.isEmpty()) {
+                continue;
+            }
             Images images = new Images(s3Service.uploadFile(image));
 
             images.setTourProduct(tourProduct);
