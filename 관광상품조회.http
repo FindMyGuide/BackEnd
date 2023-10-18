@@ -43,7 +43,7 @@ Content-Type: application/json
 //완료된 상품 조회
 GET http://localhost:9000/api/my-page/reservation/completed-tours
 Content-Type: application/json
-Authorization:Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiJ4b2RuanM4Mjg3QG5hdmVyLmNvbSIsImV4cCI6MjU4NjE0Mzk2OSwiaXNzIjoiZmluZG15Z3VpZGUuY29tIn0.bUOHDMYwX32NGJ4IWquW3E64yX1vcuDEo2FiboZ53gM
+Authorization:Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiJ0bGZlbTMzMTVAZ21haWwuY29tIiwiZXhwIjoyNTg2NjY1NDU0LCJpc3MiOiJmaW5kbXlndWlkZS5jb20ifQ.wNR1JVoq_5oNVI5zP7QM4exLaQS7EDv2BOKmSckIIYE
 ###
 //
 GET http://localhost:9000/api/my-page/reservation/upcoming-tours
