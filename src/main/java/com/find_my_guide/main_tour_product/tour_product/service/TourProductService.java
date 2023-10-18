@@ -196,10 +196,10 @@ public class TourProductService {
     public SearchResponse search(String keyword) {
         List<TourProduct> tourProducts = tourProductRepository.findByTitleContaining("%" + keyword + "%");
 
+
         List<TourProductSearchResponse> tourProductSearchResponses = tourProducts.stream()
                 .map(TourProductSearchResponse::new)
                 .collect(Collectors.toList());
-
 
         return new SearchResponse(tourProductSearchResponses);
     }
