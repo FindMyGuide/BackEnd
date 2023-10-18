@@ -2,6 +2,7 @@ package com.find_my_guide.main_member.member.controller;
 
 
 import com.find_my_guide.main_member.member.domain.dto.GuideCertificationRegisterRequest;
+import com.find_my_guide.main_member.member.domain.dto.GuideDetailResponse;
 import com.find_my_guide.main_member.member.domain.dto.GuideResponse;
 import com.find_my_guide.main_member.member.domain.entity.Gender;
 import com.find_my_guide.main_member.member.service.MemberService;
@@ -86,7 +87,7 @@ public class GuideController {
     }
 
     @GetMapping("/guides/detail/{guideId}")
-    public ResponseEntity<GuideResponse> guideDetail(
+    public ResponseEntity<GuideDetailResponse> guideDetail(
             @PathVariable Long guideId
     ) {
         return ResponseEntity.ok(memberService.guideDetail(guideId));

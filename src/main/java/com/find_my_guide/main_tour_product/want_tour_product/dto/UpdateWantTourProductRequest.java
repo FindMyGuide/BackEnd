@@ -1,7 +1,9 @@
 package com.find_my_guide.main_tour_product.want_tour_product.dto;
 
 import com.find_my_guide.main_tour_product.location.dto.LocationRequest;
+import com.find_my_guide.main_tour_product.location.dto.WantTourLocationRequest;
 import com.find_my_guide.main_tour_product.want_tour_product.domain.Vehicle;
+import com.find_my_guide.main_tour_product.want_tour_product_location.domain.WantTourProductLocation;
 import lombok.Data;
 import reactor.util.annotation.Nullable;
 
@@ -22,14 +24,11 @@ public class UpdateWantTourProductRequest {
     @Positive(message = "가격은 0보다 커야 합니다.")
     private Long price;
 
-    @Nullable
-    private String gender;
-
     private int totalPeople;
 
     private String vehicle;
 
-    private List<LocationRequest> location = new ArrayList<>();
+    private List<WantTourLocationRequest> location = new ArrayList<>();
 
     private List<Long> themeIds;
 
