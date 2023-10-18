@@ -13,6 +13,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MultipartFile;
 
 import javax.validation.Valid;
 import java.util.List;
@@ -30,11 +31,12 @@ public class TourProductController {
     @PostMapping("/tourProduct/register")
     public ResponseEntity<TourProductResponse> addTourProduct(
             final Authentication authentication,
-            @RequestBody TourProductRequest tourProductRequest) {
+            @RequestPart List<MultipartFile> files,
+            @RequestPart TourProductRequest tourProductRequest) {
 
 
         TourProductResponse tourProductResponse =
-                tourProductService.registerTourProduct((String) authentication.getPrincipal(), tourProductRequest);
+                tourProductService.registerTourProduct((String) authentication.getPrincipal(), files, tourProductRequest);
 
         log.info("test log {}", tourProductResponse.getLocations());
 

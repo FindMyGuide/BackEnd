@@ -65,7 +65,7 @@ public class TourProductService {
     private final S3Service s3Service;
 
     @Transactional
-    public TourProductResponse registerTourProduct(String email, TourProductRequest tourProductRequest) {
+    public TourProductResponse  registerTourProduct(String email, List<MultipartFile> files, TourProductRequest tourProductRequest) {
         TourProduct tourProduct = tourProductRequest.toTourProduct();
 
         if (tourProduct.getTourProductLocations() == null) {
@@ -76,7 +76,7 @@ public class TourProductService {
         tourProduct = tourProductRepository.save(tourProduct);
 
         List<Images> savedImagesList = new ArrayList<>();
-        for (MultipartFile image : tourProductRequest.getImages()) {
+        for (MultipartFile image : files) {
             Images images = new Images(s3Service.uploadFile(image));
 
             images.setTourProduct(tourProduct);
