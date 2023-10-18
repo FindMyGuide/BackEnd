@@ -11,10 +11,12 @@ Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiJ0bGZlbTMzM
   "howManyDay": ["2","3"],
   "location": [
     {
+      "date": "1",
       "title": "우리집",
       "coordinates": [12.2131, 14.3213]
     },
     {
+      "date": "2",
       "title": "우리집2",
       "coordinates": [12.5, 12.123]
     }

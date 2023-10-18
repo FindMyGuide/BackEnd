@@ -18,11 +18,14 @@ public class LocationRequest {
 
     private String title;
 
+    private String date;
+
     private List<BigDecimal> coordinates = new ArrayList<>();  // 변경된 부분
 
     public Location toLocation() {
         return Location.builder()
                 .title(new Title(title))
+                .date(this.date)
                 .coordinates(new Coordinates(coordinates.get(0), coordinates.get(1)))
                 .build();
     }
