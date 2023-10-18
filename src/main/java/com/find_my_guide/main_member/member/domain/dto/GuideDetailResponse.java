@@ -1,5 +1,6 @@
 package com.find_my_guide.main_member.member.domain.dto;
 
+import com.find_my_guide.main_member.member.domain.entity.Gender;
 import com.find_my_guide.main_member.member.domain.entity.Member;
 import com.find_my_guide.main_tour_product.tour_history_manager.domain.TourHistoryManager;
 import com.find_my_guide.main_tour_product.tour_product.domain.Languages;
@@ -8,6 +9,7 @@ import lombok.Data;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 import java.util.stream.Collectors;
 
 @Data
@@ -25,17 +27,20 @@ public class GuideDetailResponse {
     private String profilePicture;
 
     private List<TourProductResponse> tourProductResponses;
-    public GuideDetailResponse(Member member,List<TourProductResponse> tourProductResponses ) {
-        this.guideId = member.getIdx();
-        this.guideName = member.getName() != null ? member.getName() : "";
-        this.guideEmail = member.getEmail() != null ? member.getEmail() : "";
-        this.gender = (member.getGender() != null && member.getGender().getKrName() != null) ? member.getGender().getKrName() : "";
-        this.hasGuideCertification = member.getNationalCertificationOfGuideYn() != null ? member.getNationalCertificationOfGuideYn() : false; // 가정: getNationalCertificationOfGuideYn()의 반환 타입이 Boolean임
-        this.guideExperience = member.getGuideExperience() != null ? member.getGuideExperience() : 0;
-        this.languages = member.getLanguages() != null ? member.getLanguages() : new ArrayList<>();
-        this.guideIntro = member.getGuideIntro() != null ? member.getGuideIntro() : "";
-        this.profilePicture = member.getProfilePicture() != null ? member.getProfilePicture() : "";
-        this.guideCertification = member.getGuideCertification() != null ? member.getGuideCertification() : ""; // 가정: getGuideCertification()의 반환 타입이 String임
-        this.tourProductResponses = tourProductResponses;
+    public GuideDetailResponse(Member member, List<TourProductResponse> tourProductResponses) {
+        this.guideId = Optional.ofNullable(member.getIdx()).orElse(0L); // Assuming 0 is a suitable default for guideId
+        this.guideName = Optional.ofNullable(member.getName()).orElse("");
+        this.guideEmail = Optional.ofNullable(member.getEmail()).orElse("");
+        this.gender = Optional.ofNullable(member.getGender())
+                .map(Gender::getKrName)  // Assuming Gender::getKrName method exists
+                .orElse("");
+        this.hasGuideCertification = Optional.ofNullable(member.getNationalCertificationOfGuideYn()).orElse(false);
+        this.guideExperience = Optional.ofNullable(member.getGuideExperience()).orElse(0);
+        this.languages = Optional.ofNullable(member.getLanguages()).orElse(new ArrayList<>());
+        this.guideIntro = Optional.ofNullable(member.getGuideIntro()).orElse("");
+        this.profilePicture = Optional.ofNullable(member.getProfilePicture()).orElse("");
+        this.guideCertification = Optional.ofNullable(member.getGuideCertification()).orElse("");
+        this.tourProductResponses = Optional.ofNullable(tourProductResponses).orElse(new ArrayList<>());
     }
+
 }
