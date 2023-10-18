@@ -65,9 +65,9 @@ public class WantTourProductController {
         return ResponseEntity.ok(wantTourProductService.showCurrentUserWantTourProductList((String) authentication.getPrincipal()));
     }
 
-    @PostMapping("/want-tourProduct/update/{id}")
-    public ResponseEntity<WantTourProductResponse> update(@PathVariable Long id, @RequestBody UpdateWantTourProductRequest request) {
-        WantTourProductResponse response = wantTourProductService.update(id, request);
+    @PostMapping("/want-tourProduct/update")
+    public ResponseEntity<WantTourProductResponse> update(@RequestBody UpdateWantTourProductRequest request) {
+        WantTourProductResponse response = wantTourProductService.update(request.getWantTourProductId(), request);
         return ResponseEntity.ok(response);
     }
 

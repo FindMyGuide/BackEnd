@@ -16,7 +16,7 @@ import java.util.List;
 @Data
 public class UpdateWantTourProductRequest {
 
-
+    private Long WantTourProductId;
     private String title;
 
     private String content;
