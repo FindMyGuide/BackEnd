@@ -159,7 +159,7 @@ public class WantTourProductService {
 
         Vehicle vehicle = null;
         if (request.getVehicle() != null && !request.getVehicle().isEmpty()) {
-            vehicle = Vehicle.valueOf(request.getVehicle());
+            vehicle =Vehicle.fromString(request.getVehicle());
         }
         wantTourProduct.update(
                 request.getTitle(),
