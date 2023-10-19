@@ -347,13 +347,13 @@ public class MemberService {
 
 
     private Member checkValidMember(FindMemberRequest findMemberRequest) {
-        memberRepository.findByName(findMemberRequest.getName()).orElseThrow(() ->
-                new NotFoundException("등록된 회원이 아닙니다")
-        );
 
-        Member member = memberRepository.findByPhoneNumber(findMemberRequest.getPhoneNumber()).orElseThrow(()
+        memberRepository.findByPhoneNumber(findMemberRequest.getPhoneNumber()).orElseThrow(()
                 -> new NotFoundException("등록된 회원이 아닙니다")
         );
+
+        Member member = memberRepository.findByNameAndPhoneNumber(findMemberRequest.getName(), findMemberRequest.getPhoneNumber())
+                .orElseThrow();
 
         return member;
     }
