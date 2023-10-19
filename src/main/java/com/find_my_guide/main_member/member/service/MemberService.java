@@ -25,9 +25,6 @@ import com.find_my_guide.main_tour_product.tour_product.dto.TourProductResponse;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Value;
-import org.springframework.data.domain.PageRequest;
-import org.springframework.http.HttpStatus;
-import org.springframework.http.ResponseEntity;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -38,10 +35,7 @@ import java.net.URLDecoder;
 import java.nio.charset.StandardCharsets;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Optional;
-import java.util.UUID;
+import java.util.*;
 import java.util.stream.Collectors;
 
 @Service
@@ -108,9 +102,27 @@ public class MemberService {
 
 
     public List<GuideResponse> findGuideByCriteria(Gender gender, int startAge, int endAge, Languages language, LocalDate date) {
-        return customMemberRepository.findGuidesByCriteria(gender, startAge,endAge , language, date)
+
+        return customMemberRepository.findGuidesByCriteria(gender, startAge, endAge, language, date)
                 .stream()
                 .map(GuideResponse::new)
+                .peek(guideResponse -> {
+                    Member member = memberRepository.findById(guideResponse.getGuideId())
+                            .orElseThrow(() -> new NotFoundException("이 가이드는 존재 하지 않습니다."));
+
+                    List<TourProductResponse> tourProductResponses = new ArrayList<>();
+
+                    if (member.getTourHistoriesAsGuide() != null) {
+                        tourProductResponses = member.getTourHistoriesAsGuide()
+                                .stream()
+                                .map(TourHistoryManager::getTourProduct)
+                                .filter(Objects::nonNull)
+                                .map(TourProductResponse::new)
+                                .collect(Collectors.toList());
+                    }
+
+                    guideResponse.setTourProductResponses(tourProductResponses);
+                })
                 .collect(Collectors.toList());
     }
 
@@ -175,7 +187,7 @@ public class MemberService {
         String password = loginMemberRequest.getPassword();
         Member member = findByEmail(userId);
 
-        if(!member.isEmailVerified()){
+        if (!member.isEmailVerified()) {
             throw new NotFoundException("이메일 인증이 완료되지 않았습니다. ");
 
         }
@@ -187,7 +199,7 @@ public class MemberService {
     }
 
     @Transactional
-    public void changePassword(String email, MyPageChangePasswordRequest request){
+    public void changePassword(String email, MyPageChangePasswordRequest request) {
 
         Member member = findByEmail(email);
 
@@ -209,13 +221,13 @@ public class MemberService {
             if (member.getProfilePicture() != null && !member.getProfilePicture().replace("https://findmyguide.s3.amazonaws.com/", "").equals("bamtol.png")){
                 deleteFile(URLDecoder.decode(member.getProfilePicture().replace("https://findmyguide.s3.amazonaws.com/", ""), StandardCharsets.UTF_8));
             }
-            String fileName= UUID.randomUUID() + file.getOriginalFilename();
+            String fileName = UUID.randomUUID() + file.getOriginalFilename();
 
-            String fileUrl= "https://" + bucket + ".s3.amazonaws.com/" + fileName;
+            String fileUrl = "https://" + bucket + ".s3.amazonaws.com/" + fileName;
             ObjectMetadata metadata = new ObjectMetadata();
             metadata.setContentType(file.getContentType());
             metadata.setContentLength(file.getSize());
-            amazonS3Client.putObject(bucket,fileName,file.getInputStream(),metadata);
+            amazonS3Client.putObject(bucket, fileName, file.getInputStream(), metadata);
             member.setProfile(fileUrl);
             memberRepository.save(member);
 
@@ -275,10 +287,10 @@ public class MemberService {
         passwordResetTokenRepository.delete(passwordResetToken);
     }
 
-    public GuideResponse registerGuideCertification(String email, GuideCertificationRegisterRequest guideCertificationRegisterRequest){
+    public GuideResponse registerGuideCertification(String email, GuideCertificationRegisterRequest guideCertificationRegisterRequest) {
         Member member = findByEmail(email);
 
-        member.addGuideCertification(guideCertificationRegisterRequest.getGuideCertification(),guideCertificationRegisterRequest.getLanguages());
+        member.addGuideCertification(guideCertificationRegisterRequest.getGuideCertification(), guideCertificationRegisterRequest.getLanguages());
 
         Member save = memberRepository.save(member);
 
@@ -306,7 +318,7 @@ public class MemberService {
 
     public List<GuideResponse> findAllGuides() {
         return memberRepository.findAllGuides()
-                                  .stream()
+                .stream()
                 .map(GuideResponse::new)
                 .collect(Collectors.toList());
     }
@@ -321,7 +333,7 @@ public class MemberService {
                 .map(TourProductResponse::new)  // 각 TourProduct 객체를 TourProductResponse로 변환
                 .collect(Collectors.toList());
 
-        return new GuideDetailResponse(member,tourProductResponses);
+        return new GuideDetailResponse(member, tourProductResponses);
     }
 
 
@@ -332,7 +344,6 @@ public class MemberService {
     public Boolean isDuplicatedPhoneNumber(String phoneNumber) {
         return !memberRepository.findByPhoneNumber(phoneNumber).isPresent();
     }
-
 
 
     private Member checkValidMember(FindMemberRequest findMemberRequest) {

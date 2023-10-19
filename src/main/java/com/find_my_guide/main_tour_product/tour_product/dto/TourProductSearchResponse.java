@@ -4,10 +4,12 @@ import com.find_my_guide.main_member.member.domain.entity.Member;
 import com.find_my_guide.main_tour_product.common.validation_field.Content;
 import com.find_my_guide.main_tour_product.common.validation_field.Title;
 import com.find_my_guide.main_tour_product.tour_history_manager.domain.TourHistoryManager;
+import com.find_my_guide.main_tour_product.tour_product.domain.Images;
 import com.find_my_guide.main_tour_product.tour_product.domain.TourProduct;
 import com.find_my_guide.main_tour_product.tour_product_location.dto.TourProductLocationResponse;
 import lombok.Data;
 
+import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 import java.util.Optional;
@@ -28,7 +30,9 @@ public class TourProductSearchResponse {
 
     private String guideName;
 
-    private String guidePicture;
+    private List<String> imagesUrls = new ArrayList<>();
+
+    private String bestImage;
 
     public TourProductSearchResponse(TourProduct tourProduct) {
 
@@ -36,6 +40,18 @@ public class TourProductSearchResponse {
         this.title = Optional.ofNullable(tourProduct.getTitle())
                 .map(Title::getTitle)
                 .orElse("");
+
+
+        List<String> images = Optional.ofNullable(tourProduct.getImages()).orElse(Collections.emptyList())
+                .stream()
+                .map(Images::getImageUrl)
+                .collect(Collectors.toList());
+
+        if (!images.isEmpty()) {
+            this.imagesUrls = images;
+            this.bestImage = images.get(0);
+        }
+
         this.content = Optional.ofNullable(tourProduct.getContent())
                 .map(Content::getContent)
                 .orElse("");
@@ -56,7 +72,6 @@ public class TourProductSearchResponse {
             this.guideId = guide.getIdx();
 
             this.guideName = guide.getName() != null ? guide.getName() : "";
-            this.guidePicture = guide.getProfilePicture() != null ? guide.getProfilePicture() : "";
         }
 
 
