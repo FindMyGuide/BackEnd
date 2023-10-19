@@ -69,22 +69,27 @@ public class GuideController {
             @RequestParam(required = false) Languages language,
             @RequestParam(required = false) @DateTimeFormat(pattern = "yyyy-MM-dd") LocalDate date) {
 
-        String[] ageTokens = age.split("-");
-        if (ageTokens.length != 2) {
-            return ResponseEntity.badRequest().build();
-        }
+        int startAge = -1;
+        int endAge = -1;
 
-        int startAge, endAge;
-        try {
-            startAge = Integer.parseInt(ageTokens[0].trim());
-            endAge = Integer.parseInt(ageTokens[1].trim());
-        } catch (NumberFormatException e) {
-            return ResponseEntity.badRequest().build();
+        if (age != null) {
+            String[] ageTokens = age.split("-");
+            if (ageTokens.length != 2) {
+                return ResponseEntity.badRequest().build();
+            }
+
+            try {
+                startAge = Integer.parseInt(ageTokens[0].trim());
+                endAge = Integer.parseInt(ageTokens[1].trim());
+            } catch (NumberFormatException e) {
+                return ResponseEntity.badRequest().build();
+            }
         }
 
         List<GuideResponse> guides = memberService.findGuideByCriteria(gender, startAge, endAge, language, date);
         return ResponseEntity.ok(guides);
     }
+
 
     @GetMapping("/guides/detail/{guideId}")
     public ResponseEntity<GuideDetailResponse> guideDetail(
