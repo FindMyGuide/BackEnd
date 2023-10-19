@@ -16,6 +16,7 @@ import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
 import javax.validation.Valid;
+import java.util.ArrayList;
 import java.util.List;
 
 @RestController
@@ -31,9 +32,12 @@ public class TourProductController {
     @PostMapping("/tourProduct/register")
     public ResponseEntity<TourProductResponse> addTourProduct(
             final Authentication authentication,
-            @RequestPart List<MultipartFile> files,
+            @RequestPart(required=false) List<MultipartFile> files,
             @RequestPart TourProductRequest tourProductRequest) {
 
+        if (files == null) {
+            files = new ArrayList<>();
+        }
 
         TourProductResponse tourProductResponse =
                 tourProductService.registerTourProduct((String) authentication.getPrincipal(), files, tourProductRequest);
