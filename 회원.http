@@ -118,9 +118,8 @@ POST http://localhost:9000/api/find-my-guide/member/find-email
 Content-Type: application/json
 
 
-
 {
-  "name" : "신머혁",
+  "name" : "신대혁",
   "phoneNumber" : "010-4092-5645"
 }
 
