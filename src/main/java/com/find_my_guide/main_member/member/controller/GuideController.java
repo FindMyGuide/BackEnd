@@ -4,6 +4,7 @@ package com.find_my_guide.main_member.member.controller;
 import com.find_my_guide.main_member.member.domain.dto.GuideCertificationRegisterRequest;
 import com.find_my_guide.main_member.member.domain.dto.GuideDetailResponse;
 import com.find_my_guide.main_member.member.domain.dto.GuideResponse;
+import com.find_my_guide.main_member.member.domain.dto.GuideSearchResponse;
 import com.find_my_guide.main_member.member.domain.entity.Gender;
 import com.find_my_guide.main_member.member.service.MemberService;
 import com.find_my_guide.main_tour_product.tour_history_manager.service.TourHistoryManagerService;
@@ -63,7 +64,7 @@ public class GuideController {
     }
 
     @GetMapping("/search")
-    public ResponseEntity<List<GuideResponse>> findGuidesByCriteria(
+    public ResponseEntity<List<GuideSearchResponse>> findGuidesByCriteria(
             @RequestParam(required = false) Gender gender,
             @RequestParam(required = false) String age,
             @RequestParam(required = false) Languages language,
@@ -86,7 +87,7 @@ public class GuideController {
             }
         }
 
-        List<GuideResponse> guides = memberService.findGuideByCriteria(gender, startAge, endAge, language, date);
+        List<GuideSearchResponse> guides = memberService.findGuideByCriteria(gender, startAge, endAge, language, date);
         return ResponseEntity.ok(guides);
     }
 

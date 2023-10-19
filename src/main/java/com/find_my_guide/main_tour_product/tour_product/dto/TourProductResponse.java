@@ -58,6 +58,7 @@ public class TourProductResponse {
 
         this.id = tourProduct.getTourProductId();
         this.title = Optional.ofNullable(tourProduct.getTitle()).map(Title::getTitle).orElse(null);
+
         this.content = Optional.ofNullable(tourProduct.getContent()).map(Content::getContent).orElse(null);
         this.locations = Optional.ofNullable(tourProduct.getTourProductLocations())
                 .orElse(Collections.emptyList())

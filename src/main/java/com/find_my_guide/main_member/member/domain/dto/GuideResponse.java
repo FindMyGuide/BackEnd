@@ -21,8 +21,10 @@ public class GuideResponse {
     private String guideIntro;
     private String guideCertification;
     private String profilePicture;
-    private List<TourProductResponse> tourProductResponses;
+    private String tourProductTitle;
 
+    private List<TourProductResponse> tourProductResponses;
+        //가격, 언어, 타이틀
     public GuideResponse(Member member) {
         this.guideId = member.getIdx();
         this.guideName = member.getName() != null ? member.getName() : "";
@@ -36,20 +38,5 @@ public class GuideResponse {
         this.guideCertification = member.getGuideCertification() != null ? member.getGuideCertification() : ""; // 가정: getGuideCertification()의 반환 타입이 String임
     }
 
-    public GuideResponse(Member member, List<TourProductResponse> tourProducts) {
-        this.guideId = member.getIdx();
-        this.guideName = member.getName() != null ? member.getName() : "";
-        this.guideEmail = member.getEmail() != null ? member.getEmail() : "";
-        this.gender = (member.getGender() != null && member.getGender().getKrName() != null) ? member.getGender().getKrName() : "";
-        this.hasGuideCertification = member.getNationalCertificationOfGuideYn() != null ? member.getNationalCertificationOfGuideYn() : false; // 가정: getNationalCertificationOfGuideYn()의 반환 타입이 Boolean임
-        this.guideExperience = member.getGuideExperience() != null ? member.getGuideExperience() : 0;
-        this.languages = member.getLanguages() != null ? member.getLanguages() : new ArrayList<>();
-        this.guideIntro = member.getGuideIntro() != null ? member.getGuideIntro() : "";
-        this.profilePicture = member.getProfilePicture() != null ? member.getProfilePicture() : "";
-        this.guideCertification = member.getGuideCertification() != null ? member.getGuideCertification() : ""; // 가정: getGuideCertification()의 반환 타입이 String임
-        if (member.getTourHistoriesAsGuide() != null) {
-            this.tourProductResponses = tourProducts;
-        }
-    }
 
 }
