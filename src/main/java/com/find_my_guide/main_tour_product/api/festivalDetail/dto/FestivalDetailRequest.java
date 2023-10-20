@@ -27,9 +27,7 @@ public class FestivalDetailRequest {
                 .place(this.place)
                 .playtime(this.playtime)
                 .startDate(this.startDate)
-                .endDate(this.endDate)
-                .expense(this.expense)
-                .content(this.content).build();
+                .endDate(this.endDate).build();
     }
 
     public FestivalDetailRequest( String place, String playtime,

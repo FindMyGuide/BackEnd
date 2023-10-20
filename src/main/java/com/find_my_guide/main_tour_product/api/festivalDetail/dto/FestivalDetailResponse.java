@@ -22,18 +22,6 @@ public class FestivalDetailResponse {
     private String image;
     private String title;
 
-    public FestivalDetailResponse(FestivalDetail festivalDetail) {
-        this.place = festivalDetail.getPlace();
-        this.playtime = festivalDetail.getPlaytime();
-        this.startDate = festivalDetail.getStartDate();
-        this.expense = festivalDetail.getExpense();
-        this.content = festivalDetail.getContent();
-        this.mapX = festivalDetail.getFestival().getMapx();
-        this.mapY = festivalDetail.getFestival().getMapy();
-        this.image = festivalDetail.getFestival().getImage();
-        this.title = festivalDetail.getFestival().getTitle();
-    }
-
     public FestivalDetailResponse(Festival festival, String place, String playtime, String startDate, String endDate,
                                   String expense, String content) {
         this.place = place;

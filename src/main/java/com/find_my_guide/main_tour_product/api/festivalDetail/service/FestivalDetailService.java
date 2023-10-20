@@ -33,9 +33,45 @@ public class FestivalDetailService {
     @Transactional
     public void allGetApi() {
         List<Festival> festivals = festivalRepository.findAll();
-        for (Festival festival :
-                festivals) {
-            getApi(festival.getId());
+        saveFestivalTime(festivals);
+    }
+
+    @Transactional
+    public void saveFestivalTime(List<Festival> festivals) {
+        for (Festival festival: festivals) {
+            String result = null;
+            try {
+                URL url = new URL("https://apis.data.go.kr/B551011/KorService1/detailIntro1?serviceKey=wSM4T5mSUOxzHeEO2Xi1llabPQIFXqpy5CjEWgBGdXJy%2BebCPvBQmHOPYOxcGlZMMew5yeuyfCYa9pyW7Hr0jQ%3D%3D&MobileOS=ETC&MobileApp=AppTest&_type=json&contentId=" +
+                        festival.getId() + "&contentTypeId=15&numOfRows=10&pageNo=1");
+
+                BufferedReader bf = new BufferedReader(new InputStreamReader(url.openStream(), "UTF-8"));
+                result = bf.readLine();
+                JSONParser parser = new JSONParser();
+                JSONObject jsonObject = (JSONObject) parser.parse(result);
+                JSONObject response = (JSONObject) jsonObject.get("response");
+                JSONObject body = (JSONObject) response.get("body");
+                JSONObject items = (JSONObject) body.get("items");
+                JSONArray item = (JSONArray) items.get("item");
+
+                JSONObject contents = (JSONObject) item.get(0);
+
+                Long id = Long.valueOf(festival.getId());
+                String place = String.valueOf(contents.get("eventplace"));
+                String playtime = String.valueOf(contents.get("playtime"));
+                String startDate = String.valueOf(contents.get("eventstartdate"));
+                String endDate = String.valueOf(contents.get("eventenddate"));
+
+                festivalDetailRepository.save(FestivalDetail.builder()
+                                .festivalDetailId(id)
+                                .festival(festivalRepository.findById(id).orElseThrow())
+                                .place(place)
+                                .playtime(playtime)
+                                .startDate(startDate)
+                                .endDate(endDate)
+                        .build());
+            } catch (Exception e) {
+                throw new RuntimeException();
+            }
         }
     }
 
@@ -103,7 +139,11 @@ public class FestivalDetailService {
     }
 
     public Boolean checkFestivalEnd(Long id) {
-        FestivalDetailResponse festivalDetail = getApi(id);
+        FestivalDetail festivalDetail = festivalDetailRepository.findById(id).orElseThrow();
+        if (festivalDetail.getEndDate() == null) {
+            return true;
+        }
+
         LocalDate date = Year.of(Integer.parseInt(festivalDetail.getEndDate().substring(0, 4)))
                 .atMonth(Integer.parseInt(festivalDetail.getEndDate().substring(4, 6)))
                 .atDay(Integer.parseInt(festivalDetail.getEndDate().substring(6, 8)));
@@ -111,7 +151,10 @@ public class FestivalDetailService {
     }
 
     public Boolean checkProgress(Long id) {
-        FestivalDetailResponse festivalDetail = getApi(id);
+        FestivalDetail festivalDetail = festivalDetailRepository.findById(id).orElseThrow();
+        if (festivalDetail.getStartDate() == null) {
+            return true;
+        }
         LocalDate date = Year.of(Integer.parseInt(festivalDetail.getStartDate().substring(0, 4)))
                 .atMonth(Integer.parseInt(festivalDetail.getStartDate().substring(4, 6)))
                 .atDay(Integer.parseInt(festivalDetail.getStartDate().substring(6, 8)));

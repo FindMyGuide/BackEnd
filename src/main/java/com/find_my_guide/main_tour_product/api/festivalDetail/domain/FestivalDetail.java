@@ -25,9 +25,6 @@ public class FestivalDetail {
     private String playtime;
     private String startDate;
     private String endDate;
-    private String expense;
-    @Column(length = 1000)
-    private String content;
 
 
     public void setFestival(Festival festival) {
