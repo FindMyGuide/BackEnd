@@ -146,11 +146,9 @@ public class TourProductService {
                 .findAny()
                 .orElseThrow();
 
-        if (guideEmail!=member.getEmail()) {
-
+        if (guideEmail != member.getEmail()) {
             throw new IllegalArgumentException("당신이 등록한 투어가 아닙니다.");
         }
-
 
         tourProductRepository.delete(tourProduct);
     }

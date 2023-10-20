@@ -4,12 +4,12 @@ Content-Type: application/json
 
 
 {
-  "name" : "신대혁",
-  "email" : "123qwe@naver.com",
+  "name" : "장태원",
+  "email" : "xodnjs8287@naver.com",
   "password" : "qpal123!",
-  "nickname" : "eqweqweqwe",
+  "nickname" : "태원",
   "nationality" : "KR",
-  "gender" : "FEMALE",
+  "gender" : "MALE",
   "birthDate" : "19950930",
   "phoneNumber" : "010-1331-8287",
   "nationalCertificationOfGuideYn" : "Y",
@@ -50,8 +50,8 @@ Content-Type: application/json
 
 
 {
-  "email": "tlfem3315@naver.com",
-  "code": "dx26D64d"
+  "email": "xodnjs8287@naver.com",
+  "code": "H4l5d356"
 }
 
 ###
@@ -84,7 +84,7 @@ Content-Type: application/json
 }
 
 ###
-GET http://localhost:9000/api/find-my-guide/guide/search?language=GERMAN
+GET http://localhost:9000/api/find-my-guide/guide/search?age=20-27
 Content-Type: application/json
 
 
