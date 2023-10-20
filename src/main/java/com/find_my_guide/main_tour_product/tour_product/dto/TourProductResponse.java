@@ -1,8 +1,10 @@
 package com.find_my_guide.main_tour_product.tour_product.dto;
 
+import com.find_my_guide.main_member.member.domain.entity.Member;
 import com.find_my_guide.main_tour_product.available_reservation_date.dto.AvailableDateResponse;
 import com.find_my_guide.main_tour_product.common.validation_field.Content;
 import com.find_my_guide.main_tour_product.common.validation_field.Title;
+import com.find_my_guide.main_tour_product.tour_history_manager.domain.TourHistoryManager;
 import com.find_my_guide.main_tour_product.tour_product.domain.Images;
 import com.find_my_guide.main_tour_product.tour_product.domain.Languages;
 import com.find_my_guide.main_tour_product.tour_product.domain.TourProduct;
@@ -51,14 +53,28 @@ public class TourProductResponse {
 
     private String bestImage;
 
+    private String guideNickName;
+
+    private String guideName;
+
     public TourProductResponse(TourProduct tourProduct) {
         if (tourProduct == null) {
             return;
         }
 
+        TourHistoryManager history = tourProduct.getTourHistoryManagers().stream().findFirst().orElse(null);
+        if(history != null) {
+            Member guide = history.getGuide();
+            if(guide != null) {
+                this.guideNickName = guide.getNickname();
+                this.guideName = guide.getName();
+            }
+        }
+
         this.tourProductId = tourProduct.getTourProductId();
         this.title = Optional.ofNullable(tourProduct.getTitle()).map(Title::getTitle).orElse(null);
-
+        this.likes = Optional.ofNullable(tourProduct.getTourProductLikes())
+                .stream().count();
         this.content = Optional.ofNullable(tourProduct.getContent()).map(Content::getContent).orElse(null);
         this.locations = Optional.ofNullable(tourProduct.getTourProductLocations())
                 .orElse(Collections.emptyList())

@@ -21,7 +21,9 @@ import com.find_my_guide.main_member.temp_token.repository.PasswordResetTokenRep
 import com.find_my_guide.main_tour_product.tour_history_manager.domain.TourHistoryManager;
 import com.find_my_guide.main_tour_product.tour_history_manager.service.TourHistoryManagerService;
 import com.find_my_guide.main_tour_product.tour_product.domain.Languages;
+import com.find_my_guide.main_tour_product.tour_product.domain.TourProduct;
 import com.find_my_guide.main_tour_product.tour_product.dto.TourProductResponse;
+import com.find_my_guide.main_tour_product.tour_product.repository.TourProductRepository;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Value;
@@ -59,6 +61,8 @@ public class MemberService {
     private final TokenService tokenService;
 
     private final MailService mailService;
+
+    private final TourProductRepository tourProductRepository;
 
     private final TourHistoryManagerService tourHistoryManagerService;
 
@@ -101,14 +105,36 @@ public class MemberService {
     }
 
 
-    public List<GuideSearchResponse> findGuideByCriteria(Gender gender, int startAge, int endAge, Languages language, LocalDate date) {
+    public List<TourProductResponse> findByLanguages(List<Languages> languages){
+        List<TourProduct> byLanguagesIn = tourProductRepository.findByLanguagesIn(languages);
 
-        return customMemberRepository.findGuidesByCriteria(gender, startAge, endAge, language, date)
-                .stream()
-                .distinct()
+        // 투어 프로덕트로 tourHistoryManager통해서
+        //GuideResponse를 List로 반환하고 싶음
+        return byLanguagesIn.stream()
+                .map(TourProductResponse::new)
+                .collect(Collectors.toList());
+
+    }
+
+    public List<GuideSearchResponse> findGuideByCriteria(Gender gender, int startAge, int endAge, List<Languages> languages, LocalDate date) {
+        List<Member> membersByCriteria = customMemberRepository.findGuidesByCriteria(gender, startAge, endAge, languages, date);
+
+        if (languages != null && !languages.isEmpty()) {
+            List<TourProduct> tourProducts = tourProductRepository.findByLanguagesIn(languages);
+            List<Member> guidesByLanguage = tourProducts.stream()
+                    .flatMap(product -> product.getTourHistoryManagers().stream())
+                    .map(TourHistoryManager::getGuide)
+                    .distinct()
+                    .collect(Collectors.toList());
+
+            membersByCriteria = membersByCriteria.stream()
+                    .filter(guidesByLanguage::contains)
+                    .collect(Collectors.toList());
+        }
+
+        return membersByCriteria.stream()
                 .map(member -> {
                     GuideSearchResponse guideResponse = new GuideSearchResponse(member);
-
                     List<TourProductInformationResponse> tourProductResponses = Optional.ofNullable(member.getTourHistoriesAsGuide())
                             .orElse(Collections.emptyList())
                             .stream()
@@ -116,13 +142,13 @@ public class MemberService {
                             .filter(Objects::nonNull)
                             .map(TourProductInformationResponse::new)
                             .collect(Collectors.toList());
-
                     guideResponse.setTourProductInformation(tourProductResponses);
-
                     return guideResponse;
                 })
                 .collect(Collectors.toList());
     }
+
+
 
 
     public Boolean CheckDuplicated(CheckDuplicatedEmailRequest userDuplicateCheckRequest) {

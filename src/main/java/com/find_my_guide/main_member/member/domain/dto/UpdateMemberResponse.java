@@ -3,6 +3,8 @@ package com.find_my_guide.main_member.member.domain.dto;
 import com.find_my_guide.main_member.member.domain.entity.Member;
 import lombok.Getter;
 
+import java.util.Optional;
+
 @Getter
 public class UpdateMemberResponse {
 
@@ -15,9 +17,12 @@ public class UpdateMemberResponse {
     private String nationalCertificationOfGuideYn;
 
     public UpdateMemberResponse(Member member) {
-        this.email = member.getEmail();
-        this.nickname = member.getNickname();
-        this.phoneNumber = member.getPhoneNumber();
-        this.nationalCertificationOfGuideYn = member.getNationalCertificationOfGuideYn().toString();
+        this.email = Optional.ofNullable(member.getEmail()).orElse(null);
+        this.nickname = Optional.ofNullable(member.getNickname()).orElse(null);
+        this.phoneNumber = Optional.ofNullable(member.getPhoneNumber()).orElse(null);
+        this.nationalCertificationOfGuideYn = Optional.ofNullable(member.getNationalCertificationOfGuideYn())
+                .map(Object::toString)
+                .orElse(null);
+
     }
 }

@@ -84,7 +84,7 @@ Content-Type: application/json
 }
 
 ###
-GET http://localhost:9000/api/find-my-guide/guide/search?age=20-27
+GET http://localhost:9000/api/find-my-guide/guide/search?languages=ITALIAN,GERMAN&age=10-20
 Content-Type: application/json
 
 
@@ -114,7 +114,7 @@ Content-Type: application/json
 
 ###
 GET localhost:9000/api/tour-product-review/all/by-member
-Authorization:
+Authorization:Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiJ0bGZlbTMzMTVAbmF2ZXIuY29tIiwiZXhwIjoyNTg2ODQwODM3LCJpc3MiOiJmaW5kbXlndWlkZS5jb20ifQ.y_BNDtJQc54j278RqIVSA0zpp6UHxPXJtrpN3sGdptU
 
 
 
@@ -170,12 +170,12 @@ Content-Type: application/json
 
 ###
 POST localhost:9000/api/find-my-guide/member/update
-Authorization:Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiJ4b2RuanM4Mjg3QG5hdmVyLmNvbSIsImV4cCI6MjU4NjQ2NzI1NCwiaXNzIjoiZmluZG15Z3VpZGUuY29tIn0.F01JoAQIuL8MdwmcGwVzTAtIiL5mB5KIBcvC0kze5tc
+Authorization:Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiJ0bGZlbTMzMTVAbmF2ZXIuY29tIiwiZXhwIjoyNTg2ODQyNDQwLCJpc3MiOiJmaW5kbXlndWlkZS5jb20ifQ.3TgVy9y-MtAMqcvYlLR89Fp8kBIYSi94-_ar6RDhz0o
 Content-Type: application/json
 
 
 {
-  "nationalCertificationOfGuideYn" : "N"
+  "nationalCertificationOfGuideYn" : "Y"
 }
 
 

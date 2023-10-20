@@ -1,0 +1,2 @@
+GET localhost:9000/api/find-my-guide/guide/test?languages=ITALIAN
+Content-Type: application/json

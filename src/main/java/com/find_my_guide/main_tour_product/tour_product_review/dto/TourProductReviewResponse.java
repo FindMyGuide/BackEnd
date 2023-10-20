@@ -19,7 +19,8 @@ public class TourProductReviewResponse {
 
     private String imageUrl;
 
-    private boolean isWritten;
+
+    private String tourTitle;
 
 
     public TourProductReviewResponse(TourProductReview tourProductReview) {
@@ -27,6 +28,6 @@ public class TourProductReviewResponse {
         this.content = tourProductReview.getContent() != null ? tourProductReview.getContent().getContent() : null;
         this.rating = tourProductReview.getRating() != null ? tourProductReview.getRating().getRating() : null;
         this.imageUrl = tourProductReview.getImageUrl() != null ? tourProductReview.getImageUrl() : null;
-        this.isWritten = tourProductReview.getIsWritten() != null ? tourProductReview.getIsWritten() : false;
+        this.tourTitle = tourProductReview.getTourProduct() != null ? tourProductReview.getTourProduct().getTitle().getTitle() : null;
     }
 }

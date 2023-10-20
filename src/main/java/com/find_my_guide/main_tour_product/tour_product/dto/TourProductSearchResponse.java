@@ -30,7 +30,7 @@ public class TourProductSearchResponse {
 
     private String guideName;
 
-    private List<String> imagesUrls = new ArrayList<>();
+    private List<String> imageUrls = new ArrayList<>();
 
     private String bestImage;
 
@@ -48,7 +48,7 @@ public class TourProductSearchResponse {
                 .collect(Collectors.toList());
 
         if (!images.isEmpty()) {
-            this.imagesUrls = images;
+            this.imageUrls = images;
             this.bestImage = images.get(0);
         }
 
