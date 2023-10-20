@@ -11,5 +11,4 @@ public class GuideCertificationRegisterRequest {
 
     private String guideCertification;
 
-    private List<Languages> languages = new ArrayList<>();
 }

@@ -313,9 +313,10 @@ public class MemberService {
     public GuideResponse registerGuideCertification(String email, GuideCertificationRegisterRequest guideCertificationRegisterRequest) {
         Member member = findByEmail(email);
 
-        member.addGuideCertification(guideCertificationRegisterRequest.getGuideCertification(), guideCertificationRegisterRequest.getLanguages());
+        member.addGuideCertification(guideCertificationRegisterRequest.getGuideCertification());
 
         Member save = memberRepository.save(member);
+
 
         return new GuideResponse(save);
     }
