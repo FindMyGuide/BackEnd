@@ -9,6 +9,7 @@ import com.find_my_guide.main_member.member.domain.entity.Gender;
 import com.find_my_guide.main_member.member.service.MemberService;
 import com.find_my_guide.main_tour_product.tour_history_manager.service.TourHistoryManagerService;
 import com.find_my_guide.main_tour_product.tour_product.domain.Languages;
+import com.find_my_guide.main_tour_product.tour_product.dto.TourProductResponse;
 import com.find_my_guide.main_tour_product.tour_product_review.domain.TourProductReview;
 import com.find_my_guide.main_tour_product.tour_product_review.dto.TourProductReviewResponse;
 import com.find_my_guide.main_tour_product.tour_product_review.service.TourProductReviewService;
@@ -47,7 +48,7 @@ public class GuideController {
     @GetMapping("/reviews/{guideId}")
     public ResponseEntity<List<TourProductReviewResponse>> findAllReviewsByGuideId(
             @PathVariable Long guideId
-    ){
+    ) {
         return ResponseEntity.ok(tourProductReviewService.findAllByGuideId(guideId));
     }
 
@@ -67,7 +68,7 @@ public class GuideController {
     public ResponseEntity<List<GuideSearchResponse>> findGuidesByCriteria(
             @RequestParam(required = false) Gender gender,
             @RequestParam(required = false) String age,
-            @RequestParam(required = false) Languages language,
+            @RequestParam(required = false) List<Languages> languages,
             @RequestParam(required = false) @DateTimeFormat(pattern = "yyyy-MM-dd") LocalDate date) {
 
         int startAge = -1;
@@ -87,8 +88,15 @@ public class GuideController {
             }
         }
 
-        List<GuideSearchResponse> guides = memberService.findGuideByCriteria(gender, startAge, endAge, language, date);
+        List<GuideSearchResponse> guides = memberService.findGuideByCriteria(gender, startAge, endAge, languages, date);
         return ResponseEntity.ok(guides);
+    }
+
+    @GetMapping("/test")
+    public ResponseEntity<List<TourProductResponse>> lists (
+            @RequestParam List<Languages> languages
+    ){
+        return ResponseEntity.ok(memberService.findByLanguages(languages));
     }
 
 

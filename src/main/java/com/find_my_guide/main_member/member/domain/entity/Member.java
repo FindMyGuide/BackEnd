@@ -23,6 +23,7 @@ import java.util.Objects;
 @Getter
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 @AllArgsConstructor
+@EqualsAndHashCode
 @DynamicUpdate
 @DynamicInsert
 public class Member {

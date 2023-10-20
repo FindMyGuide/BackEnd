@@ -16,6 +16,7 @@ import javax.persistence.criteria.*;
 import java.time.LocalDate;
 import java.time.Period;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 
 @Repository
@@ -24,14 +25,10 @@ public class CustomMemberRepository {
     @PersistenceContext
     private EntityManager em;
 
-    public List<Member> findGuidesByCriteria(Gender gender, int startAge, int endAge, Languages language, LocalDate date) {
+    public List<Member> findGuidesByCriteria(Gender gender, int startAge, int endAge, List<Languages> languages, LocalDate date) {
         CriteriaBuilder cb = em.getCriteriaBuilder();
         CriteriaQuery<Member> cq = cb.createQuery(Member.class);
         Root<Member> member = cq.from(Member.class);
-        Join<Member, TourHistoryManager> tourHistory = member.join("tourHistoriesAsGuide");
-        Join<TourHistoryManager, TourProduct> tourProduct = tourHistory.join("tourProduct");
-        Join<TourProduct, AvailableDate> availableDates = tourProduct.join("availableDates");
-
         List<Predicate> predicates = new ArrayList<>();
 
         if (gender != null) {
@@ -42,23 +39,25 @@ public class CustomMemberRepository {
             LocalDate currentYearDate = LocalDate.now();
             LocalDate startDate = currentYearDate.minusYears(endAge + 1).plusDays(1);
             LocalDate endDate = currentYearDate.minusYears(startAge);
-
             predicates.add(cb.greaterThanOrEqualTo(member.get("birthDate").as(LocalDate.class), startDate));
             predicates.add(cb.lessThanOrEqualTo(member.get("birthDate").as(LocalDate.class), endDate));
         }
 
-        if (language != null) {
-            predicates.add(cb.isMember(language, tourProduct.get("languages")));
-        }
-
         if (date != null) {
-            predicates.add(cb.equal(availableDates.get("date"), date));
+            Join<Member, TourProduct> tourProductJoin = member.join("tourHistoryManagers").join("tourProduct");
+            Join<TourProduct, AvailableDate> availableDateJoin = tourProductJoin.join("availableDates");
+            predicates.add(cb.equal(availableDateJoin.get("date").as(LocalDate.class), date));
         }
 
         cq.where(predicates.toArray(new Predicate[0]));
+        cq.select(member).distinct(true);
+
         TypedQuery<Member> query = em.createQuery(cq);
         return query.getResultList();
     }
+
+
+
 
 
 

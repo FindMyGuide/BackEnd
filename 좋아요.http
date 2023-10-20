@@ -13,10 +13,10 @@ Authorization:Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiJ4b2RuanM4Mj
 // 좋아요 취소
 DELETE http://localhost:9000/api/tourProduct/delete-like
 Content-Type: application/json
-Authorization:Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiJ4b2RuanM4Mjg3QG5hdmVyLmNvbSIsImV4cCI6MjU4NTk3OTIzMiwiaXNzIjoiZmluZG15Z3VpZGUuY29tIn0.e_ME5X100ZzKuyQXL6W20C3WAl1vICkh8v2ZWY9YU8M
+Authorization:Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiJzb245YXJhbUBnbWFpbC5jb20iLCJleHAiOjI1ODY4NDA1MDMsImlzcyI6ImZpbmRteWd1aWRlLmNvbSJ9.Oq6aSmnkFs4JLwy8XyHEBGk0YtQHhJ6-O8eXIeH49AM
 
 {
-  "tourProductId": 10
+  "tourProductId": 19
 }
 
 
