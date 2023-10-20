@@ -101,27 +101,27 @@ public class MemberService {
     }
 
 
-    public List<GuideResponse> findGuideByCriteria(Gender gender, int startAge, int endAge, Languages language, LocalDate date) {
+    public List<GuideSearchResponse> findGuideByCriteria(Gender gender, int startAge, int endAge, Languages language, LocalDate date) {
 
         return customMemberRepository.findGuidesByCriteria(gender, startAge, endAge, language, date)
                 .stream()
-                .map(GuideResponse::new)
+                .map(GuideSearchResponse::new)
                 .peek(guideResponse -> {
                     Member member = memberRepository.findById(guideResponse.getGuideId())
                             .orElseThrow(() -> new NotFoundException("이 가이드는 존재 하지 않습니다."));
 
-                    List<TourProductResponse> tourProductResponses = new ArrayList<>();
+                    List<TourProductInformationResponse> tourProductResponses = new ArrayList<>();
 
                     if (member.getTourHistoriesAsGuide() != null) {
                         tourProductResponses = member.getTourHistoriesAsGuide()
                                 .stream()
                                 .map(TourHistoryManager::getTourProduct)
                                 .filter(Objects::nonNull)
-                                .map(TourProductResponse::new)
+                                .map(TourProductInformationResponse::new)
                                 .collect(Collectors.toList());
                     }
 
-                    guideResponse.setTourProductResponses(tourProductResponses);
+                    guideResponse.setTourProductInformation(tourProductResponses);
                 })
                 .collect(Collectors.toList());
     }

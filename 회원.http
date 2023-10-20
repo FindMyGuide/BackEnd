@@ -84,7 +84,7 @@ Content-Type: application/json
 }
 
 ###
-GET http://localhost:9000/api/find-my-guide/guide/search?age=20-30&gender=MALE
+GET http://localhost:9000/api/find-my-guide/guide/search?language=GERMAN
 Content-Type: application/json
 
 
