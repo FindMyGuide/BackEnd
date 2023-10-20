@@ -218,7 +218,7 @@ public class MemberService {
     public void changeProfile(String email, MultipartFile file) {
         try {
             Member member = memberRepository.findByEmail(email).orElseThrow();
-            if (member.getProfilePicture() != null && !member.getProfilePicture().replace("https://findmyguide.s3.amazonaws.com/", "").equals("bamtol.png")){
+            if (member.getProfilePicture() != null && !member.getProfilePicture().replace("https://findmyguide.s3.amazonaws.com/", "").equals("noProfile.svg")){
                 deleteFile(URLDecoder.decode(member.getProfilePicture().replace("https://findmyguide.s3.amazonaws.com/", ""), StandardCharsets.UTF_8));
             }
             String fileName = UUID.randomUUID() + file.getOriginalFilename();

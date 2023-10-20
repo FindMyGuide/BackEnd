@@ -103,8 +103,7 @@ public class FestivalDetailService {
     }
 
     public Boolean checkFestivalEnd(Long id) {
-        FestivalDetail festivalDetail = festivalDetailRepository.findById(id).orElseThrow(() ->
-                new IllegalArgumentException("존재하지 않습니다."));
+        FestivalDetailResponse festivalDetail = getApi(id);
         LocalDate date = Year.of(Integer.parseInt(festivalDetail.getEndDate().substring(0, 4)))
                 .atMonth(Integer.parseInt(festivalDetail.getEndDate().substring(4, 6)))
                 .atDay(Integer.parseInt(festivalDetail.getEndDate().substring(6, 8)));
@@ -112,8 +111,7 @@ public class FestivalDetailService {
     }
 
     public Boolean checkProgress(Long id) {
-        FestivalDetail festivalDetail = festivalDetailRepository.findById(id).orElseThrow(() ->
-                new IllegalArgumentException("존재하지 않습니다."));
+        FestivalDetailResponse festivalDetail = getApi(id);
         LocalDate date = Year.of(Integer.parseInt(festivalDetail.getStartDate().substring(0, 4)))
                 .atMonth(Integer.parseInt(festivalDetail.getStartDate().substring(4, 6)))
                 .atDay(Integer.parseInt(festivalDetail.getStartDate().substring(6, 8)));
