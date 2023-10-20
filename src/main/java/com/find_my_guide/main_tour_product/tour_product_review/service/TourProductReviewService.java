@@ -40,9 +40,13 @@ public class TourProductReviewService {
         Member member = memberRepository.findByEmail(email).orElseThrow(() -> new NoSuchElementException());
 
 
+        if (hasAlreadyReviewed(member, tourProduct)) {
+            throw new IllegalStateException("이미 작성한 리뷰임");
+        }
 
         TourProductReview tourProductReview = tourProductReviewRequest.toTourProductReview();
         tourProductReview.setMember(member);
+        tourProductReview.setIsWritten(true);
 
 
         isSameReview(tourProduct.getTourProductReviews().contains(tourProductReview));
@@ -138,6 +142,11 @@ public class TourProductReviewService {
                 .orElseThrow(() -> new IllegalArgumentException("Review does not exist"));
     }
 
+
+    private boolean hasAlreadyReviewed(Member member, TourProduct tourProduct) {
+        return tourProduct.getTourProductReviews().stream()
+                .anyMatch(review -> review.getMember().equals(member));
+    }
 
     private TourProduct findTourProductById(Long id) {
         return tourProductRepository.findById(id).orElseThrow(() -> new IllegalArgumentException("존재 하지 않는 관광 상품 입니다."));

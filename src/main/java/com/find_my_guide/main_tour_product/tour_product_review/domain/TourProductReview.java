@@ -57,4 +57,7 @@ public class TourProductReview extends BaseEntity {
         this.member = member;
     }
 
+    public void setIsWritten(Boolean isWritten) {
+        this.isWritten = isWritten;
+    }
 }
