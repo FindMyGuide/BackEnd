@@ -47,14 +47,17 @@ public class TourProductReview extends BaseEntity {
         }
     }
 
-    public void update(Content content, Rating rating, String imageUrl){
+    public void update(Content content, Rating rating){
         this.content = content;
         this.rating = rating;
-        this.imageUrl = imageUrl;
     }
 
     public void setMember(Member member){
         this.member = member;
+    }
+
+    public void setImageUrl(String url) {
+        this.imageUrl = url;
     }
 
     public void setIsWritten(Boolean isWritten) {

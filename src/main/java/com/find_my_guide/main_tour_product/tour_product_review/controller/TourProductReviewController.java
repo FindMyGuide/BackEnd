@@ -10,6 +10,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MultipartFile;
 
 import java.util.List;
 
@@ -26,12 +27,10 @@ public class TourProductReviewController {
     public ResponseEntity<TourProductReviewResponse> register(
             final Authentication authentication,
             @PathVariable Long postId,
-            @RequestBody TourProductReviewRequest tourProductReviewRequest) {
-
-
-        return ResponseEntity.ok(tourProductReviewService.register(postId,(String) authentication.getPrincipal(), tourProductReviewRequest));
-
-
+            @RequestPart(required=false) MultipartFile file,
+            @RequestPart TourProductReviewRequest tourProductReviewRequest) {
+        return ResponseEntity.ok(tourProductReviewService.register(postId,(String) authentication.getPrincipal(), tourProductReviewRequest,
+                file));
     }
 
     @GetMapping("/all/{postId}")

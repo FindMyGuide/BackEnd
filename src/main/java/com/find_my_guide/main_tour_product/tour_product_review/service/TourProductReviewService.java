@@ -4,6 +4,7 @@ import com.find_my_guide.main_member.common.NotFoundException;
 import com.find_my_guide.main_member.member.domain.entity.Member;
 import com.find_my_guide.main_member.member.repository.MemberRepository;
 import com.find_my_guide.main_tour_product.common.validation_field.Content;
+import com.find_my_guide.main_tour_product.s3Test.service.S3Service;
 import com.find_my_guide.main_tour_product.tour_product.domain.TourProduct;
 import com.find_my_guide.main_tour_product.tour_product.repository.TourProductRepository;
 import com.find_my_guide.main_tour_product.tour_product_review.domain.Rating;
@@ -17,6 +18,7 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import org.springframework.web.multipart.MultipartFile;
 
 import java.util.List;
 import java.util.NoSuchElementException;
@@ -33,8 +35,11 @@ public class TourProductReviewService {
 
     private final MemberRepository memberRepository;
 
+    private final S3Service s3Service;
+
     @Transactional
-    public TourProductReviewResponse register(Long postId, String email, TourProductReviewRequest tourProductReviewRequest) {
+    public TourProductReviewResponse register(Long postId, String email, TourProductReviewRequest tourProductReviewRequest,
+                                              MultipartFile file) {
         TourProduct tourProduct = findTourProductById(postId);
 
         Member member = memberRepository.findByEmail(email).orElseThrow(() -> new NoSuchElementException());
@@ -43,9 +48,13 @@ public class TourProductReviewService {
         if (hasAlreadyReviewed(member, tourProduct)) {
             throw new IllegalStateException("이미 작성한 리뷰임");
         }
-
+        String imageUrl = null;
+        if (file != null) {
+            imageUrl = s3Service.uploadFile(file);
+        }
         TourProductReview tourProductReview = tourProductReviewRequest.toTourProductReview();
         tourProductReview.setMember(member);
+        tourProductReview.setImageUrl(imageUrl);
         tourProductReview.setIsWritten(true);
 
 
@@ -85,8 +94,7 @@ public class TourProductReviewService {
         isMatchTourProductIdReviewId(postId, review);
 
         review.update(new Content(tourProductReviewRequest.getContent())
-                , new Rating(tourProductReviewRequest.getRating())
-                , tourProductReviewRequest.getImageUrl());
+                , new Rating(tourProductReviewRequest.getRating()));
 
 
         return new TourProductReviewResponse(tourProductReviewRepository.save(review));
