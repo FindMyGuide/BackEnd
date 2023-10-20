@@ -103,26 +103,24 @@ public class MemberService {
 
         return customMemberRepository.findGuidesByCriteria(gender, startAge, endAge, language, date)
                 .stream()
-                .map(GuideSearchResponse::new)
-                .peek(guideResponse -> {
-                    Member member = memberRepository.findById(guideResponse.getGuideId())
-                            .orElseThrow(() -> new NotFoundException("이 가이드는 존재 하지 않습니다."));
+                .map(member -> {
+                    GuideSearchResponse guideResponse = new GuideSearchResponse(member);
 
-                    List<TourProductInformationResponse> tourProductResponses = new ArrayList<>();
-
-                    if (member.getTourHistoriesAsGuide() != null) {
-                        tourProductResponses = member.getTourHistoriesAsGuide()
-                                .stream()
-                                .map(TourHistoryManager::getTourProduct)
-                                .filter(Objects::nonNull)
-                                .map(TourProductInformationResponse::new)
-                                .collect(Collectors.toList());
-                    }
+                    List<TourProductInformationResponse> tourProductResponses = Optional.ofNullable(member.getTourHistoriesAsGuide())
+                            .orElse(Collections.emptyList())
+                            .stream()
+                            .map(TourHistoryManager::getTourProduct)
+                            .filter(Objects::nonNull)
+                            .map(TourProductInformationResponse::new)
+                            .collect(Collectors.toList());
 
                     guideResponse.setTourProductInformation(tourProductResponses);
+
+                    return guideResponse;
                 })
                 .collect(Collectors.toList());
     }
+
 
     public Boolean CheckDuplicated(CheckDuplicatedEmailRequest userDuplicateCheckRequest) {
         return memberRepository.findByEmail(userDuplicateCheckRequest.getEmail()).isPresent();

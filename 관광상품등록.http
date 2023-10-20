@@ -1,6 +1,6 @@
 POST http://localhost:9000/api/tourProduct/register
 Content-Type: application/json
-Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiJ0bGZlbTMzMTVAbmF2ZXIuY29tIiwiZXhwIjoyNTg2MzkyNzk0LCJpc3MiOiJmaW5kbXlndWlkZS5jb20ifQ.Q-5RYWDpiDImCvKtJ7etS6zzxCGArs9Smn3XtXMjtIo
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiJ4b2RuanM4Mjg3QG5hdmVyLmNvbSIsImV4cCI6MjU4NjgxMDI4MCwiaXNzIjoiZmluZG15Z3VpZGUuY29tIn0.QCSBg1lGDuSbwGlq7snbtsfsdEivye0LsXcBtrA3Dmk
 
 {
 
@@ -21,19 +21,20 @@ Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiJ0bGZlbTMzM
       "coordinates": [12.5, 12.123]
     }
   ],
+  "imageUrls": ["image1","image2"],
   "themeIds": [1],
-  "availableDates": ["2032-12-01","2032-12-02","2023-12-03"]
+  "availableDates": ["2022-12-01","2022-12-02","2022-12-03"]
 }
 
 
 ###
 //관광상품 예약
-POST http://localhost:9000/api/tourProduct/reserve-tour/197
-Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiJ4b2RuanM4Mjg3QG5hdmVyLmNvbSIsImV4cCI6MjU4NjQ2NzI1NCwiaXNzIjoiZmluZG15Z3VpZGUuY29tIn0.F01JoAQIuL8MdwmcGwVzTAtIiL5mB5KIBcvC0kze5tc
+POST http://localhost:9000/api/tourProduct/reserve-tour/10
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiJ0bGZlbTMzMTVAbmF2ZXIuY29tIiwiZXhwIjoyNTg2ODEwNTA4LCJpc3MiOiJmaW5kbXlndWlkZS5jb20ifQ.nnBT0EOeVhtTAn11YVUpkp-B5n_Kj6MLLa56iHspsy0
 Content-Type: application/json
 
 {
-  "email": "xodnjs8287@naver.com",
+  "email": "tlfem3315@naver.com",
   "startDate": "2022-12-01",
   "endDate": "2022-12-03"
 }
@@ -46,7 +47,7 @@ Content-Type: application/json
 
 
 ###
-DELETE http://localhost:9000/api/tourProduct/delete/3
+DELETE http://localhost:9000/api/tourProduct/delete/1
 Authorization:Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiJ0bGZlbTMzMTVAbmF2ZXIuY29tIiwiZXhwIjoyNTg2ODAzMTQwLCJpc3MiOiJmaW5kbXlndWlkZS5jb20ifQ.9-xo6qT13j9RW4A4d21oL4c35A5suG19pAZS4EMKglE
 ###
 //예약된 투어 삭제

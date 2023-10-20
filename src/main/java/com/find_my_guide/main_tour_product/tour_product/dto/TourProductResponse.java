@@ -22,7 +22,7 @@ import java.util.stream.Collectors;
 @Data
 public class TourProductResponse {
 
-    private Long id;
+    private Long tourProductId;
 
     private String title;
 
@@ -56,7 +56,7 @@ public class TourProductResponse {
             return;
         }
 
-        this.id = tourProduct.getTourProductId();
+        this.tourProductId = tourProduct.getTourProductId();
         this.title = Optional.ofNullable(tourProduct.getTitle()).map(Title::getTitle).orElse(null);
 
         this.content = Optional.ofNullable(tourProduct.getContent()).map(Content::getContent).orElse(null);
