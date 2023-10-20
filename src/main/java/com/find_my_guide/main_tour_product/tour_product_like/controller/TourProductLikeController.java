@@ -18,22 +18,19 @@ public class TourProductLikeController {
     private final TourProductLikeService tourProductLikeService;
 
     @PostMapping("/tourProduct/like")
-    public ResponseEntity<TourProductLikeResponse> addLike(@RequestParam Long tourProductId, final Authentication authentication){
+    public ResponseEntity<TourProductLikeResponse> addLike(@RequestBody TourProductLikeRequest tourProductLikeRequest,
+                                                           final Authentication authentication){
 
         String email = (String) authentication.getPrincipal();
-
-        TourProductLikeRequest tourProductLikeRequest = new TourProductLikeRequest();
-        tourProductLikeRequest.setTourProductId(tourProductId);
         tourProductLikeRequest.setEmail(email);
         return ResponseEntity.ok(tourProductLikeService.addLike(tourProductLikeRequest));
     }
 
     @DeleteMapping("/tourProduct/delete-like")
-    public ResponseEntity<Void> removeLike(@RequestParam Long tourProductId, final Authentication authentication){
+    public ResponseEntity<Void> removeLike(@RequestBody TourProductLikeRequest tourProductLikeRequest,
+                                           final Authentication authentication){
         String email = (String) authentication.getPrincipal();
 
-        TourProductLikeRequest tourProductLikeRequest = new TourProductLikeRequest();
-        tourProductLikeRequest.setTourProductId(tourProductId);
         tourProductLikeRequest.setEmail(email);
 
         tourProductLikeService.removeLike(tourProductLikeRequest);
