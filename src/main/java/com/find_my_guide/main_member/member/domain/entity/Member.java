@@ -153,9 +153,8 @@ public class Member {
         }
     }
 
-    public void addGuideCertification(String guideCertification, List<Languages> languages){
+    public void addGuideCertification(String guideCertification){
         this.guideCertification = guideCertification;
-        this.languages = languages;
     }
 
     public void setEmailVerified(Boolean trueOrFalse){
