@@ -1,5 +1,6 @@
 package com.find_my_guide.main_tour_product.tour_product_review.service;
 
+import com.find_my_guide.main_member.common.NotFoundException;
 import com.find_my_guide.main_member.member.domain.entity.Member;
 import com.find_my_guide.main_member.member.repository.MemberRepository;
 import com.find_my_guide.main_tour_product.common.validation_field.Content;
@@ -54,6 +55,17 @@ public class TourProductReviewService {
 
     public List<TourProductReviewResponse> findAllByGuideId(Long guideId){
         return tourProductReviewRepository.findAllByGuideId(guideId)
+                .stream()
+                .map(TourProductReviewResponse::new)
+                .collect(Collectors.toList());
+    }
+
+    public List<TourProductReviewResponse> findAllByMember(String email){
+        Member member = memberRepository.findByEmail(email).orElseThrow(
+                () -> new NotFoundException()
+        );
+
+        return tourProductReviewRepository.findAllByMember(member)
                 .stream()
                 .map(TourProductReviewResponse::new)
                 .collect(Collectors.toList());

@@ -47,6 +47,13 @@ public class TourProductReviewController {
         return ResponseEntity.ok(tourProductReviewService.findLatest10Reviews());
     }
 
+    @GetMapping("/all/by-member")
+    public ResponseEntity<List<TourProductReviewResponse>> showAllReviews(
+            final Authentication authentication
+    ){
+        return ResponseEntity.ok(tourProductReviewService.findAllByMember((String) authentication.getPrincipal()));
+    }
+
 
 
 
