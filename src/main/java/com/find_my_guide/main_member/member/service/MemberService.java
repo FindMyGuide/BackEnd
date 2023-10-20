@@ -103,6 +103,7 @@ public class MemberService {
 
         return customMemberRepository.findGuidesByCriteria(gender, startAge, endAge, language, date)
                 .stream()
+                .distinct()
                 .map(member -> {
                     GuideSearchResponse guideResponse = new GuideSearchResponse(member);
 
