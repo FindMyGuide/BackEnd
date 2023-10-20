@@ -12,11 +12,14 @@ import lombok.Setter;
 @NoArgsConstructor
 public class LoginMemberResponse {
 
+    private Long memberId;
+
     private String email;
 
     private String nickName;
 
     public LoginMemberResponse(Member member) {
+        this.memberId = member.getIdx();
         this.email = member.getEmail();
         this.nickName = member.getNickname();
     }

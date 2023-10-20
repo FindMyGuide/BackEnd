@@ -1,4 +1,4 @@
-GET http://localhost:9000/api/want-tourProducts
+GET http://find-my-guide.site/api/want-tourProducts
 Content-Type: application/json
 
 
