@@ -9,9 +9,9 @@ import com.find_my_guide.main_tour_product.common.validation_field.Content;
 import com.find_my_guide.main_tour_product.common.validation_field.Title;
 import com.find_my_guide.main_tour_product.location.domain.Location;
 import com.find_my_guide.main_tour_product.location.dto.LocationRequest;
-import com.find_my_guide.main_tour_product.location.dto.LocationResponse;
 import com.find_my_guide.main_tour_product.location.repository.LocationRepository;
 import com.find_my_guide.main_tour_product.s3Test.service.S3Service;
+import com.find_my_guide.main_tour_product.tour_history_manager.domain.TourHistoryManager;
 import com.find_my_guide.main_tour_product.tour_history_manager.service.TourHistoryManagerService;
 import com.find_my_guide.main_tour_product.tour_product.domain.Images;
 import com.find_my_guide.main_tour_product.tour_product.domain.TourProduct;
@@ -133,11 +133,26 @@ public class TourProductService {
     }
 
     @Transactional
-    public TourProductResponse delete(Long postId) {
-        TourProduct tourProduct = findById(postId);
-        tourProductRepository.delete(tourProduct);
-        return new TourProductResponse(tourProduct);
+    public void delete(String email, Long postId) {
 
+        Member member = findMember(email);
+
+        TourProduct tourProduct = findById(postId);
+
+        String guideEmail = tourProduct.getTourHistoryManagers()
+                .stream()
+                .map(TourHistoryManager::getGuide)
+                .map(Member::getEmail)
+                .findAny()
+                .orElseThrow();
+
+        if (guideEmail!=member.getEmail()) {
+
+            throw new IllegalArgumentException("당신이 등록한 투어가 아닙니다.");
+        }
+
+
+        tourProductRepository.delete(tourProduct);
     }
 
     public List<TourProductResponse> showTourProductList() {

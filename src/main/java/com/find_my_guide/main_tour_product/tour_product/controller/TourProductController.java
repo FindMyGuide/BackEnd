@@ -9,6 +9,7 @@ import com.find_my_guide.main_tour_product.tour_product_theme.service.TourProduc
 import io.swagger.annotations.Api;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.userdetails.UserDetails;
@@ -45,6 +46,13 @@ public class TourProductController {
         log.info("test log {}", tourProductResponse.getLocations());
 
         return ResponseEntity.ok(tourProductResponse);
+    }
+
+    @DeleteMapping("/tourProduct/delete/{tourProductId}")
+    public ResponseEntity<?> deleteTourProduct (@PathVariable Long tourProductId,
+                                                final Authentication authentication ) {
+            tourProductService.delete((String)authentication.getPrincipal(), tourProductId);
+            return new ResponseEntity<>("성공적으로 삭제됨.", HttpStatus.OK);
     }
 
     @GetMapping("/tourProduct/{tourProductId}")
