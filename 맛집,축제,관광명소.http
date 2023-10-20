@@ -1,2 +1,20 @@
-GET localhost:9000/api/restaurant
+GET localhost:9000/api/festival
 Content-Type: application/json
+
+###
+GET localhost:9000/api/festivalDetail/DB
+Content-Type: application/json
+
+###
+GET localhost:9000/api/save/restaurant
+Content-Type: application/json
+
+###
+GET localhost:9000/api/restaurant-image/save/restaurant
+
+###
+GET localhost:9000/api/TourLocationApi
+Content-Type: application/json
+
+###
+GET localhost:9000/api/tourLocationDetail/
