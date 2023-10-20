@@ -19,10 +19,14 @@ public class TourProductReviewResponse {
 
     private String imageUrl;
 
+    private boolean isWritten;
+
 
     public TourProductReviewResponse(TourProductReview tourProductReview) {
         this.id = tourProductReview.getId();
-        this.content = tourProductReview.getContent().getContent();
-        this.rating = tourProductReview.getRating().getRating();
+        this.content = tourProductReview.getContent() != null ? tourProductReview.getContent().getContent() : null;
+        this.rating = tourProductReview.getRating() != null ? tourProductReview.getRating().getRating() : null;
+        this.imageUrl = tourProductReview.getImageUrl() != null ? tourProductReview.getImageUrl() : null;
+        this.isWritten = tourProductReview.getIsWritten() != null ? tourProductReview.getIsWritten() : false;
     }
 }

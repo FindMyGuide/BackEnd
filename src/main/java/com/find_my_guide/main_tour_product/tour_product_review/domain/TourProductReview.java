@@ -36,6 +36,8 @@ public class TourProductReview extends BaseEntity {
     @JoinColumn(name = "member_id")
     private Member member;
 
+    private Boolean isWritten;
+
     public void addReview(TourProduct tourProduct){
         this.tourProduct = tourProduct;
         if (!this.tourProduct.getTourProductReviews().contains(this)) {
@@ -55,4 +57,7 @@ public class TourProductReview extends BaseEntity {
         this.member = member;
     }
 
+    public void setIsWritten(Boolean isWritten) {
+        this.isWritten = isWritten;
+    }
 }

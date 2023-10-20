@@ -1,5 +1,6 @@
 package com.find_my_guide.main_tour_product.tour_product_review.service;
 
+import com.find_my_guide.main_member.common.NotFoundException;
 import com.find_my_guide.main_member.member.domain.entity.Member;
 import com.find_my_guide.main_member.member.repository.MemberRepository;
 import com.find_my_guide.main_tour_product.common.validation_field.Content;
@@ -39,9 +40,13 @@ public class TourProductReviewService {
         Member member = memberRepository.findByEmail(email).orElseThrow(() -> new NoSuchElementException());
 
 
+        if (hasAlreadyReviewed(member, tourProduct)) {
+            throw new IllegalStateException("이미 작성한 리뷰임");
+        }
 
         TourProductReview tourProductReview = tourProductReviewRequest.toTourProductReview();
         tourProductReview.setMember(member);
+        tourProductReview.setIsWritten(true);
 
 
         isSameReview(tourProduct.getTourProductReviews().contains(tourProductReview));
@@ -54,6 +59,17 @@ public class TourProductReviewService {
 
     public List<TourProductReviewResponse> findAllByGuideId(Long guideId){
         return tourProductReviewRepository.findAllByGuideId(guideId)
+                .stream()
+                .map(TourProductReviewResponse::new)
+                .collect(Collectors.toList());
+    }
+
+    public List<TourProductReviewResponse> findAllByMember(String email){
+        Member member = memberRepository.findByEmail(email).orElseThrow(
+                () -> new NotFoundException()
+        );
+
+        return tourProductReviewRepository.findAllByMember(member)
                 .stream()
                 .map(TourProductReviewResponse::new)
                 .collect(Collectors.toList());
@@ -126,6 +142,11 @@ public class TourProductReviewService {
                 .orElseThrow(() -> new IllegalArgumentException("Review does not exist"));
     }
 
+
+    private boolean hasAlreadyReviewed(Member member, TourProduct tourProduct) {
+        return tourProduct.getTourProductReviews().stream()
+                .anyMatch(review -> review.getMember().equals(member));
+    }
 
     private TourProduct findTourProductById(Long id) {
         return tourProductRepository.findById(id).orElseThrow(() -> new IllegalArgumentException("존재 하지 않는 관광 상품 입니다."));
