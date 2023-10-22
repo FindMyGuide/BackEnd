@@ -57,14 +57,28 @@ public class TourProductReviewService {
         return new TourProductReviewResponse(tourProductReviewRepository.save(tourProductReview));
     }
 
-    public List<TourProductReviewResponse> findAllByGuideId(Long guideId){
+    public List<TourProductReviewResponse> findAllByGuideId(Long guideId) {
         return tourProductReviewRepository.findAllByGuideId(guideId)
                 .stream()
                 .map(TourProductReviewResponse::new)
                 .collect(Collectors.toList());
     }
 
-    public List<TourProductReviewResponse> findAllByMember(String email){
+    @Transactional
+    public void deleteReview(String email, Long id) {
+
+        Member member = memberRepository.findByEmail(email).orElseThrow(
+                () -> new NotFoundException()
+        );
+
+        TourProductReview tourProductReview = tourProductReviewRepository.findById(id).orElseThrow(
+                () -> new NotFoundException()
+        );
+
+        tourProductReviewRepository.delete(tourProductReview);
+    }
+
+    public List<TourProductReviewResponse> findAllByMember(String email) {
         Member member = memberRepository.findByEmail(email).orElseThrow(
                 () -> new NotFoundException()
         );
@@ -130,7 +144,6 @@ public class TourProductReviewService {
                 .map(TourProductReviewResponse::new)
                 .collect(Collectors.toList());
     }
-
 
 
     private void isMatchTourProductIdReviewId(Long postId, TourProductReview review) {
