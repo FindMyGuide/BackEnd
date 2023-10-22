@@ -57,6 +57,8 @@ public class TourProductResponse {
 
     private String guideName;
 
+    private Long guideId;
+
     public TourProductResponse(TourProduct tourProduct) {
         if (tourProduct == null) {
             return;
@@ -68,6 +70,7 @@ public class TourProductResponse {
             if(guide != null) {
                 this.guideNickName = guide.getNickname();
                 this.guideName = guide.getName();
+                this.guideId = guide.getIdx();
             }
         }
 
@@ -110,5 +113,6 @@ public class TourProductResponse {
             this.imageUrls = images;
             this.bestImage = images.get(0);
         }
+
     }
 }

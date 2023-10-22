@@ -290,7 +290,7 @@ public class MemberService {
 
         passwordResetTokenRepository.save(passwordResetToken);
 
-        return "패스워드 변경 링크가 이메일로 발송되었습니다. ";
+        return "패스워드 변경 링크가 이메일로 발송되었습니다.";
     }
 
     @Transactional
