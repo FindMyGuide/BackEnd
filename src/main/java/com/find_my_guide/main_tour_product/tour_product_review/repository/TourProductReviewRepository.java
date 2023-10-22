@@ -18,4 +18,6 @@ public interface TourProductReviewRepository extends JpaRepository<TourProductRe
     List<TourProductReview> findAllByGuideId(@Param("guideId") Long guideId);
 
     List<TourProductReview> findAllByMember(Member member);
+
+    TourProductReview findByMember(Member member);
 }

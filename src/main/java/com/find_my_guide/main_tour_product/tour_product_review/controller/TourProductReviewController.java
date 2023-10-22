@@ -1,6 +1,7 @@
 package com.find_my_guide.main_tour_product.tour_product_review.controller;
 
 
+import com.find_my_guide.main_member.common.NotFoundException;
 import com.find_my_guide.main_tour_product.tour_product_review.dto.TourProductReviewRequest;
 import com.find_my_guide.main_tour_product.tour_product_review.dto.TourProductReviewResponse;
 import com.find_my_guide.main_tour_product.tour_product_review.service.TourProductReviewService;
@@ -31,6 +32,18 @@ public class TourProductReviewController {
             @RequestPart TourProductReviewRequest tourProductReviewRequest) {
         return ResponseEntity.ok(tourProductReviewService.register(postId,(String) authentication.getPrincipal(), tourProductReviewRequest,
                 file));
+    }
+
+    @DeleteMapping("/delete/{id}")
+    public ResponseEntity<Void> deleteReview(@PathVariable Long id, final Authentication authentication) {
+        try {
+            tourProductReviewService.deleteReview((String) authentication.getPrincipal(), id);
+            return ResponseEntity.noContent().build();
+        } catch (NotFoundException e) {
+            return ResponseEntity.notFound().build();
+        } catch (Exception e) {
+            return ResponseEntity.internalServerError().build();
+        }
     }
 
     @GetMapping("/all/{postId}")
