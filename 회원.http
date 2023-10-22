@@ -69,7 +69,7 @@ POST http://localhost:9000/api/find-my-guide/member/initiate-change-password
 Content-Type: application/json
 
 {
-  "email": "tlfem3315@naver.com"
+  "email": "mko56@naver.com"
 }
 
 ###
@@ -84,7 +84,7 @@ Content-Type: application/json
 }
 
 ###
-GET http://localhost:9000/api/find-my-guide/guide/search?languages=ITALIAN,GERMAN&age=10-20
+GET http://localhost:9000/api/find-my-guide/guide/search?languages=FRENCH&age=20-60
 Content-Type: application/json
 
 

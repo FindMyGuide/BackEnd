@@ -4,6 +4,7 @@ package com.find_my_guide.main_member.mail.service;
 import com.find_my_guide.main_member.mail.dto.MailConfirmDto;
 import com.find_my_guide.main_member.mail.model.Mail;
 import com.find_my_guide.main_member.mail.repository.MailRepository;
+import com.find_my_guide.main_member.member.repository.MemberRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.mail.MailException;
 import org.springframework.mail.javamail.JavaMailSender;
@@ -25,7 +26,7 @@ public class MailService {
 
     private final MailRepository mailRepository;
 
-
+    private final MemberRepository memberRepository;
     public MimeMailMessage createMessage(String sendMessage) throws Exception {
         MimeMessageHelper messageHelper = new MimeMessageHelper(emailsender.createMimeMessage(), true, "UTF-8");
 
@@ -120,10 +121,8 @@ public class MailService {
     }
 
     public String sendPasswordResetMail(String recipientEmail) throws Exception {
-        // 임의의 토큰을 생성합니다. (여기서는 ePw를 사용합니다.)
         ePw = createKey();
 
-        // 비밀번호 재설정 메시지를 생성합니다.
         MimeMailMessage message = createPasswordResetMessage(recipientEmail);
 
         try {
@@ -133,7 +132,6 @@ public class MailService {
             throw new IllegalArgumentException();
         }
 
-        // 임의의 토큰을 반환합니다.
         return ePw;
     }
 
@@ -150,7 +148,7 @@ public class MailService {
         msgg += "<br>";
         msgg += "<p>아래의 링크를 클릭하여 비밀번호를 재설정해주세요.<p>";
         msgg += "<br>";
-        msgg += "<a href='http://localhost:9000/api/find-my-guide/member/reset-password?token=" + ePw + "'>비밀번호 재설정하기</a>";
+        msgg += "<a href='https://find-my-guide.site/login?token=" + ePw + "'>비밀번호 재설정하기</a>";
         msgg += "<br>";
         msgg += "<p>이 메일은 요청한 사용자에게만 발송됩니다.<p>";
         msgg += "</div>";
