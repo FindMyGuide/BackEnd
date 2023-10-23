@@ -27,6 +27,7 @@ import javax.persistence.PersistenceContext;
 import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Objects;
 import java.util.stream.Collectors;
 
 @Service
@@ -122,7 +123,7 @@ public class TourHistoryManagerService {
         tourHistoryManagerRepository.delete(tourHistoryManager);
     }
 
-    public List<TourHistoryManagerResponse> findAllReservedTourProductByGuide(String email){
+    public List<TourHistoryManagerResponse> findAllReservedTourProductByGuide(String email) {
 
         Member memberByEmail = findMemberByEmail(email);
 
@@ -132,7 +133,7 @@ public class TourHistoryManagerService {
                 .collect(Collectors.toList());
     }
 
-    public List<WantTourHistoryManagerResponse> findAllReservedWantTourProductByGuide(String email){
+    public List<WantTourHistoryManagerResponse> findAllReservedWantTourProductByGuide(String email) {
         Member memberByEmail = findMemberByEmail(email);
 
         return tourHistoryManagerRepository.findWantTourReservationsByGuideId(memberByEmail.getIdx())
@@ -247,6 +248,8 @@ public class TourHistoryManagerService {
 
         return top10TourProductIds.stream()
                 .limit(10)
+                .filter(Objects::nonNull)
+
                 .map(tourProductId -> {
 
                     long likes = tourProductLikeRepository.countByTourProduct_TourProductId(tourProductId);
