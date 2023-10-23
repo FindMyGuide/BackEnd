@@ -27,8 +27,9 @@ public interface TourHistoryManagerRepository extends JpaRepository<TourHistoryM
 
     List<TourHistoryManager> findByTourStartDateAndTourEndDateAndTourProduct_TourProductId(LocalDate startDate, LocalDate endDate, Long tourProductId);
 
-    @Query("SELECT thm.tourProduct.tourProductId FROM TourHistoryManager thm GROUP BY thm.tourProduct ORDER BY COUNT(thm.tourProduct) DESC")
+    @Query("SELECT thm.tourProduct.tourProductId FROM TourHistoryManager thm WHERE thm.tourist IS NOT NULL AND thm.guide IS NOT NULL GROUP BY thm.tourProduct.tourProductId ORDER BY COUNT(thm.tourProduct.tourProductId) DESC")
     List<Long> findTop10TourProductIdsByFrequency();
+
 
     TourHistoryManager findByWantTourProduct(WantTourProduct wantTourProduct);
     List<TourHistoryManager> findByTourEndDateBeforeAndIsCompletedFalse(LocalDate endDate);
