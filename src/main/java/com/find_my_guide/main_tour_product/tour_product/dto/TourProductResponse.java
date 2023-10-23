@@ -57,6 +57,8 @@ public class TourProductResponse {
 
     private String guideName;
 
+    private String guideEmail;
+
     private Long guideId;
 
     public TourProductResponse(TourProduct tourProduct) {
@@ -71,6 +73,7 @@ public class TourProductResponse {
                 this.guideNickName = guide.getNickname();
                 this.guideName = guide.getName();
                 this.guideId = guide.getIdx();
+                this.guideEmail = guide.getEmail();
             }
         }
 
