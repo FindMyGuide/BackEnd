@@ -103,11 +103,9 @@ public class MemberService {
     }
 
 
-    public List<TourProductResponse> findByLanguages(List<Languages> languages){
+    public List<TourProductResponse> findByLanguages(List<Languages> languages) {
         List<TourProduct> byLanguagesIn = tourProductRepository.findByLanguagesIn(languages);
 
-        // 투어 프로덕트로 tourHistoryManager통해서
-        //GuideResponse를 List로 반환하고 싶음
         return byLanguagesIn.stream()
                 .map(TourProductResponse::new)
                 .collect(Collectors.toList());
@@ -145,8 +143,6 @@ public class MemberService {
                 })
                 .collect(Collectors.toList());
     }
-
-
 
 
     public Boolean CheckDuplicated(CheckDuplicatedEmailRequest userDuplicateCheckRequest) {
@@ -332,7 +328,9 @@ public class MemberService {
             Member guide = memberRepository.findById(guideResponse.getGuideId())
                     .orElseThrow(() -> new NotFoundException("가이드를 찾을 수 없습니다."));
             List<TourProductResponse> tourProductResponses = guide.getTourHistoriesAsGuide().stream()
+                    .filter(Objects::nonNull)
                     .map(TourHistoryManager::getTourProduct)
+                    .filter(Objects::nonNull)
                     .map(TourProductResponse::new)
                     .collect(Collectors.toList());
             guideResponse.setTourProductResponses(tourProductResponses);
