@@ -115,8 +115,10 @@ public class MemberRestController {
 
     @PostMapping("/update")
     public ResponseEntity<UpdateMemberResponse> update(final Authentication authentication,
-                                                       @RequestBody @Valid final UpdateMemberRequest request) {
-        UpdateMemberResponse response = memberService.updateMember((String) authentication.getPrincipal(), request);
+                                                       @RequestPart(required = false) MultipartFile profilePicture,
+                                                       @RequestPart @Valid final UpdateMemberRequest userRequest) {
+        memberService.changeProfile((String) authentication.getPrincipal(), profilePicture);
+        UpdateMemberResponse response = memberService.updateMember((String) authentication.getPrincipal(), userRequest);
 
         return ResponseEntity.ok(response);
     }

@@ -172,7 +172,6 @@ public class MemberService {
     @Transactional
     public UpdateMemberResponse updateMember(String email, UpdateMemberRequest memberRequest) {
         Optional<Member> member = findByEmailHere(email);
-
         isExistedEmail(member, email);
 
         member.get()
