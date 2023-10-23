@@ -49,6 +49,10 @@ public class CustomMemberRepository {
             predicates.add(cb.equal(availableDateJoin.get("date").as(LocalDate.class), date));
         }
 
+        Join<Member, TourHistoryManager> tourHistoryJoin = member.join("tourHistoriesAsGuide");
+        predicates.add(cb.isNotNull(tourHistoryJoin.get("guide")));
+
+
         cq.where(predicates.toArray(new Predicate[0]));
         cq.select(member).distinct(true);
 
